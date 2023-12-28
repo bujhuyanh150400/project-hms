@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.form-group{
+    @apply flex flex-col gap-2;
+    .form-label{
+        @apply block text-sm font-medium;
+    }
+    .form-input{
+        @apply bg-gray-50 outline-none border border-gray-300 ring-blue-100 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
+    }
+    .form-alert{
+        @apply text-red-400 text-sm font-medium;
+    }
+}
+

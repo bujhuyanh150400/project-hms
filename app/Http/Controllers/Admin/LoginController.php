@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
+class LoginController extends Controller
+{
+    public function index()
+    {
+        return view('Admin.Auth.login', [
+            'title' => 'Đăng nhập vào HMS Admin'
+        ]);
+    }
+    public function login(Request $request)
+    {
+        $rememberMe = $request->input('remember_me') === 1;
+        $validator = Validator::make($request->all(), [
+            'email' => ['required', 'email'],
+            'password' => ['required', 'min:8', 'max:16'],
+        ], [
+            'email.required' => 'Vui lòng nhập địa chỉ email.',
+            'email.email' => 'Địa chỉ email không hợp lệ.',
+            'password.required' => 'Vui lòng nhập mật khẩu.',
+            'password.min' => 'Mật khẩu phải có ít nhất :min ký tự.',
+            'password.max' => 'Mật khẩu tối đa là :max ký tự.',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        if (Auth::attempt([
+            'email' => $request->input('email'),
+            'password' => $request->input('password')],
+            $rememberMe)) {
+            $request->session()->regenerate();
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect()->back()->withErrors([
+                'login' => 'Email hoặc password của bạn không đúng',
+            ])->withInput();
+        }
+    }
+}
