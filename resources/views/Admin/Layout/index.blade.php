@@ -4,26 +4,30 @@
 <head>
     @include('Admin.Layout.header')
     <title>@yield('title')</title>
-    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+    @vite([
+        'resources/scss/admin/app.scss',
+        'resources/js/app.js'
+    ])
 </head>
 
-<body class="bg-gray-200">
-    @yield('body')
+<body class="p-0 m-0 relative">
 
-    @include('Admin.Layout.footer')
+{{--    --}}{{-- Left menu --}}
+{{--    <x-admin.section.leftmenu/>--}}
+{{--    --}}{{-- End: Left menu --}}
+{{--        @yield('body')--}}
+{{--    </div>--}}
+<div class="antialiased bg-gray-50">
+    <x-admin.section.header>
+    </x-admin.section.header>
+    <x-admin.section.leftmenu/>
 
-    @yield('script')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            // Lặp qua từng menu con và kiểm tra điều kiện
-            $('.collapse.navbar-nav').each(function() {
-                // Kiểm tra điều kiện, nếu đúng thì thêm class 'show' vào ul cha
-                if ($(this).find('.nav-link.active').length > 0) {
-                    $(this).addClass('show');
-                }
-            });
-        });
-    </script>
+</div>
+
+@include('Admin.Layout.footer')
+
+@yield('script')
+
 </body>
 
 </html>

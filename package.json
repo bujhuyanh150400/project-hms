@@ -17,6 +17,7 @@
     "dependencies": {
         "bootstrap-icons": "^1.11.2",
         "flatpickr": "^4.6.13",
+        "flowbite": "^2.2.1",
         "notyf": "^3.10.0"
     }
 }

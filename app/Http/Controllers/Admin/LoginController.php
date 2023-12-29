@@ -18,7 +18,7 @@ class LoginController extends Controller
     }
     public function login(Request $request)
     {
-        $rememberMe = $request->input('remember_me') === 1;
+        $rememberMe = intval($request->input('remember_me')) === 1;
         $validator = Validator::make($request->all(), [
             'email' => ['required', 'email'],
             'password' => ['required', 'min:8', 'max:16'],
@@ -32,7 +32,7 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        if (Auth::attempt([
+        if (Auth::guard('admin')->attempt([
             'email' => $request->input('email'),
             'password' => $request->input('password')],
             $rememberMe)) {
