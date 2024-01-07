@@ -4,9 +4,10 @@ namespace App\View\Components\admin\section;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
-class header extends Component
+class Header extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +22,7 @@ class header extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.section.header');
+        $user = Auth::guard('admin')->user();
+        return view('components.admin.section.header',compact('user'));
     }
 }

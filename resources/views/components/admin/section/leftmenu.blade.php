@@ -4,7 +4,7 @@
     id="drawer-navigation"
 >
     <div class="overflow-y-auto py-5 px-3 h-full bg-white">
-        <form action="#" method="GET" class="md:hidden mb-2">
+        <form action="#" method="GET" class="mb-2">
             <label for="sidebar-search" class="sr-only">Search</label>
             <div class="relative">
                 <div
@@ -28,7 +28,7 @@
                     name="search"
                     id="sidebar-search"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    placeholder="Search"
+                    placeholder="Tìm kiếm"
                 />
             </div>
         </form>
@@ -36,7 +36,7 @@
             @foreach ($list_menu as $key => $menu)
                 @if (isset($menu['space_menu']) && $menu['space_menu'] === true)
                     <li class="my-1">
-                        <span class="text-sm text-gray-800 font-bold">{{ $menu['title'] }}</span>
+                        <span class="text-xs text-gray-600 font-bold">{{ $menu['title'] }}</span>
                     </li>
                 @else
                     @if (!isset($menu['sub_menu']))
@@ -45,7 +45,7 @@
                                 href="{{ $menu['action'] }}"
                                 class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg  hover:bg-gray-200 {{ !isset($menu['sub_menu']) && $current_route === $menu['route_name'] ? 'bg-gray-200' : '' }}"
                             >
-                                <span class="text-xl">{!! $menu['icon'] !!}</span>
+                                <span class="text-lg">{!! $menu['icon'] !!}</span>
                                 <span class="ml-3">{{ $menu['title'] }}</span>
                             </a>
                         </li>

@@ -9,7 +9,8 @@ import {Notyf} from 'notyf';
 import 'notyf/notyf.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'flowbite';
-
+import 'flowbite-datepicker';
+import 'flowbite/dist/datepicker.turbo.js';
 window.$ = jQuery;
 
 const app = {

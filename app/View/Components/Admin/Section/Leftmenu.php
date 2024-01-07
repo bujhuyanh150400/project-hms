@@ -16,22 +16,22 @@ class Leftmenu extends Component
         $this->arrayLeftMenu = [
             [
                 'title' => 'Trang chủ',
-                'icon' => '<i class="bi bi-speedometer2"></i>',
+                'icon' => '<i class="bi bi-clipboard-data"></i>',
                 'action' => route('admin.dashboard'),
                 'route_name' => 'admin'
             ],
             [
-                'title' => 'Quản lý nhân sự',
+                'title' => 'Điều hành',
                 'space_menu' => true,
             ],
             [
-                'title' => 'Quản lý nhân sự',
+                'title' => 'Quản lý Account',
                 'icon' => '<i class="bi bi-people"></i>',
                 'sub_menu' => [
                     [
-                        'title' => 'Quản lý nhân sự',
+                        'title' => 'Nhân sự',
                         'route_name' => 'users',
-                        'action' => route('admin.dashboard'),
+                        'action' => route('users.list'),
 
                     ],
                 ]

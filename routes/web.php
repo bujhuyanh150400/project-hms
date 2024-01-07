@@ -12,6 +12,9 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
     Route::get('/login', [\App\Http\Controllers\Admin\LoginController::class, 'index'])->name('admin.login');
     Route::post('/login-submit', [\App\Http\Controllers\Admin\LoginController::class, 'login'])->name('admin.login-submit');
 
+    Route::prefix('users')->group(function (){
+        Route::get('list', [\App\Http\Controllers\admin\UsersController::class, 'list'])->name('users.list');
+    });
 
 });
 
