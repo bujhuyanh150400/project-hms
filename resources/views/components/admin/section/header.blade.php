@@ -61,7 +61,11 @@
             >
                 <img
                     class="w-8 h-8 rounded-full"
-                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
+                    @if(!empty($user->avatar))
+                        src="{{ route('file.show', ['filepath' => $user->avatar]) }}"
+                    @else
+                        src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gough.png"
+                    @endif
                     alt="user photo"
                 />
             </button>
@@ -75,11 +79,6 @@
                              @isset(PermissionAdmin::getList()[$user->permission])
                                 {{ PermissionAdmin::getList()[$user->permission]['text'] }}
                             @endisset
-                        </span>
-                    </p>
-                    <p class="block text-sm text-gray-900 truncate">
-                        <span class="font-bold">
-
                         </span>
                     </p>
                 </div>

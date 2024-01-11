@@ -35,6 +35,21 @@
 
 @include('Admin.Layout.footer')
 @yield('scripts')
+
+<script type="module">
+    @if (session('success'))
+    notyf.open({
+        type: 'success',
+        message: '{{ session('success') }}'
+    });
+    @endif
+    @if (session('error'))
+    notyf.open({
+        type: 'error',
+        message: '{{ session('error') }}'
+    });
+    @endif
+</script>
 </body>
 
 </html>

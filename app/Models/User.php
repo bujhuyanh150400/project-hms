@@ -22,7 +22,7 @@ class User extends Authenticatable
      */
     public function scopeKeywordFilter(Builder $query, $keyword = null): void
     {
-        if(!empty($keyword)){
+        if (!empty($keyword)) {
             $keyword = strtolower($keyword);
             $query->whereRaw('LOWER(email) LIKE ?', '%' . $keyword . '%')
                 ->orWhereRaw('LOWER(name) LIKE ?', '%' . $keyword . '%');
@@ -37,7 +37,7 @@ class User extends Authenticatable
      */
     public function scopeRoleFilter(Builder $query, $role = null): void
     {
-        if(!empty($role)){
+        if (!empty($role)) {
             $query->where('permission', $role);
         }
     }
@@ -51,15 +51,23 @@ class User extends Authenticatable
      */
     public function scopeCreatedAtFilter(Builder $query, $start_date = null, $end_date = null): void
     {
-        if(!empty($start_date) || !empty($end_date)){
+        if (!empty($start_date) || !empty($end_date)) {
             $query->whereBetween('created_at', [$start_date, $end_date]);
         }
     }
 
     protected $fillable = [
-        'name',
+        'id',
         'email',
+        'name',
         'password',
+        'address',
+        'permission',
+        'phone',
+        'birth',
+        'gender',
+        'created_by',
+        'avatar'
     ];
     protected $hidden = [
         'password',

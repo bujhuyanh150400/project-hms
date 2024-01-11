@@ -22,22 +22,9 @@
             </li>
         </ol>
     </nav>
+    {{-- End: Navigation--}}
 
-    @error('filter.keyword')
-    {{ $message }}
-    @enderror
-
-    @error('filter.role')
-    {{ $message }}
-    @enderror
-
-    @error('filter.start_date_create')
-    {{ $message }}
-    @enderror
-
-    @error('filter.end_date_create')
-    {{ $message }}
-    @enderror
+    {{-- Search--}}
     <form action="{{route('users.list')}}" method="GET">
         <div class="relative bg-white shadow-md rounded-lg mt-4 border p-4 ">
             <div class="grid grid-cols-4 gap-3 mb-3">
@@ -51,7 +38,7 @@
                 <div class="form-group">
                     <label class="form-label" for="role" >Tìm theo Chức vụ</label>
                     <select id="role" name="filter[role]" class="form-input">
-                        <option value="99">Chọn chức vụ</option>
+                        <option value="">Chọn chức vụ</option>
                         @foreach(PermissionAdmin::getList() as $permission)
                             <option value="{{$permission['value']}}"  {{ old('filter.role', $filter['role'] ?? '') == $permission['value'] ? 'selected' : '' }}>{{$permission['text']}}</option>
                         @endforeach
@@ -83,11 +70,12 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
-                <button type="submit" class="btn-custom btn-primary">Tìm kiếm</button>
+                <button type="submit" class="btn-custom btn-primary"><i class="bi bi-search"></i>Tìm kiếm</button>
+                <a href="{{route('users.view_add')}}" class="btn-custom btn-success"><i class="bi bi-plus"></i>Thêm</a>
             </div>
         </div>
     </form>
-
+    {{-- End:Search--}}
 
     {{-- Data list --}}
     <div class="mt-9">
@@ -127,14 +115,14 @@
                                 @endisset
                             </td>
                             <td>
-                                {{$user->created_at}}
+                                {{date_format($user->created_at,'d-m-Y')}}
                             </td>
                             <td>
-                                <button type="button"
+                                <a href="{{route('users.view_edit',['id'=>$user->id])}}"
                                         class="btn-custom btn-primary">
                                     <i class="bi bi-pen-fill text-xs"></i>
                                     Sửa
-                                </button>
+                                </a>
                                 <button type="button" class="btn-custom btn-danger">
                                     <i class="bi bi-trash-fill text-xs"></i>
                                     Xóa
@@ -144,6 +132,7 @@
                     @endforeach
                 </x-slot:body>
             </x-admin.table>
+            {!! $users->links() !!}
         @else
             <div
                 class="flex items-center gap-2 p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50"
@@ -155,7 +144,7 @@
             </div>
         @endif
     </div>
-
+    {{-- End: Data list --}}
 @endsection
 @section('scripts')
     <script type="module">
