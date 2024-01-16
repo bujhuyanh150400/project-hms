@@ -31,7 +31,7 @@
     </nav>
     {{-- End: Navigation--}}
 
-    <form action="{{ route('users.add') }}" method="POST" enctype="multipart/form-data">
+    <form class="form-loading-submit" action="{{ route('users.add') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('POST')
         <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow ">

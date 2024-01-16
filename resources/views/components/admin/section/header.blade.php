@@ -76,7 +76,7 @@
                 <div class="py-3 px-4">
                     <p class="block text-sm font-semibold text-gray-900 ">{{$user->name}}
                         <span class="bg-blue-200 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">
-                             @isset(PermissionAdmin::getList()[$user->permission])
+                            @isset(PermissionAdmin::getList()[$user->permission])
                                 {{ PermissionAdmin::getList()[$user->permission]['text'] }}
                             @endisset
                         </span>

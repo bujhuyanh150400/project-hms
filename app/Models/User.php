@@ -67,6 +67,7 @@ class User extends Authenticatable
         'birth',
         'gender',
         'created_by',
+        'updated_by',
         'avatar'
     ];
     protected $hidden = [

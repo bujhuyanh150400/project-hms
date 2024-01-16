@@ -25,7 +25,7 @@
     {{-- End: Navigation--}}
 
     {{-- Search--}}
-    <form action="{{route('users.list')}}" method="GET">
+    <form action="{{route('users.list')}}" method="GET" class="form-loading-submit">
         <div class="relative bg-white shadow-md rounded-lg mt-4 border p-4 ">
             <div class="grid grid-cols-4 gap-3 mb-3">
 
@@ -104,7 +104,7 @@
                     @foreach($users as $user)
                         <tr>
                             <td>
-                                {{$user->name}}
+                                <a class="hover:!text-blue-700" href="{{route('users.view',['id'=>$user->id])}}">{{$user->name}}</a>
                             </td>
                             <td>
                                 {{$user->email}}
@@ -118,15 +118,21 @@
                                 {{date_format($user->created_at,'d-m-Y')}}
                             </td>
                             <td>
-                                <a href="{{route('users.view_edit',['id'=>$user->id])}}"
-                                        class="btn-custom btn-primary">
-                                    <i class="bi bi-pen-fill text-xs"></i>
-                                    Sửa
-                                </a>
-                                <button type="button" class="btn-custom btn-danger">
-                                    <i class="bi bi-trash-fill text-xs"></i>
-                                    Xóa
-                                </button>
+                                <div class="flex items-center gap-2">
+                                    <a href="{{route('users.view_edit',['id'=>$user->id])}}"
+                                       class="btn-custom btn-primary">
+                                        <i class="bi bi-pen-fill text-xs"></i>
+                                        Sửa
+                                    </a>
+                                    <form action="{{route('users.deleted',['id'=>$user->id])}}" method="POST" class="form-loading-submit">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-custom btn-danger">
+                                            <i class="bi bi-trash-fill text-xs"></i>
+                                            Xóa
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -148,12 +154,8 @@
 @endsection
 @section('scripts')
     <script type="module">
+        function confirmDeletedUser(id){
 
-        @error('filter')
-            notyf.open({
-                type: 'error',
-                message: ` {{ $error }}`
-            });
-        @enderror
+        }
     </script>
 @endsection

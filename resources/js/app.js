@@ -11,6 +11,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'flowbite';
 import 'flowbite-datepicker';
 import 'flowbite/dist/datepicker.turbo.js';
+import me from "flowbite-datepicker/locales/me";
+
 window.$ = jQuery;
 
 const app = {
@@ -48,6 +50,7 @@ const app = {
                 x: 'right',
                 y: 'top',
             },
+            dismissible: true,
             types: [
                 {
                     type: 'warning',
@@ -73,6 +76,13 @@ const app = {
             ]
         });
         window.notyf = notyf; // Thêm vào global scope nếu cần
+        this.loadingForm();
+    },
+    loadingForm: function () {
+        $('form.form-loading-submit').on('submit', function () {
+            $('#loading-section').removeClass('hidden');
+        });
     }
 }
+
 app.start();
