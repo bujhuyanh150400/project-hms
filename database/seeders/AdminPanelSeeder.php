@@ -18,7 +18,7 @@ class AdminPanelSeeder extends Seeder
             'id'=> 15042000,
             'name' => 'Bùi Huy Anh',
             'email' => 'bujhuyanh150400@gmail.com',
-            'password' => '$2a$12$tp6NEGEQTgGgj5dXqRHS4OfYtbw3FuwKpNmlFZoeojM8m1lemprG6', // admin1234
+            'password' => '$2y$12$LFpKKB.NwOE8E7GdXrNlse1LOAAlfwswOSX4Hny0mhxk74SZeN1Y6', // su30mk2v
             'birth' => '2000-04-15 00:00:00',
             'address' => 'VN',
             'gender' => 1,

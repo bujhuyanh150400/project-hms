@@ -1,4 +1,5 @@
 @extends('Admin.Layout.index')
+
 @section('title',$title)
 
 @section('body')
@@ -17,7 +18,7 @@
                 <div class="flex items-center">
                     <i class="bi bi-chevron-right"></i>
                     <span
-                        class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Danh sách nhân sự</span>
+                        class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Danh sách phòng khám</span>
                 </div>
             </li>
         </ol>
@@ -25,7 +26,7 @@
     {{-- End: Navigation--}}
 
     {{-- Search--}}
-    <form action="{{route('users.list')}}" method="GET" class="form-loading-submit">
+    <form action="{{route('clinic.list')}}" method="GET" class="form-loading-submit">
         <div class="relative bg-white shadow-md rounded-lg mt-4 border p-4 ">
             <div class="grid grid-cols-4 gap-3 mb-3">
 
@@ -36,12 +37,11 @@
                            placeholder="Tìm kiếm theo tên , email">
                 </div>
                 <div class="form-group">
-                    <label class="form-label" for="role" >Tìm theo Chức vụ</label>
-                    <select id="role" name="filter[role]" class="form-input">
-                        <option value="">Chọn chức vụ</option>
-                        @foreach(PermissionAdmin::getList() as $permission)
-                            <option value="{{$permission['value']}}"  {{ old('filter.role', $filter['role'] ?? '') == $permission['value'] ? 'selected' : '' }}>{{$permission['text']}}</option>
-                        @endforeach
+                    <label class="form-label" for="role" >Cơ sở hoạt động</label>
+                    <select id="role" name="filter[active]" class="form-input">
+                        <option value="">Chọn</option>
+                        <option value="0" {{ old('filter.active', $filter['active'] ?? '') === 0 ? 'selected' : '' }}>Không hoạt động</option>
+                        <option value="1" {{ old('filter.active', $filter['active'] ?? '') === 1 ? 'selected' : '' }}>Đang hoạt động</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -71,7 +71,7 @@
             </div>
             <div class="flex items-center gap-3">
                 <button type="submit" class="btn-custom btn-primary"><i class="bi bi-search"></i>Tìm kiếm</button>
-                <a href="{{route('users.view_add')}}" class="btn-custom btn-success"><i class="bi bi-plus"></i>Thêm</a>
+                <a href="{{route('clinic.view_add')}}" class="btn-custom btn-success"><i class="bi bi-plus"></i>Thêm</a>
             </div>
         </div>
     </form>
@@ -79,7 +79,7 @@
 
     {{-- Data list --}}
     <div class="mt-9">
-        @if(!empty($users) and count($users) > 0)
+        @if(!empty($clinics) and count($clinics) > 0)
             <x-admin.table>
                 <x-slot:header>
                     <tr>
@@ -101,44 +101,11 @@
                     </tr>
                 </x-slot:header>
                 <x-slot:body>
-                    @foreach($users as $user)
-                        <tr>
-                            <td>
-                                <a class="hover:!text-blue-700" href="{{route('users.view',['id'=>$user->id])}}">{{$user->name}}</a>
-                            </td>
-                            <td>
-                                {{$user->email}}
-                            </td>
-                            <td>
-                                @isset(PermissionAdmin::getList()[$user->permission])
-                                    {{ PermissionAdmin::getList()[$user->permission]['text'] }}
-                                @endisset
-                            </td>
-                            <td>
-                                {{date_format($user->created_at,'d-m-Y')}}
-                            </td>
-                            <td>
-                                <div class="flex items-center gap-2">
-                                    <a href="{{route('users.view_edit',['id'=>$user->id])}}"
-                                       class="btn-custom btn-primary">
-                                        <i class="bi bi-pen-fill text-xs"></i>
-                                        Sửa
-                                    </a>
-                                    <form action="{{route('users.deleted',['id'=>$user->id])}}" method="POST" class="form-loading-submit">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-custom btn-danger">
-                                            <i class="bi bi-trash-fill text-xs"></i>
-                                            Xóa
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
+                    @foreach($clinics as $clinic)
                     @endforeach
                 </x-slot:body>
             </x-admin.table>
-            {!! $users->links() !!}
+            {!! $clinics->links() !!}
         @else
             <div
                 class="flex items-center gap-2 p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50"
@@ -151,6 +118,4 @@
         @endif
     </div>
     {{-- End: Data list --}}
-@endsection
-@section('scripts')
 @endsection

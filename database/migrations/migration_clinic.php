@@ -15,15 +15,14 @@ return new class extends Migration
             $table->comment('table dùng để lưu trữ các cơ sở phòng khám');
             $table->id();
             $table->string('name')->comment('Tên phòng khám');
-            $table->string('address')->comment('Địa chỉ phòng khám');
-            $table->string('image')->comment('Ảnh phòng khám phòng khám');
-            $table->text('description')->comment('Mô tả phòng khám');
-
+            $table->string('address')->comment('Địa chi phòng khám');
+            $table->string('logo')->nullable()->comment('Ảnh đại diện phòng khám phòng khám');
+            $table->text('description')->nullable()->comment('Mô tả phòng khám');
+            $table->smallInteger('active')->default(1)->comment('Phòng khám có đang hoạt động không: 1 - có| 0 - không');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->bigInteger('updated_by')->nullable()->comment('Người cập nhật thông tin');
             $table->bigInteger('created_by')->nullable()->comment('Người tạo thông tin');
-            $table->rememberToken();
         });
     }
 
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('clinic');
     }
 };

@@ -23,17 +23,16 @@ return new class extends Migration
             $table->string('phone')->nullable()->comment('SĐT Nhân viên');
             $table->text('address')->nullable()->comment('Địa chỉ nơi ở nhân viên');
             $table->smallInteger('permission')->comment('Phân quyền trong Admin: 16 - Admin | 12 - Bác sĩ | 99 - CSKH');
+            $table->text('description')->nullable()->comment('Mô tả về nhân viên');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->bigInteger('updated_by')->nullable()->comment('Người cập nhật thông tin');
             $table->bigInteger('created_by')->nullable()->comment('Người tạo thông tin');
+            $table->foreign('clinic_id')->references('id')->on('clinic')->onDelete('cascade');
+            $table->unsignedBigInteger('clinic_id')->nullable();
             $table->rememberToken();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('users');

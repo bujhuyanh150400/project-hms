@@ -25,13 +25,19 @@ class Leftmenu extends Component
                 'space_menu' => true,
             ],
             [
-                'title' => 'Quản lý Account',
+                'title' => 'Quản lý',
                 'icon' => '<i class="bi bi-people"></i>',
                 'sub_menu' => [
                     [
                         'title' => 'Nhân sự',
                         'route_name' => 'users',
                         'action' => route('users.list'),
+
+                    ],
+                    [
+                        'title' => 'Cơ sở khám bệnh',
+                        'route_name' => 'clinic',
+                        'action' => route('clinic.list'),
 
                     ],
                 ]

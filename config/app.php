@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -182,7 +182,8 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-         'PermissionAdmin' => \App\Helper\PermissionAdmin::class,
+        'PermissionAdmin' => \App\Helper\PermissionAdmin::class,
+        'Provinces' => \App\Helper\Provinces::class,
     ])->toArray(),
 
 ];

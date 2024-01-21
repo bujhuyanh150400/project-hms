@@ -21,5 +21,10 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
         Route::put('edit/{id}',[\App\Http\Controllers\Admin\UsersController::class,'edit'])->name('users.edit')->whereNumber('id');
         Route::delete('deleted/{id}',[\App\Http\Controllers\Admin\UsersController::class,'deleted'])->name('users.deleted')->whereNumber('id');
     });
+    Route::prefix('clinic')->group(function () {
+        Route::get('list',[\App\Http\Controllers\Admin\ClinicController::class,'list'])->name('clinic.list');
+        Route::get('view_add',[\App\Http\Controllers\Admin\ClinicController::class,'view_add'])->name('clinic.view_add');
+        Route::post('add', [\App\Http\Controllers\Admin\ClinicController::class, 'add'])->name('clinic.add');
+    });
 });
 

@@ -12,7 +12,8 @@ import 'flowbite';
 import 'flowbite-datepicker';
 import 'flowbite/dist/datepicker.turbo.js';
 import me from "flowbite-datepicker/locales/me";
-
+import quill from "quill/quill.js";
+import Quill from "quill/quill.js";
 window.$ = jQuery;
 
 const app = {
@@ -77,6 +78,13 @@ const app = {
         });
         window.notyf = notyf; // Thêm vào global scope nếu cần
         this.loadingForm();
+
+        const quill = new Quill('#editor',{
+            modules: {
+                toolbar: true
+            },
+            theme: 'snow'
+        });
     },
     loadingForm: function () {
         $('form.form-loading-submit').on('submit', function () {

@@ -78,4 +78,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function clinic()
+    {
+        return $this->belongsTo(Clinic::class);
+    }
 }
