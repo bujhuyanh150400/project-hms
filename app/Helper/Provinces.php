@@ -4,6 +4,9 @@ namespace App\Helper;
 
 class Provinces
 {
+    const PROVINCES = 'provinces';
+    const DISTRICTS = 'districts';
+    const WARD = 'wards';
     const PROVINCE_PATH = __DIR__ . '/json/provinces/tinh_tp.json';
     const DISTRICT_PATH = __DIR__ . '/json/provinces/quan_huyen.json';
     const WARD_PATH = __DIR__ . '/json/provinces/xa_phuong.json';
@@ -39,10 +42,15 @@ class Provinces
         return $this->ward;
     }
 
-    public function getDistrictByProvice($code): array
+    public function getDistrictByProvice(int $code): array
     {
-        $district = array_filter();
+        return array_filter($this->district,function ($item) use ($code){
+            return intval($item['parent_code']) === $code;
+        });
     }
-
-
+    public function getWardByDistrict(int $code):array {
+        return array_filter($this->ward,function ($item) use ($code){
+            return intval($item['parent_code']) === $code;
+        });
+    }
 }

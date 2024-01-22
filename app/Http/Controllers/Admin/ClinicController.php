@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-use App\Helper\Provinces;
 use App\Http\Controllers\Controller;
 use App\Models\Clinic;
 use Illuminate\Http\Request;
@@ -23,11 +22,6 @@ class ClinicController extends Controller
     public function view_add()
     {
         $title = "Thêm phòng khám";
-
-        $province = new Provinces();
-        dd($province->getAllDistrict());
-
-
         return view('Admin.Clinic.add', compact('title'));
     }
 }
