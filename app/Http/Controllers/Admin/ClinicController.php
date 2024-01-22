@@ -25,7 +25,7 @@ class ClinicController extends Controller
         $title = "Thêm phòng khám";
 
         $province = new Provinces();
-        dd($province->getList());
+        dd($province->getAllDistrict());
 
 
         return view('Admin.Clinic.add', compact('title'));
