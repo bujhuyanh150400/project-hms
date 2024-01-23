@@ -12,28 +12,36 @@ class ProvincesResource extends JsonResource
     {
         $resourceType = $request->input('resource_type', ProvincesHelper::PROVINCES);
         return match ($resourceType) {
-            ProvincesHelper::PROVINCES => $this->provinceToArray(),
-            ProvincesHelper::DISTRICTS => $this->districtToArray(),
-            ProvincesHelper::WARD => $this->wardToArray(),
+            ProvincesHelper::PROVINCES => $this->provinceToArray($this->resource),
+            ProvincesHelper::DISTRICTS => $this->districtToArray($this->resource),
+            ProvincesHelper::WARD => $this->wardToArray($this->resource),
             default => [],
         };
     }
-    protected function provinceToArray() :array
+    protected function provinceToArray(array $province): array
     {
         return [
-            "name"=>$this->name,
-            "type" => $this->type,
-            "code"=>$this->code,
+            "name" => $province['name'],
+            "type" => $province['type'],
+            "code" => $province['code'],
         ];
     }
 
-    protected function districtToArray()
+    protected function districtToArray(array $district): array
     {
-        return $this;
+        return [
+            "name" => $district['name_with_type'],
+            "type" => $district['type'],
+            "code" => $district['code'],
+            "parent_code" => $district['parent_code'],
+        ];
     }
 
-    protected function wardToArray()
+    protected function wardToArray(array $ward): array
     {
-        return $this;
+        return [
+            "name" => $ward['name'], // Change 'name' to the actual key in the ward array
+            // Add other fields as needed
+        ];
     }
 }

@@ -4,16 +4,17 @@ import jQuery from "jquery";
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import "flatpickr/dist/themes/airbnb.css";
-import {Vietnam} from "flatpickr/dist/l10n/vn.js"
-import {Notyf} from 'notyf';
+import { Vietnam } from "flatpickr/dist/l10n/vn.js"
+import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'flowbite';
 import 'flowbite-datepicker';
 import 'flowbite/dist/datepicker.turbo.js';
 import me from "flowbite-datepicker/locales/me";
-import quill from "quill/quill.js";
 import Quill from "quill/quill.js";
+import 'selectize/dist/css/selectize.css';
+import 'selectize';
 window.$ = jQuery;
 
 const app = {
@@ -79,7 +80,7 @@ const app = {
         window.notyf = notyf; // Thêm vào global scope nếu cần
         this.loadingForm();
 
-        const quill = new Quill('#editor',{
+        const quill = new Quill('#editor', {
             modules: {
                 toolbar: true
             },
@@ -92,5 +93,17 @@ const app = {
         });
     }
 }
-
 app.start();
+
+const provinces = {
+    start: function () {
+        $('.selectize').selectize({
+            create: true,
+            sortField: {
+                field: 'text',
+                direction: 'asc'
+            }
+        });
+    }
+}
+provinces.start();
