@@ -21,7 +21,7 @@ class ProvincesResource extends JsonResource
     protected function provinceToArray(array $province): array
     {
         return [
-            "name" => $province['name'],
+            "name" => $province['name_with_type'],
             "type" => $province['type'],
             "code" => $province['code'],
         ];
@@ -40,7 +40,10 @@ class ProvincesResource extends JsonResource
     protected function wardToArray(array $ward): array
     {
         return [
-            "name" => $ward['name'], // Change 'name' to the actual key in the ward array
+            "name" => $ward['name_with_type'], // Change 'name' to the actual key in the ward array
+            "type" => $ward['type'],
+            "code" => $ward['code'],
+            "parent_code" => $ward['parent_code'],
             // Add other fields as needed
         ];
     }

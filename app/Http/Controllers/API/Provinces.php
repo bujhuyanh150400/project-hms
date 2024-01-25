@@ -10,42 +10,52 @@ use Illuminate\Support\Facades\Validator;
 
 class Provinces extends Controller
 {
-    private $provincesHelper;
+    private mixed $provincesHelper;
     public function __construct()
     {
         $this->provincesHelper = new ProvincesHelper();
     }
 
-    public function getProvinces()
+    public function getProvinces(Request $request)
     {
-        $provinces = $this->provincesHelper->getAllProvince();
+        $validator = Validator::make($request->all(), [
+            'id' => 'nullable|numeric',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()->getMessages()['id'][0]], 404);
+        }
+        if (empty(trim($request->input('id')))){
+            $provinces = $this->provincesHelper->getAllProvince();
+        }else{
+            $provinces = $this->provincesHelper->getProvinceByCode(trim($request->input('id')));
+        }
         return ProvincesResource::collection($provinces)->additional(['resource_type' => ProvincesHelper::PROVINCES]);
     }
 
     public function getDistricts(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'province_code' => 'required|numeric',
+            'id' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => 'Invalid input.'], 404);
+            return response()->json(['error' => $validator->errors()->getMessages()['id'][0]], 404);
         }
 
-        $districts = $this->provincesHelper->getDistrictByProvice($request->input('province_code'));
+        $districts = $this->provincesHelper->getDistrictByProvice($request->input('id'));
         return ProvincesResource::collection($districts)->additional(['resource_type' => ProvincesHelper::DISTRICTS]);
     }
     public function getWards(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'district_code' => 'required|numeric',
+            'id' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error' => 'Invalid input.'], 404);
+            return response()->json(['error' => $validator->errors()->getMessages()['id'][0]], 404);
         }
 
-        $wards = $this->provincesHelper->getWardByDistrict($request->input('district_code'));
+        $wards = $this->provincesHelper->getWardByDistrict($request->input('id'));
         return ProvincesResource::collection($wards)->additional(['resource_type' => ProvincesHelper::WARD]);
     }
 }

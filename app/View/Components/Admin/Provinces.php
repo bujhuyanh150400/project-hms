@@ -8,7 +8,12 @@ use Illuminate\View\Component;
 
 class Provinces extends Component
 {
-    public function __construct()
+    public function __construct(
+        public string $province,
+        public string $district,
+        public string $ward,
+        public string $address,
+    )
     {
     }
     public function render(): View|Closure|string

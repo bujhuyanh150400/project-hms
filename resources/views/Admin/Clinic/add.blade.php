@@ -45,7 +45,7 @@
                                placeholder="Nhập tên cơ sở" >
                         @error('name')<span class="form-alert">{{ $message }}</span>@enderror
                     </div>
-                    <div class="flex items-center justify-center flex-col gap-2">
+                    <div class="flex items-start justify-center flex-col gap-2">
                         <label for="logo"
                                class="flex items-center gap-2 text-sm font-medium @error('logo') text-red-500  @else text-blue-700 @enderror"><i
                                 class="bi bi-image"></i>Ảnh đại diện</label>
@@ -65,9 +65,7 @@
                         </div>
                     </div>
                 </div>
-                <div>
-                    <x-admin.provinces></x-admin.provinces>
-                </div>
+                <x-admin.provinces province="province" district="district" ward="ward" address="address"/>
             </div>
             <div class="flex justify-end items-center gap-2">
                 <a href="{{route('clinic.list')}}" class="btn-custom btn-default"><i class="bi bi-arrow-left"></i>Quay lại</a>

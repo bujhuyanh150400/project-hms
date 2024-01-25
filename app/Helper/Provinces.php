@@ -42,12 +42,20 @@ class Provinces
         return $this->ward;
     }
 
+    public function getProvinceByCode($code): array
+    {
+        return array_filter($this->province, function ($item) use ($code) {
+            return intval($item['code']) == $code;
+        });
+    }
+
     public function getDistrictByProvice($code): array
     {
         return array_filter($this->district, function ($item) use ($code) {
             return intval($item['parent_code']) == $code;
         });
     }
+
     public function getWardByDistrict($code): array
     {
         return array_filter($this->ward, function ($item) use ($code) {
