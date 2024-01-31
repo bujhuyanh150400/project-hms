@@ -1,24 +1,15 @@
 import "./bootstrap";
+import JQuery from 'jquery';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import jQuery from "jquery";
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.min.css';
-import "flatpickr/dist/themes/airbnb.css";
-import {Vietnam} from "flatpickr/dist/l10n/vn.js"
 import {Notyf} from 'notyf';
 import 'notyf/notyf.min.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'flowbite';
 import 'flowbite-datepicker';
 import 'flowbite/dist/datepicker.turbo.js';
-import me from "flowbite-datepicker/locales/me";
-import Quill from "quill/quill.js";
 import 'selectize/dist/css/selectize.css';
 import 'selectize';
-import ca from "flowbite-datepicker/locales/ca";
-import id from "flowbite-datepicker/locales/id";
 
-window.$ = jQuery;
+window.$ = JQuery;
 
 const app = {
     navMenu: {
@@ -40,14 +31,6 @@ const app = {
     },
     start: function () {
         this.navMenu.start();
-        flatpickr.localize(Vietnam)
-        // Dùng để select với date picker
-        flatpickr('.datepicker', {
-            altInput: true,
-            altFormat: "d-m-Y",
-            dateFormat: "Y-m-d",
-            locale: Vietnam,
-        });
         // khởi tạo notyf
         const notyf = new Notyf({
             duration: 10000,
@@ -83,12 +66,7 @@ const app = {
         window.notyf = notyf; // Thêm vào global scope nếu cần
         this.loadingForm();
 
-        const quill = new Quill('#editor', {
-            modules: {
-                toolbar: true
-            },
-            theme: 'snow'
-        });
+
     },
     loadingForm: function () {
         $('form.form-loading-submit').on('submit', function () {
@@ -208,9 +186,19 @@ const provinces = {
         } catch (error) {
             $('#wards-container').hide();
             $('#detail-address-container').hide();
+            $('#detail-address').val('');
         }
     }
 
 }
 window.provincesSelect = provinces;
 
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
+ClassicEditor
+    .create( document.querySelector( '#editor' ) )
+    .then( editor => {
+    } )
+    .catch( error => {
+        console.error( error );
+    } );

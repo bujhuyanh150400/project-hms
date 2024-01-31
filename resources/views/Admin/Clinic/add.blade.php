@@ -65,7 +65,12 @@
                         </div>
                     </div>
                 </div>
-                <x-admin.provinces province="province" district="district" ward="ward" address="address"/>
+                <div>
+                    <x-admin.provinces province="province" district="district" ward="ward" address="address"/>
+                    <textarea id="editor">
+                </textarea>
+                </div>
+
             </div>
             <div class="flex justify-end items-center gap-2">
                 <a href="{{route('clinic.list')}}" class="btn-custom btn-default"><i class="bi bi-arrow-left"></i>Quay lại</a>
