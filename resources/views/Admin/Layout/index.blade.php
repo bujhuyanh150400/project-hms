@@ -8,6 +8,7 @@
         'resources/scss/admin/app.scss',
         'resources/js/app.js'
     ])
+    @yield('head')
 </head>
 
 <body class="p-0 m-0 relative">

@@ -49,6 +49,20 @@ class Provinces
         });
     }
 
+    public function getDistrictByCode($code): array
+    {
+        return array_filter($this->district, function ($item) use ($code) {
+            return intval($item['code']) == $code;
+        });
+    }
+
+    public function getWardByCode($code): array
+    {
+        return array_filter($this->ward, function ($item) use ($code) {
+            return intval($item['code']) == $code;
+        });
+    }
+
     public function getDistrictByProvice($code): array
     {
         return array_filter($this->district, function ($item) use ($code) {

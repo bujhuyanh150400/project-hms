@@ -34,39 +34,15 @@
                     <label class="form-label" for="simple-search" >Tìm kiếm</label>
                     <input type="text"
                            class="form-input" name="filter[keyword]" id="keyword" value="{{ old('filter.keyword', $filter['keyword'] ?? '') }}"
-                           placeholder="Tìm kiếm theo tên , email">
+                           placeholder="Tìm kiếm theo tên cơ sở">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="role" >Cơ sở hoạt động</label>
                     <select id="role" name="filter[active]" class="form-input">
                         <option value="">Chọn</option>
-                        <option value="0" {{ old('filter.active', $filter['active'] ?? '') === 0 ? 'selected' : '' }}>Không hoạt động</option>
-                        <option value="1" {{ old('filter.active', $filter['active'] ?? '') === 1 ? 'selected' : '' }}>Đang hoạt động</option>
+                        <option value="0" {{ old('filter.active', $filter['active'] ?? '') === 1 ? 'selected' : '' }}>Không hoạt động</option>
+                        <option value="1" {{ old('filter.active', $filter['active'] ?? '') === 2 ? 'selected' : '' }}>Đang hoạt động</option>
                     </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Tìm theo ngày tạo</label>
-                    <div date-rangepicker class="flex items-center space-x-2">
-                        <div class="relative">
-                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                                </svg>
-                            </div>
-                            <input name="filter[start_date_create]"
-                                   type="text"
-                                   value="{{old('filter.start_date_create',$filter['start_date_create'] ?? '')}}"
-                                   class="form-input-icon" placeholder="Từ ngày">
-                        </div>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                                </svg>
-                            </div>
-                            <input name="filter[end_date_create]" value="{{old('filter.end_date_create',$filter['end_date_create'] ?? '')}}" type="text" class="form-input-icon" placeholder="Đến ngày">
-                        </div>
-                    </div>
                 </div>
             </div>
             <div class="flex items-center gap-3">
@@ -84,16 +60,19 @@
                 <x-slot:header>
                     <tr>
                         <th>
-                            Tên nhân viên
+                            Tên cơ sở
                         </th>
                         <th>
-                            Email
+                            Logo
                         </th>
                         <th>
-                            Chức vụ
+                            Địa chỉ
                         </th>
                         <th>
-                            Ngày tạo
+                            Trạng thái
+                        </th>
+                        <th>
+                            Mô tả
                         </th>
                         <th>
                             Action
@@ -102,6 +81,50 @@
                 </x-slot:header>
                 <x-slot:body>
                     @foreach($clinics as $clinic)
+                        <tr>
+                            <td>
+                                <a class="hover:!text-blue-700 font-medium" href="{{route('clinic.view',['id'=>$clinic->id])}}">{{$clinic->name}}</a>
+                            </td>
+                            <td>
+                                <img
+                                    class="w-32 h-32 rounded"
+                                    @if(!empty($clinic->logo))
+                                        src="{{ route('file.show', ['filepath' => $clinic->logo]) }}"
+                                    @else
+                                        src="{{asset('assets/images/clinic.png')}}"
+                                    @endif
+                                    alt="clinic logo"
+                                />
+                            </td>
+                            <td>
+                                {{ $clinic->address_data}}
+                            </td>
+                            <td>
+                                {{ $clinic->active === 1 ? "Đang hoạt động" : "Dừng hoạt động" }}
+                            </td>
+                            <td>
+                                <div class="max-h-[200px] overflow-y-auto">
+                                    {!! $clinic->description !!}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="flex items-center gap-2">
+                                    <a href="{{route('clinic.view_edit',['id'=>$clinic->id])}}"
+                                       class="btn-custom btn-primary">
+                                        <i class="bi bi-pen-fill text-xs"></i>
+                                        Sửa
+                                    </a>
+                                    <form action="{{route('clinic.deleted',['id'=>$clinic->id])}}" method="POST" class="form-loading-submit">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-custom btn-danger">
+                                            <i class="bi bi-trash-fill text-xs"></i>
+                                            Xóa
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
                     @endforeach
                 </x-slot:body>
             </x-admin.table>

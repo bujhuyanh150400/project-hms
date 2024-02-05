@@ -101,19 +101,19 @@ const provinces = {
     },
     start: async function () {
         const _this = this;
-        if(_this.old_province !== ""){
-            await _this.getProvince(_this.old_province);
+        if (_this.old_province != "") {
+            await _this.getProvince();
             $('#provinces')[0].selectize.setValue(_this.old_province);
-        }else{
+        } else {
             await _this.getProvince();
         }
-        if(_this.old_district !== ""){
-            await _this.getDistrict(_this.old_district);
+        if (_this.old_district != "") {
+            await _this.getDistrict(_this.old_province);
             $('#districts')[0].selectize.setValue(_this.old_district);
         }
-        if(_this.old_ward !== ""){
-            await _this.getWard(_this.old_province);
-            $('#wards')[0].selectize.setValue(_this.old_district);
+        if (_this.old_ward != "") {
+            await _this.getWard(_this.old_district);
+            $('#wards')[0].selectize.setValue(_this.old_ward);
             $('#detail-address-container').fadeIn(100);
         }
         $('#provinces').on('change', async function () {
@@ -128,7 +128,7 @@ const provinces = {
     },
     getProvince: async function (id = "") {
         try {
-            const province = await this.loadAjax(this.PROVINCE,id);
+            const province = await this.loadAjax(this.PROVINCE, id);
             $('#provinces').selectize({
                 valueField: 'code',
                 labelField: 'name',
@@ -193,12 +193,3 @@ const provinces = {
 }
 window.provincesSelect = provinces;
 
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
-ClassicEditor
-    .create( document.querySelector( '#editor' ) )
-    .then( editor => {
-    } )
-    .catch( error => {
-        console.error( error );
-    } );

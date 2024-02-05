@@ -12,12 +12,13 @@ class Controller extends BaseController
 
     const FILE_PATH_ADMIN = 'file_storage/admin/';
 
+
+
     protected function getIdAsTimestamp(): int
     {
         return date('ymdHis') . rand(10, 99);
     }
-
-    protected function storageFileAdmin(){
+    protected function storageFileAdmin($requestFile, $name){
 
     }
 }

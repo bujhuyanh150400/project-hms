@@ -25,6 +25,10 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
         Route::get('list',[\App\Http\Controllers\Admin\ClinicController::class,'list'])->name('clinic.list');
         Route::get('view_add',[\App\Http\Controllers\Admin\ClinicController::class,'view_add'])->name('clinic.view_add');
         Route::post('add', [\App\Http\Controllers\Admin\ClinicController::class, 'add'])->name('clinic.add');
+        Route::get('view/{id}',[\App\Http\Controllers\Admin\ClinicController::class,'view'])->name('clinic.view')->whereNumber('id');
+        Route::get('view_edit/{id}',[\App\Http\Controllers\Admin\ClinicController::class,'view_edit'])->name('clinic.view_edit')->whereNumber('id');
+        Route::put('edit/{id}',[\App\Http\Controllers\Admin\ClinicController::class,'edit'])->name('clinic.edit')->whereNumber('id');
+        Route::delete('deleted/{id}',[\App\Http\Controllers\Admin\ClinicController::class,'deleted'])->name('clinic.deleted')->whereNumber('id');
     });
 });
 

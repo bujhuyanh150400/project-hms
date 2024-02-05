@@ -28,14 +28,14 @@
                 <div class="flex items-center">
                     <i class="bi bi-chevron-right"></i>
                     <span
-                        class="ms-1 text-sm font-medium text-gray-500 md:ms-2">Thêm phòng khám</span>
+                        class="ms-1 text-sm font-medium text-gray-500 md:ms-2">Sửa phòng khám</span>
                 </div>
             </li>
         </ol>
     </nav>
     {{-- End: Navigation--}}
 
-    <form class="form-loading-submit" action="{{ route('clinic.add') }}" method="POST" enctype="multipart/form-data">
+    <form class="form-loading-submit" action="{{ route('clinic.edit',['id'=>$clinic->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('POST')
         <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow ">
@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label for="name" class=" @error('name') form-label-error @else form-label @enderror"><i class="bi bi-hospital"></i> Tên phòng khám </label>
                         <input type="text" name="name" id="name"
-                               value="{{old('name')}}"
+                               value="{{old('name',$clinic->name)}}"
                                class=" @error('name') form-input-error @else form-input @enderror"
                                placeholder="Nhập tên cơ sở" >
                         @error('name')<span class="form-alert">{{ $message }}</span>@enderror
@@ -54,8 +54,13 @@
                                class="flex items-center gap-2 text-sm font-medium @error('logo') text-red-500  @else text-blue-700 @enderror"><i
                                 class="bi bi-image"></i>Ảnh đại diện phòng khám</label>
                         <div class="w-full h-[400px] flex items-center justify-center border-dashed border-4 bg-gray-100 rounded ">
-                            <img id="avatar-preview" class="w-full h-full select-none hidden" src=""/>
-                            <i id="icon-preview" class="bi bi-person text-4xl text-gray-300"></i>
+                            @if(!empty($clinic->logo))
+                                <img class="w-full h-full select-none" id="avatar-preview"
+                                     src="{{ route('file.show', ['filepath' => $user->avatar]) }}"/>
+                            @else
+                                <img id="avatar-preview" class="w-full h-full select-none hidden" src=""/>
+                                <i id="icon-preview" class="bi bi-person text-4xl text-gray-300"></i>
+                            @endif
                         </div>
                         <div class="form-group w-full mt-8">
                             <input
@@ -70,10 +75,10 @@
                     </div>
                 </div>
                 <div class="flex flex-col gap-3">
-                    <x-admin.provinces province="province" district="district" ward="ward" address="address"/>
+                    <x-admin.provinces province="province" district="district" ward="ward" address="address" :object="$clinic"/>
                     <div class="form-group">
                         <label for="description" class=" @error('description') form-label-error @else form-label @enderror">Mô tả</label>
-                        <textarea  class="ckeditor" name="description" id="description">{{old('description')}}</textarea>
+                        <textarea  class="ckeditor" name="description" id="description">{{old('description',$clinic->description)}}</textarea>
                         @error('description')<span class="form-alert">{{ $message }}</span>@enderror
                     </div>
                     <div class="form-group">
@@ -84,8 +89,8 @@
                             name="active"
                         >
                             <option value=""> Chọn trạng thái </option>
-                            <option value="1" @if ((int)old('active') === 1) selected @endif> Active </option>
-                            <option value="2" @if ((int)old('active') === 2) selected @endif> In-Active </option>
+                            <option value="1" @if ((int)old('active',$clinic->active) === 1) selected @endif> Active </option>
+                            <option value="2" @if ((int)old('active',$clinic->active) === 2) selected @endif> In-Active </option>
                         </select>
                         @error('active')<span class="form-alert">{{ $message }}</span>@enderror
                     </div>
