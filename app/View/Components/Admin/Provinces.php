@@ -13,8 +13,8 @@ class Provinces extends Component
         public string $district,
         public string $ward,
         public string $address,
-    )
-    {
+        public mixed $object = null,
+    ) {
     }
     public function render(): View|Closure|string
     {

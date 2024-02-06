@@ -1,7 +1,7 @@
 import "./bootstrap";
 import JQuery from 'jquery';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import {Notyf} from 'notyf';
+import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import 'flowbite';
 import 'flowbite-datepicker';
@@ -88,7 +88,7 @@ const provinces = {
             $.ajax({
                 url: `${site_root_url}/api/provinces/v1/${option}`,
                 type: 'GET',
-                data: {id},
+                data: { id },
                 dataType: 'json',
                 success: function (response) {
                     resolve(response.data);
@@ -139,7 +139,6 @@ const provinces = {
             selectProvince.clear();
             selectProvince.clearOptions();
             selectProvince.addOption(province);
-            selectProvince.refreshOptions();
             $('#provinces-container').fadeIn(100);
         } catch (error) {
             $('#provinces-container').hide();
@@ -162,7 +161,6 @@ const provinces = {
             setlectDistrict.clear();
             setlectDistrict.clearOptions();
             setlectDistrict.addOption(district);
-            setlectDistrict.refreshOptions();
             $('#districts-container').fadeIn(100);
         } catch (error) {
             $('#districts-container').hide();
@@ -181,7 +179,6 @@ const provinces = {
             selectWards.clear();
             selectWards.clearOptions();
             selectWards.addOption(ward);
-            selectWards.refreshOptions();
             $('#wards-container').fadeIn(100);
         } catch (error) {
             $('#wards-container').hide();
@@ -189,7 +186,6 @@ const provinces = {
             $('#detail-address').val('');
         }
     }
-
 }
 window.provincesSelect = provinces;
 

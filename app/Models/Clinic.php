@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helper\Provinces;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Clinic extends Model
 {
@@ -20,10 +21,8 @@ class Clinic extends Model
 
     protected $table = 'clinic';
 
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
+
+
 
     public function getAddressDataAttribute()
     {
@@ -37,6 +36,20 @@ class Clinic extends Model
         }
     }
 
+    public function scopeKeywordFilter(Builder $query, $keyword = null): void
+    {
+        if (!empty($keyword)) {
+            $keyword = strtolower($keyword);
+            $query->whereRaw('LOWER(name) LIKE ?', '%' . $keyword . '%');
+        }
+    }
+    public function scopeActiveFilter(Builder $query, $active = null): void
+    {
+        if (!empty($active)) {
+            $query->where('active', $active);
+        }
+    }
+
     protected function getProvinceData()
     {
         $data = $this->provinces->getProvinceByCode($this->province);
@@ -47,7 +60,6 @@ class Clinic extends Model
     {
         $data = $this->provinces->getDistrictByCode($this->district);
         return reset($data);
-
     }
 
     protected function getWardData()
@@ -70,4 +82,8 @@ class Clinic extends Model
         'updated_by',
         'logo',
     ];
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

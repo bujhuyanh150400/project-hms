@@ -15,9 +15,9 @@ return new class extends Migration
             $table->comment('table dùng để lưu trữ các cơ sở phòng khám');
             $table->id();
             $table->string('name')->comment('Tên phòng khám');
-            $table->smallInteger('province')->comment('Tỉnh thành của phòng khám');
-            $table->smallInteger('district')->comment('Quận huyện của phòng khám');
-            $table->smallInteger('ward')->comment('Phường xã của phòng khám');
+            $table->string('province', 10)->comment('Tỉnh thành của phòng khám');
+            $table->string('district', 10)->comment('Quận huyện của phòng khám');
+            $table->string('ward', 10)->comment('Phường xã của phòng khám');
             $table->string('address')->comment('Địa chỉ cụ thể cơ sở phòng khám');
             $table->string('logo')->nullable()->comment('Ảnh đại diện phòng khám phòng khám');
             $table->text('description')->nullable()->comment('Mô tả phòng khám');
