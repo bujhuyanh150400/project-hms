@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helper\UserStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UsersController\AddRequest;
 use App\Http\Requests\Admin\UsersController\EditRequest;
+use App\Models\Clinic;
+use App\Models\Specialties;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,8 +37,11 @@ class UsersController extends Controller
 
     public function view_add()
     {
+        $listClinic = Clinic::all();
+        $listUserStatus = UserStatus::getList();
+        $listSpecialties = Specialties::all();
         $title = "Thêm nhân sự";
-        return view('Admin.Users.add', compact('title'));
+        return view('Admin.Users.add', compact('title', 'listClinic', 'listUserStatus', 'listSpecialties'));
     }
 
     public function add(AddRequest $request)
@@ -50,6 +56,10 @@ class UsersController extends Controller
             'phone' => $request->input('phone'),
             'birth' => date('Y-m-d', strtotime($request->input('birth'))),
             'gender' => $request->input('gender'),
+            'description' => $request->input('description'),
+            'clinic_id' => $request->integer('clinic_id'),
+            'specialties_id' => $request->integer('specialties_id'),
+            'user_status' => $request->integer('user_status'),
             'created_by' => Auth::guard('admin')->user()->id,
         ];
         if ($request->hasFile('avatar')) {
@@ -70,11 +80,14 @@ class UsersController extends Controller
             return redirect()->back()->withInput();
         }
     }
-    public function view($id){
+    public function view($id)
+    {
         $user = User::find($id);
         if ($user) {
             $title = "Chi tiết nhân sự";
-            return view('Admin.Users.view', compact('user', 'title'));
+            $listClinic = Clinic::all();
+            $listUserStatus = UserStatus::getList();
+            return view('Admin.Users.view', compact('user', 'title', 'listClinic', 'listUserStatus'));
         } else {
             session()->flash('error', 'Nhân sự không tồn tại.');
             return redirect()->route('users.list');
@@ -84,8 +97,11 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         if ($user) {
+            $listClinic = Clinic::all();
+            $listUserStatus = UserStatus::getList();
+            $listSpecialties = Specialties::all();
             $title = "Chỉnh sửa nhân sự";
-            return view('Admin.Users.edit', compact('user', 'title'));
+            return view('Admin.Users.edit', compact('user', 'title', 'listClinic', 'listUserStatus', 'listSpecialties'));
         } else {
             session()->flash('error', 'Nhân sự không tồn tại.');
             return redirect()->route('users.list');
@@ -105,6 +121,10 @@ class UsersController extends Controller
         $user->phone = $request->input('phone');
         $user->birth = $request->input('birth');
         $user->gender = $request->input('gender');
+        $user->clinic_id = $request->integer('clinic_id');
+        $user->specialties_id = $request->integer('specialties_id');
+        $user->user_status = $request->integer('user_status');
+        $user->description = $request->input('description');
         $user->updated_by = Auth::guard('admin')->user()->id;
         $user->updated_at = now();
         if ($request->hasFile('avatar')) {
@@ -134,7 +154,7 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         if ($user) {
-            if (Auth::guard('admin')->user()->id === $user->id){
+            if (Auth::guard('admin')->user()->id === $user->id) {
                 session()->flash('error', 'Bạn không thể xóa nick đang đăng nhập được');
                 return redirect()->route('users.list');
             }

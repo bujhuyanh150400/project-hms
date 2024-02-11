@@ -4,11 +4,11 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 import 'flowbite';
-import 'flowbite-datepicker';
-import 'flowbite/dist/datepicker.turbo.js';
 import 'selectize/dist/css/selectize.css';
 import 'selectize';
-
+import flatpickr from "flatpickr";
+import 'flatpickr/dist/flatpickr.min.css';
+import 'flatpickr/dist/themes/airbnb.css';
 window.$ = JQuery;
 
 const app = {
@@ -28,6 +28,11 @@ const app = {
         start: function () {
             this.prepareSubNav();
         }
+    },
+    loadingForm: function () {
+        $('form.form-loading-submit').on('submit', function () {
+            $('#loading-section').removeClass('hidden');
+        });
     },
     start: function () {
         this.navMenu.start();
@@ -66,13 +71,15 @@ const app = {
         window.notyf = notyf; // Thêm vào global scope nếu cần
         this.loadingForm();
 
+        flatpickr('.datepicker', {
+            altInput: true,
+            enableTime: false, // Tắt chức năng chọn thời gian
+            altFormat: "d-m-Y",
+            dateFormat: "Y-m-d",
+        });
 
     },
-    loadingForm: function () {
-        $('form.form-loading-submit').on('submit', function () {
-            $('#loading-section').removeClass('hidden');
-        });
-    }
+
 }
 app.start();
 

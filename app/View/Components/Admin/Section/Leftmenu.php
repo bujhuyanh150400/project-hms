@@ -38,7 +38,11 @@ class Leftmenu extends Component
                         'title' => 'Cơ sở khám bệnh',
                         'route_name' => 'clinic',
                         'action' => route('clinic.list'),
-
+                    ],
+                    [
+                        'title' => 'Chuyên khoa',
+                        'route_name' => 'specialties',
+                        'action' => route('specialties.list'),
                     ],
                 ]
             ],

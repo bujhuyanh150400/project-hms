@@ -10,37 +10,18 @@ use Illuminate\Database\Eloquent\Builder;
 class Clinic extends Model
 {
     use HasFactory;
-
     private Provinces $provinces;
 
     public function __construct()
     {
         $this->provinces = new Provinces();
     }
-
-
     protected $table = 'clinic';
-
-
-
-
-    public function getAddressDataAttribute()
-    {
-        $provinceData = $this->getProvinceData();
-        $districtData = $this->getDistrictData();
-        $wardData = $this->getWardData();
-        if ($provinceData && $districtData && $wardData) {
-            return "{$provinceData['name_with_type']}, {$districtData['name_with_type']}, {$wardData['name_with_type']} , {$this->address}";
-        } else {
-            return "Không tìm thấy thông tin địa chỉ";
-        }
-    }
-
     public function scopeKeywordFilter(Builder $query, $keyword = null): void
     {
         if (!empty($keyword)) {
             $keyword = strtolower($keyword);
-            $query->whereRaw('LOWER(name) LIKE ?', '%' . $keyword . '%');
+            $query->whereRaw('LOWER(name) LIKE ?', '%' . $keyword . '%')->orWhere('id', '=', intval($keyword));
         }
     }
     public function scopeActiveFilter(Builder $query, $active = null): void
@@ -67,7 +48,24 @@ class Clinic extends Model
         $data = $this->provinces->getWardByCode($this->ward);
         return reset($data);
     }
-
+    public function getAddressDataAttribute()
+    {
+        $provinceData = $this->getProvinceData();
+        $districtData = $this->getDistrictData();
+        $wardData = $this->getWardData();
+        if ($provinceData && $districtData && $wardData) {
+            return "{$provinceData['name_with_type']}, {$districtData['name_with_type']}, {$wardData['name_with_type']} , {$this->address}";
+        } else {
+            return "Không tìm thấy thông tin địa chỉ";
+        }
+    }
+    public function getProvinceDetailAttribute()
+    {
+        $provinceData = $this->getProvinceData();
+        if (!empty($provinceData)) {
+            return $provinceData;
+        }
+    }
     protected $fillable = [
         'id',
         'name',

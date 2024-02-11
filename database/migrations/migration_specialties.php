@@ -24,7 +24,6 @@ return new class extends Migration
             $table->bigInteger('created_by')->nullable()->comment('Người tạo thông tin');
         });
     }
-
     /**
      * Reverse the migrations.
      */

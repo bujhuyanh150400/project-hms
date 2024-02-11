@@ -16,7 +16,7 @@ class Controller extends BaseController
 
     protected function getIdAsTimestamp(): int
     {
-        return date('ymdHis') . rand(10, 99);
+        return intval(date('ymdHis') . rand(10, 99));
     }
     protected function storageFileAdmin($requestFile, $name){
 

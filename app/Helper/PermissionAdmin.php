@@ -17,7 +17,7 @@ class PermissionAdmin
             ],
             self::DOCTOR => [
                 'value' => self::DOCTOR,
-                'text' => 'Bác sĩ thú y'
+                'text' => 'Bác sĩ'
             ],
             self::CUSTOMER_CARE => [
                 'value' => self::CUSTOMER_CARE,

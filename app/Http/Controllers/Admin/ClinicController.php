@@ -29,13 +29,11 @@ class ClinicController extends Controller
         $clinics = Clinic::keywordFilter($filter->get('keyword'))->activeFilter($filter->get('active'))->paginate($limit);
         return view('Admin.Clinic.list', compact('title', 'clinics', 'filter'));
     }
-
     public function view_add()
     {
         $title = "Thêm phòng khám";
         return view('Admin.Clinic.add', compact('title'));
     }
-
     public function add(Request $request)
     {
         $province = $this->provinces->getProvinceByCode($request->input('province'));
