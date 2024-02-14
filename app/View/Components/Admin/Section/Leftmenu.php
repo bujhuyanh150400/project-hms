@@ -26,7 +26,7 @@ class Leftmenu extends Component
             ],
             [
                 'title' => 'Quản lý',
-                'icon' => '<i class="bi bi-people"></i>',
+                'icon' => '<i class="bi bi-hospital-fill"></i>',
                 'sub_menu' => [
                     [
                         'title' => 'Nhân sự',
@@ -46,7 +46,22 @@ class Leftmenu extends Component
                     ],
                 ]
             ],
-
+            [
+                'title' => 'Khách hàng',
+                'space_menu' => true,
+            ],
+            [
+                'title' => 'Quản lý khách hàng',
+                'icon' => '<i class="bi bi-people"></i>',
+                'action' => route('customer.list'),
+                'route_name' => 'customer'
+            ],
+            [
+                'title' => 'Quản lý thú cưng',
+                'icon' => '<i class="bi bi-bookmark-heart-fill"></i>',
+                'action' => route('animal.list'),
+                'route_name' => 'animal'
+            ],
         ];
     }
 

@@ -185,6 +185,7 @@ return [
         'PermissionAdmin' => \App\Helper\PermissionAdmin::class,
         'Provinces' => \App\Helper\Provinces::class,
         'UserStatus' => \App\Helper\UserStatus::class,
+        'TypeAnimal' => \App\Helper\TypeAnimal::class,
     ])->toArray(),
 
 ];

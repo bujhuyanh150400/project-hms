@@ -76,7 +76,7 @@ class UsersController extends Controller
             session()->flash('success', 'Lưu trữ dữ liệu thành công!');
             return redirect()->route('users.list');
         } else {
-            session()->flash('error', 'Có lỗi gì đó khi inset database');
+            session()->flash('error', 'Có lỗi gì đó khi insert database');
             return redirect()->back()->withInput();
         }
     }
