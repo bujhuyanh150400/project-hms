@@ -62,6 +62,16 @@ class Leftmenu extends Component
                 'action' => route('animal.list'),
                 'route_name' => 'animal'
             ],
+            [
+                'title' => 'Quản lí khám bệnh',
+                'space_menu' => true,
+            ],
+            [
+                'title' => 'Quản lý giờ khám bệnh',
+                'icon' => '<i class="bi bi-alarm"></i>',
+                'action' => route('bookings.find_list'),
+                'route_name' => 'bookings'
+            ],
         ];
     }
 

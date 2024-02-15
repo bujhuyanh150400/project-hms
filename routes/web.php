@@ -79,4 +79,18 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
             ->name('animal.edit')
             ->whereNumber('id');
     });
+    // Về lịch khám
+    Route::prefix('bookings')->group(function () {
+        Route::get('find_list', [\App\Http\Controllers\Admin\BookingController::class, 'list'])
+            ->name('bookings.find_list');
+        Route::get('list/{user_id}', [\App\Http\Controllers\Admin\BookingController::class, 'list'])
+            ->name('bookings.list')
+            ->whereNumber('user_id');
+        Route::get('view_add/{user_id}', [\App\Http\Controllers\Admin\BookingController::class, 'view_add'])
+            ->name('bookings.view_add')
+            ->whereNumber('user_id');
+        Route::post('add/{user_id}', [\App\Http\Controllers\Admin\BookingController::class, 'add'])
+            ->name('bookings.add')
+            ->whereNumber('user_id');
+    });
 });

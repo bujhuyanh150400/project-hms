@@ -186,6 +186,7 @@ return [
         'Provinces' => \App\Helper\Provinces::class,
         'UserStatus' => \App\Helper\UserStatus::class,
         'TypeAnimal' => \App\Helper\TypeAnimal::class,
+        'TimeType' => \App\Helper\TimeType::class,
     ])->toArray(),
 
 ];

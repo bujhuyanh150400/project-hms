@@ -77,7 +77,13 @@ const app = {
             altFormat: "d-m-Y",
             dateFormat: "Y-m-d",
         });
-
+        flatpickr('.min_today_datepicker', {
+            altInput: true,
+            minDate: "today",
+            enableTime: false, // Tắt chức năng chọn thời gian
+            altFormat: "d-m-Y",
+            dateFormat: "Y-m-d",
+        })
     },
 
 }
