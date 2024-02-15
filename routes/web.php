@@ -81,7 +81,7 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
     });
     // Về lịch khám
     Route::prefix('bookings')->group(function () {
-        Route::get('find_list', [\App\Http\Controllers\Admin\BookingController::class, 'list'])
+        Route::get('find_list', [\App\Http\Controllers\Admin\BookingController::class, 'find_list'])
             ->name('bookings.find_list');
         Route::get('list/{user_id}', [\App\Http\Controllers\Admin\BookingController::class, 'list'])
             ->name('bookings.list')
@@ -92,5 +92,11 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
         Route::post('add/{user_id}', [\App\Http\Controllers\Admin\BookingController::class, 'add'])
             ->name('bookings.add')
             ->whereNumber('user_id');
+        Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\BookingController::class, 'view_edit'])
+            ->name('bookings.view_edit')
+            ->whereNumber('id');
+        Route::put('edit/{id}', [\App\Http\Controllers\Admin\BookingController::class, 'edit'])
+            ->name('bookings.edit')
+            ->whereNumber('id');
     });
 });

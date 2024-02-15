@@ -30,7 +30,7 @@ class UsersController extends Controller
         $limit = $request->input('limit', self::PER_PAGE);
         $users = User::KeywordFilter($filter->get('keyword'))
             ->RoleFilter($filter->get('role'))
-            ->CreatedAtFilter($filter->get('start_date_create') ?? '', $filter->get('end_date_create'))
+            ->CreatedAtFilter($filter->get('start_date_create') ?? '', $filter->get('end_date_create') ?? '')
             ->paginate($limit);
         return view('Admin.Users.list', compact('title', 'users', 'filter'));
     }

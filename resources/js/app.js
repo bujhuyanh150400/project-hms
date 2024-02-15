@@ -77,9 +77,15 @@ const app = {
             altFormat: "d-m-Y",
             dateFormat: "Y-m-d",
         });
-        flatpickr('.min_today_datepicker', {
+        // Tính ngày kết thúc của tuần (7 ngày sau ngày hôm nay)
+        const today = new Date();
+        const endOfWeek = new Date();
+        endOfWeek.setDate(today.getDate() + (7 - today.getDay()));
+        flatpickr('.min_today_datepicker_inline', {
             altInput: true,
+            inline: true, // Hiển thị lịch trực tiếp trên trang
             minDate: "today",
+            maxDate: endOfWeek,
             enableTime: false, // Tắt chức năng chọn thời gian
             altFormat: "d-m-Y",
             dateFormat: "Y-m-d",
