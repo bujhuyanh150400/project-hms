@@ -91,7 +91,7 @@
                         <label for="species" class=" @error('species') form-label-error @else form-label @enderror">
                             Giống
                         </label>
-                        <input type="text" name="species" id="species"
+                        <input type="text" name="species" id="species" value="{{ old('species') }}"
                             class=" @error('species') form-input-error @else form-input @enderror"
                             placeholder="nhập giống loài vào đây" />
                         @error('species')

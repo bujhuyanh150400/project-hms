@@ -46,17 +46,26 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
             ->name('customer.view_add');
         Route::post('add', [\App\Http\Controllers\Admin\CustomerController::class, 'add'])
             ->name('customer.add');
-        Route::get('view/{id}', [\App\Http\Controllers\Admin\CustomerController::class, 'view'])
-            ->name('customer.view')
-            ->whereNumber('id')
-            ->middleware('check.regist.animal');
         Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\CustomerController::class, 'view_edit'])
             ->name('customer.view_edit')
             ->whereNumber('id');
         Route::put('edit/{id}', [\App\Http\Controllers\Admin\CustomerController::class, 'edit'])
             ->name('customer.edit')
             ->whereNumber('id');
-        // Route::delete('deleted/{id}', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'deleted'])->name('specialties.deleted')->whereNumber('id');
+        Route::middleware('check.regist.animal')->group(function () {
+            Route::get('view/{id}', [\App\Http\Controllers\Admin\CustomerController::class, 'view'])
+                ->name('customer.view')
+                ->whereNumber('id');
+            Route::get('find_schedules/{customer_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'find_schedules'])
+                ->name('customer.find_schedules')
+                ->whereNumber('customer_id');
+            Route::get('view_add_schedules/{customer_id}/{user_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'view_add_schedules'])
+                ->name('customer.view_add_schedules')
+                ->whereNumber(['customer_id', 'user_id']);
+            Route::post('add_schedules/{id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'view_add_schedules'])
+                ->name('customer.add_schedules')
+                ->whereNumber('id');
+        });
     });
     Route::prefix('animal')->group(function () {
         Route::get('list', [\App\Http\Controllers\Admin\AnimalController::class, 'list'])
@@ -98,5 +107,11 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
         Route::put('edit/{id}', [\App\Http\Controllers\Admin\BookingController::class, 'edit'])
             ->name('bookings.edit')
             ->whereNumber('id');
+    });
+    Route::prefix('schedules')->group(function () {
+        Route::get('find_list', [\App\Http\Controllers\Admin\SchedulesController::class, 'find_list'])
+            ->name('schedules.find_list');
+        Route::get('list/{user_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'list'])
+            ->name('schedules.list');
     });
 });

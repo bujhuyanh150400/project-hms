@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('ward', 10)->comment('Phường xã của khách hàng');
             $table->string('address')->comment('Địa chỉ cụ thể khách hàng');
             $table->text('description')->nullable()->comment('Mô tả về khách hàng');
-            $table->integer('times')->comment('số lần đến khám');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
         });

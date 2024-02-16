@@ -123,7 +123,7 @@
                                 {{ $customer->animal->count() }}
                             </td>
                             <td class="text-center align-middle">
-                                {{ $customer->times }}
+                                {{ $customer->histories->count() }}
                             </td>
                             <td class="text-center align-middle">
                                 @if (isset($customer->member))
@@ -140,12 +140,16 @@
                             </td>
                             <td>
                                 <div class="flex items-center gap-2">
+                                    <a href="{{ route('customer.find_schedules', ['customer_id' => $customer->id]) }}"
+                                        class="btn-custom btn-icon btn-warning">
+                                        <i class="bi bi-journal-plus"></i> Đặt lịch
+                                    </a>
                                     <a href="{{ route('customer.view', ['id' => $customer->id]) }}"
-                                        class="btn-custom btn-icon btn-success">
+                                        class="btn-custom btn-icon btn-success" title="Xem chi tiết">
                                         <i class="bi bi-info-circle"></i>
                                     </a>
                                     <a href="{{ route('customer.view_edit', ['id' => $customer->id]) }}"
-                                        class="btn-custom btn-icon btn-primary">
+                                        class="btn-custom btn-icon btn-primary" title="Chỉnh sửa">
                                         <i class="bi bi-pen-fill"></i>
                                     </a>
                                 </div>

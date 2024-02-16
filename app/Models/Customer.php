@@ -29,7 +29,6 @@ class Customer extends Model
         'birth',
         'gender',
         'description',
-        'times'
     ];
     public function member()
     {
@@ -38,6 +37,10 @@ class Customer extends Model
     public function animal()
     {
         return $this->hasMany(Animal::class);
+    }
+    public function histories()
+    {
+        return $this->hasMany(Histories::class);
     }
 
     public function scopeKeywordFilter(Builder $query, $keyword = null): void

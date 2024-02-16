@@ -11,14 +11,14 @@ class CheckCustomerHasAnimal
 {
     public function handle(Request $request, Closure $next): Response
     {
-        $customer = Customer::find($request->route('id'));
+        $customer = Customer::find($request->route('customer_id'));
         if (!$customer) {
             session()->flash('error', 'Khách hàng không có trong hệ thống');
             return redirect()->route('customer.list');
         }
         if ($customer->animal->isEmpty()) {
             session()->flash('error', 'Khách hàng này chưa khai báo thú cưng');
-            return redirect()->route('customer.view_add_animal', ['id' => $customer->id]);
+            return redirect()->route('animal.view_add', ['cust_id' => $customer->id]);
         }
         return $next($request);
     }

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name')->comment('Tên chuyên khoa');
             $table->string('logo')->nullable()->comment('Ảnh đại diện chuyên khoa');
             $table->text('description')->nullable()->comment('Mô tả về chuyên khoa');
+            $table->float('price')->nullable()->comment('Phí khám');
+            $table->float('booking_price')->nullable()->comment('Phí đặt lịch');
             $table->smallInteger('active')->default(1)->comment('chuyên khoa có đang hoạt động không: 1 - có| 0 - không');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('specialties');
     }
 };

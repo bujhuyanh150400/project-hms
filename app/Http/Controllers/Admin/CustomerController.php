@@ -31,7 +31,7 @@ class CustomerController extends Controller
         $customers = Customer::KeywordFilter($filter->get('keyword'))
             ->CreatedAtFilter($filter->get('start_date_create') ?? '', $filter->get('end_date_create'))
             ->paginate($limit);
-        return view('Admin.Customer.list', compact('title','filter','customers'));
+        return view('Admin.Customer.list', compact('title', 'filter', 'customers'));
     }
     public function view_add()
     {
@@ -116,7 +116,6 @@ class CustomerController extends Controller
                 'district' => $request->input('district'),
                 'ward' => $request->input('ward'),
                 'address' => $request->input('address'),
-                'times' => 0
             ];
             $customer = Customer::create($dataCustomer);
             if (!$customer) {
