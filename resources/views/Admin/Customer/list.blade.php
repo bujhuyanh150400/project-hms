@@ -141,8 +141,8 @@
                             <td>
                                 <div class="flex items-center gap-2">
                                     <a href="{{ route('customer.find_schedules', ['customer_id' => $customer->id]) }}"
-                                        class="btn-custom btn-icon btn-warning">
-                                        <i class="bi bi-journal-plus"></i> Đặt lịch
+                                        class="btn-custom btn-icon btn-warning" title="Đặt lịch">
+                                        <i class="bi bi-journal-plus"></i>
                                     </a>
                                     <a href="{{ route('customer.view', ['id' => $customer->id]) }}"
                                         class="btn-custom btn-icon btn-success" title="Xem chi tiết">

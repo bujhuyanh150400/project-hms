@@ -89,7 +89,8 @@ const app = {
             enableTime: false, // Tắt chức năng chọn thời gian
             altFormat: "d-m-Y",
             dateFormat: "Y-m-d",
-        })
+        });
+        window.flatpickr = flatpickr;
     },
 
 }

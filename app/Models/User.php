@@ -33,6 +33,21 @@ class User extends Authenticatable
             $query->whereBetween('created_at', [$start_date, $end_date]);
         }
     }
+    public function scopeBookingDateFilter(Builder $query, $date): void
+    {
+        $query->whereHas('booking', function ($query) use ($date) {
+            $query->where('date', $date);
+        });
+    }
+    public function scopeSpecialtyFilter(Builder $query, $id = null): void
+    {
+        if (!empty($id)) {
+            $query->whereHas('specialties', function ($query) use ($id) {
+                $query->where('id', $id);
+            });
+        }
+    }
+
     protected $fillable = [
         'id',
         'email',

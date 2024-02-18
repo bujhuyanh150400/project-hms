@@ -24,6 +24,22 @@ class Booking extends Model
             $query->whereBetween('date', [$start_date, $end_date]);
         }
     }
+    public function scopeFindDate(Builder $query, $date = null)
+    {
+        if (!empty($date)) {
+            $query->where('date', $date);
+        }
+    }
+
+
+    public function scopeSpecialtyUser(Builder $query, $specialty_id = null)
+    {
+        if (!empty($specialty_id)) {
+            $query->whereHas('user', function ($query) use ($specialty_id) {
+                $query->where('specialties_id', $specialty_id);
+            });
+        }
+    }
     public function user()
     {
         return $this->belongsTo(User::class);

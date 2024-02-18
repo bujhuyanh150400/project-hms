@@ -56,7 +56,7 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
             Route::get('view/{id}', [\App\Http\Controllers\Admin\CustomerController::class, 'view'])
                 ->name('customer.view')
                 ->whereNumber('id');
-            Route::get('find_schedules/{customer_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'find_schedules'])
+            Route::match(['get', 'post'], 'find_schedules/{customer_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'find_schedules'])
                 ->name('customer.find_schedules')
                 ->whereNumber('customer_id');
             Route::get('view_add_schedules/{customer_id}/{user_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'view_add_schedules'])
