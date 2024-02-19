@@ -15,6 +15,7 @@ return new class extends Migration
             $table->comment('table dùng để lưu thông tin đăng kí lịch khám của bác sĩ');
             $table->id();
             $table->string('timeType')->comment('Khung giờ đặt lịch');
+            $table->string('timeTypeSelected')->nullable()->comment('Khung giờ khám bệnh đã được chọn');
             $table->timestamp('date')->comment('Ngày khám');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();

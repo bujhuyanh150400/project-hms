@@ -59,12 +59,14 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
             Route::match(['get', 'post'], 'find_schedules/{customer_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'find_schedules'])
                 ->name('customer.find_schedules')
                 ->whereNumber('customer_id');
-            Route::get('view_add_schedules/{customer_id}/{user_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'view_add_schedules'])
-                ->name('customer.view_add_schedules')
-                ->whereNumber(['customer_id', 'user_id']);
-            Route::post('add_schedules/{id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'view_add_schedules'])
-                ->name('customer.add_schedules')
-                ->whereNumber('id');
+            Route::middleware(\App\Http\Middleware\checkSchedule::class)->group(function () {
+                Route::get('view_add_schedules/{customer_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'view_add_schedules'])
+                    ->name('customer.view_add_schedules')
+                    ->whereNumber(['customer_id']);
+                Route::post('add_schedules/{id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'view_add_schedules'])
+                    ->name('customer.add_schedules')
+                    ->whereNumber('id');
+            });
         });
     });
     Route::prefix('animal')->group(function () {

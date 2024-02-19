@@ -93,7 +93,7 @@
                     </div>
                     <a @if ($checkTime) href="{{ route('bookings.view_edit', ['id' => $booking->id]) }}" @endif
                         data-tooltip-target="{{ $booking->id }}"
-                        class="block max-w-sm p-3 cursor-pointer 
+                        class="block p-3 cursor-pointer 
                     bg-white border border-gray-200 rounded-lg shadow 
                     {{ $checkTime ? 'hover:border-blue-400' : 'border-red-400 bg-red-100 text-red-600' }}
                      hover:shadow-lg duration-150 transition-all">

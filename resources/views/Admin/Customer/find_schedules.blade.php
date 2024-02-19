@@ -38,13 +38,13 @@
         <ul class="col-span-1 flex-column space-y space-y-4 text-sm font-medium text-gray-500 ">
             <li>
                 <a @if ($secondStep === true) href="{{ route('customer.find_schedules', ['customer_id' => $customer->id]) }}" @endif
-                    class="inline-flex items-center px-4 py-3 {{ $secondStep === true ? 'bg-gray-50 text-gray-400' : 'text-white bg-blue-600' }}  rounded-lg  w-full">
+                    class="inline-flex items-center px-4 py-3 {{ $secondStep === true ? 'bg-gray-50 text-gray-400 border-2' : 'text-white bg-blue-600' }}  rounded-lg  w-full">
                     Tìm ngày khám
                 </a>
             </li>
             <li>
                 <a
-                    class="inline-flex items-center px-4 py-3 {{ $secondStep === true ? 'text-white bg-blue-600' : 'bg-gray-50 text-gray-400 cursor-not-allowed' }} rounded-lg w-full">
+                    class="inline-flex items-center px-4 py-3 {{ $secondStep === true ? 'text-white bg-blue-600' : 'bg-gray-50 border-2 text-gray-400 cursor-not-allowed' }} rounded-lg w-full">
                     Chọn bác sĩ khám bệnh
                 </a>
             </li>
@@ -107,6 +107,7 @@
                     @foreach ($bookings as $booking)
                         @php
                             $listTimeType = explode(',', $booking->timeType);
+                            $listTimeTypeSelected = explode(',', $booking->timeSelected);
                         @endphp
                         <div
                             class="block max-w-sm p-3  bg-white border border-gray-200 rounded-lg shadow  hover:border-blue-400 hover:shadow-lg duration-150 transition-all">
@@ -117,7 +118,13 @@
                             <p class="font-medium text-xs">Lịch khám:</p>
                             <div class="grid grid-cols-5 gap-2 mt-3">
                                 @foreach ($listTimeType as $timeType)
-                                    <a
+                                    @php($emptyBooking = in_array($timeType, $listTimeTypeSelected) ? false : true)
+                                    <a @if ($emptyBooking === true) href="{{ route('customer.view_add_schedules', [
+                                        'customer_id' => $customer->id,
+                                        'user_id' => $booking->user->id,
+                                        'booking_id' => $booking->id,
+                                        'time_type' => $timeType,
+                                    ]) }}" @endif
                                         class="inline-flex items-center justify-center w-full text-sm font-medium p-1 bg-white border-2 rounded-lg cursor-pointer  border-blue-400 text-blue-600 hover:bg-blue-400 hover:text-white hover:shadow-lg">
                                         {{ TimeType::getList()[$timeType]['start'] }}
                                     </a>
