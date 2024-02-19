@@ -63,9 +63,9 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
                 Route::get('view_add_schedules/{customer_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'view_add_schedules'])
                     ->name('customer.view_add_schedules')
                     ->whereNumber(['customer_id']);
-                Route::post('add_schedules/{id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'view_add_schedules'])
+                Route::post('add_schedules/{customer_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'add_schedules'])
                     ->name('customer.add_schedules')
-                    ->whereNumber('id');
+                    ->whereNumber('customer_id');
             });
         });
     });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Animal;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Specialties;
@@ -60,8 +61,14 @@ class SchedulesController extends Controller
         $title = 'Đặt lịch khám bệnh';
         $timeType = $request->get('time_type');
         $customer = Customer::find($customer_id);
+        $animals = Animal::where('customer_id', $customer_id)->get();
         $user = User::find($request->integer('user_id'));
         $booking = Booking::find($request->integer('booking_id'));
-        return view('Admin.Customer.add_schedules', compact('title', 'customer'));
+        return view('Admin.Customer.add_schedules', compact('title', 'customer', 'timeType', 'user', 'booking', 'animals'));
+    }
+
+    function add_schedules(Request $request, $customer_id)
+    {
+        $validator = Validator::make($request->all(), []);
     }
 }

@@ -111,11 +111,14 @@
                         @endphp
                         <div
                             class="block max-w-sm p-3  bg-white border border-gray-200 rounded-lg shadow  hover:border-blue-400 hover:shadow-lg duration-150 transition-all">
-
-                            <p class="mb-2 text-xs font-bold tracking-tight ">Ngày khám :
-                                {{ \Carbon\Carbon::parse($booking->date)->format('d-m-Y') }}
+                            <p class="mb-2 text-md font-bold tracking-tight ">
+                                {{ UserStatus::getList()[$booking->user->user_status]['text_vn'] }}
+                                {{ $booking->user->name }}
                             </p>
-                            <p class="font-medium text-xs">Lịch khám:</p>
+                            <p class="mb-2 text-xs font-bold tracking-tight ">Chuyên ngành :
+                                {{ $booking->user->specialties->name }}</p>
+                            <p class="font-medium text-xs">Lịch khám:
+                                {{ \Carbon\Carbon::parse($booking->date)->format('d-m-Y') }}</p>
                             <div class="grid grid-cols-5 gap-2 mt-3">
                                 @foreach ($listTimeType as $timeType)
                                     @php($emptyBooking = in_array($timeType, $listTimeTypeSelected) ? false : true)

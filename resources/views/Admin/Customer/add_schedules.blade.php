@@ -1,6 +1,9 @@
 @extends('Admin.Layout.index')
 @section('title', $title)
 
+@section('head')
+    @vite(['resources/js/ckeditor.js'])
+@endsection
 
 @section('body')
     {{-- Navigation --}}
@@ -29,52 +32,70 @@
         </ol>
     </nav>
     {{-- End: Navigation --}}
-    <form class="form-loading-submit" action="{{ route('customer.add_schedules', ['id' => $customer->id]) }}"
+    <form class="form-loading-submit" action="{{ route('customer.add_schedules', ['customer_id' => $customer->id]) }}"
         method="POST">
         @csrf
         @method('POST')
+        <input type="hidden" name="user_id" value="{{ $user->id }}" />
+        <input type="hidden" name="booking_id" value="{{ $booking->id }}" />
+        <input type="hidden" name="time_type" value="{{ $timeType }}" />
         <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow">
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
-                <div class="form-group col-span-2 flex items-center ">
-                    <label for="date" class=" @error('date') form-label-error @else form-label @enderror"> Chọn ngày
-                        khám bệnh</label>
-                    <input type="text" name="date" id="date" value="{{ old('date') }}"
-                        class="min_today_datepicker_inline hidden" placeholder="Nhập ngày khám bệnh">
-                    @error('date')
-                        <span class="form-alert">{{ $message }}</span>
-                    @enderror
+            <div class="grid grid-cols-3 gap-4 mb-4">
+                <div class="col-span-1">
+                    <h1 class="text-xl font-bold mb-3">Thông tin đặt lịch khám bệnh:</h1>
+                    <ul class="space-y-2 text-left">
+                        <li class="flex items-center space-x-2">
+                            <i class="bi bi-check text-xl text-green-500"></i>
+                            <p class="font-medium text-gray-500">Tên bác sĩ: <span
+                                    class="text-black">{{ $user->name }}</span></p>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="bi bi-check text-xl text-green-500"></i>
+                            <p class="font-medium text-gray-500">Chuyên khoa: <span
+                                    class="text-black">{{ $user->specialties->name }}</span></p>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="bi bi-check text-xl text-green-500"></i>
+                            <p class="font-medium text-gray-500">Lịch: <span
+                                    class="text-black">{{ \Carbon\Carbon::parse($booking->date)->format('d-m-Y') }}</span>
+                            </p>
+                        </li>
+                        <li class="flex items-center space-x-2">
+                            <i class="bi bi-check text-xl text-green-500"></i>
+                            <p class="font-medium text-gray-500">Giờ đặt: <span
+                                    class="text-black">{{ TimeType::getList()[$timeType]['start'] }}
+                                </span>
+                            </p>
+                        </li>
+                    </ul>
                 </div>
-                <div class="col-span-3 col-start-3">
+                <div class="col-span-2 space-y-2">
                     <div class="form-group">
-                        <label class=" @error('timeType') form-label-error @else form-label @enderror"> Chọn khung giờ khám
-                            bệnh</label>
-                        <div class="grid grid-cols-4 gap-2">
-                            @foreach (TimeType::getList() as $key_time => $time)
-                                <div>
-                                    <input type="checkbox" name="timeType[]" id="timeType-{{ $key_time }}"
-                                        @if (is_array(old('timeType')) && in_array($time['value'], old('timeType'))) checked @endif value="{{ $time['value'] }}"
-                                        class="hidden peer">
-                                    <label for="timeType-{{ $key_time }}"
-                                        class="inline-flex items-center 
-                                        justify-center w-full p-3 
-                                        text-blue-400 bg-white border-2 
-                                        border-blue-200 rounded-lg cursor-pointer  
-                                        peer-checked:border-blue-600 peer-checked:shadow-md duration-150 transition-all 
-                                        hover:text-blue-600  peer-checked:text-blue-600 hover:bg-blue-50 ">
-                                        <div class="block">
-                                            <div class="w-full text-center align-middle text-lg font-semibold">
-                                                {{ $time['start'] }} -
-                                                {{ $time['end'] }}</div>
-                                        </div>
-                                    </label>
-                                </div>
+                        <label for="animal" class=" @error('animal') form-label-error @else form-label @enderror">Chọn thú
+                            cưng</label>
+                        <select class="form-input" name="animal" id="animal">
+                            <option value="">Chọn thú cưng</option>
+                            @foreach ($animals as $animal)
+                                <option value="{{ $animal->id }}" {{ old('animal') === $animal->id ? 'selected' : '' }}>
+                                    {{ $animal->name }} -
+                                    {{ TypeAnimal::getList()[$animal->type]['text'] }}
+                                    {{ $animal->gender === 1 ? 'Đực' : 'Cái' }} - {{ $animal->species }}
+                                </option>
                             @endforeach
-                        </div>
-                        @error('timeType')
+                        </select>
+                        @error('animal')
                             <span class="form-alert">{{ $message }}</span>
                         @enderror
                     </div>
-
+                    <div class="form-group">
+                        <label for="description"
+                            class=" @error('description') form-label-error @else form-label @enderror">Mô
+                            tả</label>
+                        <textarea class="ckeditor" name="description" id="description">{{ old('description') }}</textarea>
+                        @error('description')
+                            <span class="form-alert">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
             </div>
             <div class="flex justify-end items-center gap-2">
