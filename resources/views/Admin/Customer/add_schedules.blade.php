@@ -1,10 +1,5 @@
 @extends('Admin.Layout.index')
 @section('title', $title)
-
-@section('head')
-    @vite(['resources/js/ckeditor.js'])
-@endsection
-
 @section('body')
     {{-- Navigation --}}
     <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 max-w-fit mb-4"
@@ -76,7 +71,7 @@
                         <select class="form-input" name="animal" id="animal">
                             <option value="">Chọn thú cưng</option>
                             @foreach ($animals as $animal)
-                                <option value="{{ $animal->id }}" {{ old('animal') === $animal->id ? 'selected' : '' }}>
+                                <option value="{{ $animal->id }}" {{ old('animal') == $animal->id ? 'selected' : '' }}>
                                     {{ $animal->name }} -
                                     {{ TypeAnimal::getList()[$animal->type]['text'] }}
                                     {{ $animal->gender === 1 ? 'Đực' : 'Cái' }} - {{ $animal->species }}
@@ -91,7 +86,7 @@
                         <label for="description"
                             class=" @error('description') form-label-error @else form-label @enderror">Mô
                             tả</label>
-                        <textarea class="ckeditor" name="description" id="description">{{ old('description') }}</textarea>
+                        <textarea class="form-input" rows="10" name="description" id="description">{{ old('description') }}</textarea>
                         @error('description')
                             <span class="form-alert">{{ $message }}</span>
                         @enderror

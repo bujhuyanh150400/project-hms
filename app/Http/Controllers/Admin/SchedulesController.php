@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helper\SchedulesStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Animal;
 use App\Models\Booking;
 use App\Models\Customer;
+use App\Models\Schedules;
 use App\Models\Specialties;
 use App\Models\User;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -15,11 +18,32 @@ use Illuminate\Validation\Rule;
 class SchedulesController extends Controller
 {
     //
-
+    const PER_PAGE = 10;
     public function __construct()
     {
     }
 
+    public function find_list(Request $request)
+    {
+        $title = 'Tìm kiếm lịch khám bệnh';
+        $filter = collect($request->input('filter', []));
+        $limit = $request->input('limit', self::PER_PAGE);
+        $users = User::KeywordFilter($filter->get('keyword'))
+            ->RoleFilter($filter->get('role'))
+            ->paginate($limit);
+        return view('Admin.Schedules.find_list', compact('users', 'filter', 'users', 'title'));
+    }
+    public function list(Request $request, $user_id)
+    {
+        $user = User::find($user_id);
+        if ($user) {
+            $filter = collect($request->input('filter', []));
+            $schedule = Schedules::where('user_id',);
+        } else {
+            session()->flash('error', 'Không tìm thấy người dùng!');
+            return redirect()->route('schedules.find_list');
+        }
+    }
     public function find_schedules(Request $request, $customer_id)
     {
         $customer = Customer::find($customer_id);
@@ -69,6 +93,45 @@ class SchedulesController extends Controller
 
     function add_schedules(Request $request, $customer_id)
     {
-        $validator = Validator::make($request->all(), []);
+        $validator = Validator::make($request->all(), [
+            'animal' => [
+                'required',
+                'integer',
+                Rule::exists('animals', 'id')->where(function ($query) use ($customer_id) {
+                    $query->where('customer_id', $customer_id);
+                })
+            ],
+            'description' => 'nullable|min:5',
+        ], [
+            'animal.required' => 'Vui lòng chọn một thú cưng.',
+            'animal.exists' => 'thú cưng không hợp lệ hoặc không thuộc quyền sở hữu của khách hàng.',
+            'description.min' => 'Ghi chú khám phải lớn hơn 5 kí tự.',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $data = [
+            'id' => $this->getIdAsTimestamp(),
+            'timeType' => $request->integer('time_type'),
+            'booking_id' => $request->integer('booking_id'),
+            'description' => $request->input('description'),
+            'animal_id' => $request->integer('animal'),
+            'customer_id' => intval($customer_id),
+            'user_id' => $request->integer('user_id'),
+            'status' =>  SchedulesStatus::ON_SCHEDULES,
+        ];
+        $schedule = Schedules::create($data);
+        if ($schedule) {
+            $booking = Booking::find($request->integer('booking_id'));
+            $timeTypeSelected = empty($booking->timeTypeSelected) ? [] : explode(',', $booking->timeTypeSelected);
+            $timeTypeSelected[] = $request->integer('time_type');
+            $booking->timeTypeSelected = implode(',', $timeTypeSelected);
+            $booking->save();
+            session()->flash('success', 'Đặt lịch thành công!');
+            return redirect()->route('customer.list');
+        } else {
+            session()->flash('error', 'Có lỗi gì đó khi insert database');
+            return redirect()->back()->withInput();
+        }
     }
 }

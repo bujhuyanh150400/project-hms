@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable()->comment('Lý do khám');
             $table->smallInteger('status')->comment('Trạng thái khám bệnh');
             $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->nullable();
             $table->unsignedBigInteger('animal_id')->nullable()->comment('ID của thú cưng đi khám');
             $table->foreign('animal_id')->references('id')->on('animals')->onDelete('cascade');
             $table->unsignedBigInteger('customer_id')->nullable()->comment('ID của bệnh nhân');

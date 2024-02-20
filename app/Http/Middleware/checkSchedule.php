@@ -30,7 +30,7 @@ class checkSchedule
                 session()->flash('error', 'Không có thông tin lịch khám này');
                 return redirect()->route('customer.list');
             }
-            $listTimeTypeSelected = explode(',', $booking->timeSelected);
+            $listTimeTypeSelected = explode(',', $booking->timeTypeSelected);
             if (in_array($request->input('time_type'), $listTimeTypeSelected)) {
                 session()->flash('error', 'Lịch khám này đã có khách hàng khác đặt');
                 return redirect()->route('customer.list');

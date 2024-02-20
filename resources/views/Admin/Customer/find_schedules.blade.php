@@ -107,7 +107,7 @@
                     @foreach ($bookings as $booking)
                         @php
                             $listTimeType = explode(',', $booking->timeType);
-                            $listTimeTypeSelected = explode(',', $booking->timeSelected);
+                            $listTimeTypeSelected = explode(',', $booking->timeTypeSelected);
                         @endphp
                         <div
                             class="block max-w-sm p-3  bg-white border border-gray-200 rounded-lg shadow  hover:border-blue-400 hover:shadow-lg duration-150 transition-all">
@@ -121,14 +121,16 @@
                                 {{ \Carbon\Carbon::parse($booking->date)->format('d-m-Y') }}</p>
                             <div class="grid grid-cols-5 gap-2 mt-3">
                                 @foreach ($listTimeType as $timeType)
-                                    @php($emptyBooking = in_array($timeType, $listTimeTypeSelected) ? false : true)
+                                    @php
+                                        $emptyBooking = in_array($timeType, $listTimeTypeSelected) ? false : true;
+                                    @endphp
                                     <a @if ($emptyBooking === true) href="{{ route('customer.view_add_schedules', [
                                         'customer_id' => $customer->id,
                                         'user_id' => $booking->user->id,
                                         'booking_id' => $booking->id,
                                         'time_type' => $timeType,
                                     ]) }}" @endif
-                                        class="inline-flex items-center justify-center w-full text-sm font-medium p-1 bg-white border-2 rounded-lg cursor-pointer  border-blue-400 text-blue-600 hover:bg-blue-400 hover:text-white hover:shadow-lg">
+                                        class="inline-flex items-center justify-center w-full text-sm font-medium p-1 bg-white border-2 rounded-lg cursor-pointer {{ $emptyBooking === true ? 'border-blue-400 text-blue-600 hover:bg-blue-400 hover:text-white hover:shadow-lg' : 'border-red-400 text-red-600 bg-red-300' }}  ">
                                         {{ TimeType::getList()[$timeType]['start'] }}
                                     </a>
                                 @endforeach

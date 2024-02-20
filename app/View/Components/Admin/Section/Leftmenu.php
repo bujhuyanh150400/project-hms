@@ -67,10 +67,16 @@ class Leftmenu extends Component
                 'space_menu' => true,
             ],
             [
-                'title' => 'Quản lý giờ khám bệnh',
+                'title' => 'Quản lý lịch làm',
                 'icon' => '<i class="bi bi-alarm"></i>',
                 'action' => route('bookings.find_list'),
                 'route_name' => 'bookings'
+            ],
+            [
+                'title' => 'Quản lý lịch khám',
+                'icon' => '<i class="bi bi-card-list"></i>',
+                'action' => route('schedules.find_list'),
+                'route_name' => 'schedules'
             ],
         ];
     }

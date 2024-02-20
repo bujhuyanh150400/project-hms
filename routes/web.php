@@ -114,6 +114,7 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
         Route::get('find_list', [\App\Http\Controllers\Admin\SchedulesController::class, 'find_list'])
             ->name('schedules.find_list');
         Route::get('list/{user_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'list'])
-            ->name('schedules.list');
+            ->name('schedules.list')
+            ->whereNumber('user_id');
     });
 });

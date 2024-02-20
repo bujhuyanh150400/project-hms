@@ -187,6 +187,7 @@ return [
         'UserStatus' => \App\Helper\UserStatus::class,
         'TypeAnimal' => \App\Helper\TypeAnimal::class,
         'TimeType' => \App\Helper\TimeType::class,
+        'SchedulesStatus' => \App\Helper\SchedulesStatus::class,
     ])->toArray(),
 
 ];
