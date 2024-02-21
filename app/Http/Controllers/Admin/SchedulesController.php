@@ -35,15 +35,30 @@ class SchedulesController extends Controller
     }
     public function list(Request $request, $user_id)
     {
+        $title = 'Chi tiết lịch khám';
         $user = User::find($user_id);
         if ($user) {
-            $filter = collect($request->input('filter', []));
-            $schedule = Schedules::where('user_id',);
+            $filter = $request->input('filter', []);
+            if (!isset($filter['start_date_create'])) {
+                $filter['start_date_create'] = now()->startOfWeek();
+            };
+            if (!isset($filter['end_date_create'])) {
+                $filter['end_date_create'] = now()->endOfWeek();
+            };
+            $schedules = Schedules::whereUser($user_id)
+                ->whereCustomer($filter['customer'] ?? null)
+                ->DateFilter([$filter['start_date_create'], $filter['end_date_create']])
+                ->paginate(self::PER_PAGE);
+            return view('Admin.Schedules.list', compact('schedules', 'user', 'filter', 'title'));
         } else {
             session()->flash('error', 'Không tìm thấy người dùng!');
             return redirect()->route('schedules.find_list');
         }
     }
+    public function view($schedule_id)
+    {
+    }
+
     public function find_schedules(Request $request, $customer_id)
     {
         $customer = Customer::find($customer_id);
@@ -79,7 +94,6 @@ class SchedulesController extends Controller
         }
         return view('Admin.Customer.find_schedules', $dataRender);
     }
-
     function view_add_schedules(Request $request, $customer_id)
     {
         $title = 'Đặt lịch khám bệnh';
@@ -90,7 +104,6 @@ class SchedulesController extends Controller
         $booking = Booking::find($request->integer('booking_id'));
         return view('Admin.Customer.add_schedules', compact('title', 'customer', 'timeType', 'user', 'booking', 'animals'));
     }
-
     function add_schedules(Request $request, $customer_id)
     {
         $validator = Validator::make($request->all(), [

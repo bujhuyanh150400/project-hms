@@ -111,10 +111,15 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
             ->whereNumber('id');
     });
     Route::prefix('schedules')->group(function () {
-        Route::get('find_list', [\App\Http\Controllers\Admin\SchedulesController::class, 'find_list'])
-            ->name('schedules.find_list');
-        Route::get('list/{user_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'list'])
-            ->name('schedules.list')
-            ->whereNumber('user_id');
+        Route::controller(\App\Http\Controllers\Admin\SchedulesController::class)->group(function () {
+            Route::get('find_list', 'find_list')
+                ->name('schedules.find_list');
+            Route::get('list/{user_id}', 'list')
+                ->name('schedules.list')
+                ->whereNumber('user_id');
+            Route::get('view/{schedule_id}', 'view')
+                ->name('schedules.view')
+                ->whereNumber('schedule_id');
+        });
     });
 });
