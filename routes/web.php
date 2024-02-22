@@ -2,12 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::middleware('authentication:admin')->prefix('admin')->group(function () {
+Route::middleware('authentication:admin')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/login', [\App\Http\Controllers\Admin\LoginController::class, 'index'])->name('admin.login');
     Route::post('/login-submit', [\App\Http\Controllers\Admin\LoginController::class, 'login'])->name('admin.login-submit');
@@ -37,6 +32,20 @@ Route::middleware('authentication:admin')->prefix('admin')->group(function () {
         Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'view_edit'])->name('specialties.view_edit')->whereNumber('id');
         Route::put('edit/{id}', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'edit'])->name('specialties.edit')->whereNumber('id');
         Route::delete('deleted/{id}', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'deleted'])->name('specialties.deleted')->whereNumber('id');
+    });
+    Route::prefix('type_material')->group(function () {
+        Route::get('list', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_list'])
+            ->name('type_material.list');
+        Route::get('view_add', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_view_add'])
+            ->name('type_material.view_add');
+        Route::post('add', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_add'])
+            ->name('type_material.add');
+        Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_view_edit'])
+            ->name('type_material.view_edit');
+        Route::get('edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_edit'])
+            ->name('type_material.edit');
+        Route::get('deleted/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_deleted'])
+            ->name('type_material.deleted');
     });
     // Về khách hàng
     Route::prefix('customer')->group(function () {

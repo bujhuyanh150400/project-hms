@@ -24,8 +24,6 @@ return new class extends Migration
             $table->smallInteger('active')->default(1)->comment('Phòng khám có đang hoạt động không: 1 - có| 2 - không');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
-            $table->bigInteger('updated_by')->nullable()->comment('Người cập nhật thông tin');
-            $table->bigInteger('created_by')->nullable()->comment('Người tạo thông tin');
         });
     }
 

@@ -25,7 +25,7 @@ class Leftmenu extends Component
                 'space_menu' => true,
             ],
             [
-                'title' => 'Quản lý',
+                'title' => 'Nhân lực',
                 'icon' => '<i class="bi bi-hospital-fill"></i>',
                 'sub_menu' => [
                     [
@@ -43,6 +43,17 @@ class Leftmenu extends Component
                         'title' => 'Chuyên khoa',
                         'route_name' => 'specialties',
                         'action' => route('specialties.list'),
+                    ],
+                ]
+            ],
+            [
+                'title' => 'Quản lý thuốc',
+                'icon' => '<i class="bi bi-box-seam"></i>',
+                'sub_menu' => [
+                    [
+                        'title' => 'Loại vật tư',
+                        'route_name' => 'type_material',
+                        'action' => route('type_material.list'),
                     ],
                 ]
             ],

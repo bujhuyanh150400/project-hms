@@ -27,8 +27,6 @@ class AdminPanelSeeder extends Seeder
             'active' => 1,
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
         ]);
         // Specialties
         DB::table('specialties')->insert([
@@ -39,8 +37,6 @@ class AdminPanelSeeder extends Seeder
             'active' => 1,
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
         ]);
         DB::table('specialties')->insert([
             'id' => 24021016284430,
@@ -50,8 +46,6 @@ class AdminPanelSeeder extends Seeder
             'active' => 1,
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
         ]);
         DB::table('specialties')->insert([
             'id' => 24021016300641,
@@ -61,8 +55,6 @@ class AdminPanelSeeder extends Seeder
             'active' => 1,
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
         ]);
         DB::table('specialties')->insert([
             'id' => 24021016304348,
@@ -72,8 +64,6 @@ class AdminPanelSeeder extends Seeder
             'active' => 1,
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
         ]);
         DB::table('specialties')->insert([
             'id' => 24021016310692,
@@ -83,8 +73,6 @@ class AdminPanelSeeder extends Seeder
             'active' => 1,
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
         ]);
         DB::table('specialties')->insert([
             'id' => 24021016313255,
@@ -94,8 +82,6 @@ class AdminPanelSeeder extends Seeder
             'active' => 1,
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
         ]);
         DB::table('specialties')->insert([
             'id' => 24021016315828,
@@ -105,8 +91,6 @@ class AdminPanelSeeder extends Seeder
             'active' => 1,
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
         ]);
         DB::table('specialties')->insert([
             'id' => 24021016322362,
@@ -116,8 +100,6 @@ class AdminPanelSeeder extends Seeder
             'active' => 1,
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
         ]);
         DB::table('specialties')->insert([
             'id' => 24021016324010,
@@ -127,8 +109,6 @@ class AdminPanelSeeder extends Seeder
             'active' => 1,
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
         ]);
         // Users
         DB::table('users')->insert([
@@ -147,8 +127,6 @@ class AdminPanelSeeder extends Seeder
             'description' => '<p>Bác sĩ Huy Anh học ngành bác sĩ thú y tại trường Đại học Đại Y &nbsp;Tp.Hà Nội khóa 2012-2018. Sau đó, anh trở thành bác sĩ thực hành thú y thú nhỏ tại Bệnh viện từ 2021 đến nay.</p>',
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
             'remember_token' => Str::random(10),
         ]);
         DB::table('users')->insert([
@@ -167,8 +145,6 @@ class AdminPanelSeeder extends Seeder
             'description' => '<p>Bác sĩ Bảo Uyên, vợ bác sĩ Huy Anh, học ngành bác sĩ thú y tại trường Đại học Đại Y &nbsp;Tp.Hà Nội khóa 2012-2018. Sau đó, anh trở thành bác sĩ thực hành thú y thú nhỏ tại Bệnh viện từ 2021 đến nay.</p>',
             'created_at' => now(),
             'updated_at' => now(),
-            'updated_by' => 15042000,
-            'created_by' => 15042000,
             'remember_token' => Str::random(10),
         ]);
     }

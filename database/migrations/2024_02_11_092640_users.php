@@ -27,8 +27,6 @@ return new class extends Migration
             $table->text('description')->nullable()->comment('Mô tả về nhân viên');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
-            $table->bigInteger('updated_by')->nullable()->comment('Người cập nhật thông tin');
-            $table->bigInteger('created_by')->nullable()->comment('Người tạo thông tin');
             $table->unsignedBigInteger('clinic_id')->nullable()->comment('Cơ sở đang ở');
             $table->unsignedBigInteger('specialties_id')->nullable()->comment('Chuyên ngành đang ở');
             $table->foreign('clinic_id')->references('id')->on('clinic')->onDelete('cascade');
