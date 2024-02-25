@@ -88,4 +88,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Booking::class);
     }
+    function warehouse_log()
+    {
+        return $this->hasMany(WarehouseLog::class);
+    }
 }

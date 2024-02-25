@@ -14,6 +14,7 @@ class TypeMaterial extends Model
         'id',
         'name',
         'description',
+        'is_deleted',
         'created_at',
         'updated_at',
     ];

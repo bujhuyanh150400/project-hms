@@ -55,6 +55,11 @@ class Leftmenu extends Component
                         'route_name' => 'type_material',
                         'action' => route('type_material.list'),
                     ],
+                    [
+                        'title' => 'Vật tư',
+                        'route_name' => 'warehouse',
+                        'action' => route('warehouse.list'),
+                    ],
                 ]
             ],
             [

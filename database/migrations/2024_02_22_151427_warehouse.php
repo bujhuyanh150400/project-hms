@@ -16,10 +16,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->string('file');
-            $table->bigInteger('total');
+            $table->string('file')->nullable();
+            $table->string('avatar')->nullable();
+            $table->bigInteger('total')->default(0);
             $table->unsignedBigInteger('type_material_id')->nullable();
             $table->foreign('type_material_id')->references('id')->on('type_material')->onDelete('cascade');
+            $table->unsignedBigInteger('clinic_id')->nullable();
+            $table->foreign('clinic_id')->references('id')->on('clinic')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
         });

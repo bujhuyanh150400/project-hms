@@ -84,4 +84,8 @@ class Clinic extends Model
     {
         return $this->hasMany(User::class);
     }
+    public function warehouse()
+    {
+        return $this->hasMany(WareHouse::class);
+    }
 }

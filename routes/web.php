@@ -42,10 +42,24 @@ Route::middleware('authentication:admin')->group(function () {
             ->name('type_material.add');
         Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_view_edit'])
             ->name('type_material.view_edit');
-        Route::get('edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_edit'])
+        Route::put('edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_edit'])
             ->name('type_material.edit');
-        Route::get('deleted/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_deleted'])
+        Route::put('deleted/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_deleted'])
             ->name('type_material.deleted');
+    });
+    Route::prefix('warehouse')->group(function () {
+        Route::get('list', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_list'])
+            ->name('warehouse.list');
+        Route::get('view_add', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_view_add'])
+            ->name('warehouse.view_add');
+        Route::post('add', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_add'])
+            ->name('warehouse.add');
+        Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_view_add'])
+            ->name('warehouse.view_edit');
+        Route::get('edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_view_add'])
+            ->name('warehouse.edit');
+        Route::get('view/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_view_add'])
+            ->name('warehouse.view');
     });
     // Về khách hàng
     Route::prefix('customer')->group(function () {

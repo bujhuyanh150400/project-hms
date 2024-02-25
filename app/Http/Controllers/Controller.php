@@ -12,7 +12,7 @@ class Controller extends BaseController
 
     const FILE_PATH_ADMIN = 'file_storage/admin/';
 
-
+    const FILE_PATH = 'file_storage';
 
     protected function getIdAsTimestamp(): int
     {
