@@ -10,17 +10,18 @@ class FileController extends Controller
 {
     public function showFile($filepath)
     {
-        /** I have no money to buy a server FTP so I will save file in local, damn so broke
-         * if u want, save in firebase or have money, buy aws
-         */
         $filepath = base64_decode($filepath);
         // Kiểm tra sự tồn tại của file
         if (Storage::exists($filepath)) {
-            // Trả về file dưới dạng response
-            return response()->file(Storage::path($filepath));
+            $extension = pathinfo($filepath, PATHINFO_EXTENSION);
+            $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'svg', 'webp'];
+            if (in_array(strtolower($extension), $imageExtensions)) {
+                return response()->file(Storage::path($filepath));
+            } else {
+                return response()->download(Storage::path($filepath));
+            }
         } else {
-            // Nếu file không tồn tại, trả về 404 Not Found
-            abort(404,'File not found');
+            abort(404, 'File not found');
         }
     }
 }

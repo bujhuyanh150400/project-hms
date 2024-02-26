@@ -132,9 +132,9 @@
                             </td>
                             <td>
                                 <div class="flex items-center gap-2">
-                                    <a href="{{ route('warehouse.view', ['id' => $warehouse->id]) }}"
+                                    <a href="{{ route('warehouse.log', ['id' => $warehouse->id]) }}"
                                         class="btn-custom btn-icon btn-success">
-                                        <i class="bi bi-info-circle"></i>
+                                        <i class="bi bi-card-list"></i> Check log
                                     </a>
                                     <a href="{{ route('warehouse.view_edit', ['id' => $warehouse->id]) }}"
                                         class="btn-custom btn-icon btn-primary">

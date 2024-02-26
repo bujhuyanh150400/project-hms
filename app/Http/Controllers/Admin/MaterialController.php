@@ -145,7 +145,7 @@ class MaterialController extends Controller
             'clinic_id' => ['required', Rule::exists('clinic', 'id')],
             'type_material_id' => ['required', Rule::exists('type_material', 'id')],
             'description' => 'required',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4080',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4080',
         ], [
             'name.required' => 'Tên là trường bắt buộc.',
             'total.required' => 'Số lượng là trường bắt buộc.',
@@ -157,7 +157,7 @@ class MaterialController extends Controller
             'type_material_id.in' => 'Loại vật liệu không tồn tại.',
             'description.required' => 'Mô tả là trường bắt buộc.',
             'avatar.image' => 'Phải là ảnh',
-            'avatar.mimes' => 'Bạn phải chọn các file jpeg,png,jpg,gif,svg',
+            'avatar.mimes' => 'Bạn phải chọn các file jpeg,png,jpg,gif,svg,webp',
             'avatar.max' => 'File tối đa 4080KB',
         ]);
         if ($validator->fails()) {
@@ -173,7 +173,7 @@ class MaterialController extends Controller
         ];
         if ($request->hasFile('file')) {
             $extension = $request->file('file')->extension();
-            $fileName = 'file_' . $data['id'] . '.' . $extension;
+            $fileName = 'file_' . $data['id'] . $request->file('file')->getClientOriginalName();
             $filePath = self::FILE_PATH;
             $Path = $request->file('file')->storeAs($filePath, $fileName);
             $data['file'] = base64_encode($Path);
@@ -204,5 +204,26 @@ class MaterialController extends Controller
             session()->flash('error', 'Có lỗi gì đó khi insert database');
             return redirect()->back()->withInput();
         }
+    }
+
+    public function warehouse_view_edit($id)
+    {
+        $warehouse = WareHouse::find($id);
+        if ($warehouse) {
+            $title = 'Sửa vật tư';
+            $clinics = Clinic::where('active', 1)->get();
+            $type_materials = TypeMaterial::where('is_deleted', 0)->get();
+            if (!empty($warehouse->file)) {
+                $path = base64_decode($warehouse->file);
+                $warehouse->name_file = pathinfo($path, PATHINFO_BASENAME);
+            }
+            return view('Admin.Warehouse.edit', compact('title', 'clinics', 'type_materials', 'warehouse'));
+        } else {
+            session()->flash('error', 'Không tìm thấy vật tư này');
+            return redirect()->route('warehouse.list');
+        }
+    }
+    public function warehouse_log(Request $request, $id)
+    {
     }
 }

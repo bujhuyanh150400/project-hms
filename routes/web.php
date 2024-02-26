@@ -54,12 +54,12 @@ Route::middleware('authentication:admin')->group(function () {
             ->name('warehouse.view_add');
         Route::post('add', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_add'])
             ->name('warehouse.add');
-        Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_view_add'])
+        Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_view_edit'])
             ->name('warehouse.view_edit');
-        Route::get('edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_view_add'])
+        Route::put('edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_edit'])
             ->name('warehouse.edit');
-        Route::get('view/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_view_add'])
-            ->name('warehouse.view');
+        Route::get('log/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_log'])
+            ->name('warehouse.log');
     });
     // Về khách hàng
     Route::prefix('customer')->group(function () {

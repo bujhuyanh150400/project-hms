@@ -31,16 +31,17 @@
         </ol>
     </nav>
     {{-- End: Navigation --}}
-    <form class="form-loading-submit" action="{{ route('warehouse.add') }}" method="POST" enctype="multipart/form-data">
+    <form class="form-loading-submit" action="{{ route('warehouse.edit', ['id' => $warehouse->id]) }}" method="POST"
+        enctype="multipart/form-data">
         @csrf
-        @method('POST')
+        @method('PUT')
         <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow ">
             <div class="grid grid-cols-2 gap-4 mb-4">
                 <div class="flex flex-col gap-2">
                     <div class="form-group">
                         <label for="name" class=" @error('name') form-label-error @else form-label @enderror">Tên vật
                             tư</label>
-                        <input type="text" name="name" id="name" value="{{ old('name') }}"
+                        <input type="text" name="name" id="name" value="{{ old('name', $warehouse->name) }}"
                             class=" @error('name') form-input-error @else form-input @enderror"
                             placeholder="Hãy nhập vào đây">
                         @error('name')
@@ -50,7 +51,8 @@
                     <div class="form-group">
                         <label for="total" class=" @error('total') form-label-error @else form-label @enderror">Số
                             lượng</label>
-                        <input type="number" name="total" min="0" id="total" value="{{ old('total') }}"
+                        <input type="number" name="total" min="0" id="total"
+                            value="{{ old('total', $warehouse->total) }}"
                             class="@error('total') form-input-error @else form-input @enderror"
                             placeholder="Số lượng vật tư">
                         @error('age')
@@ -64,7 +66,7 @@
                             class=" @error('clinic_id') form-input-error @else form-input @enderror">
                             <option value="">chọn cơ sở</option>
                             @foreach ($clinics as $clinic)
-                                <option value="{{ $clinic->id }}" @if ((int) old('clinic_id') === $clinic->id) selected @endif>
+                                <option value="{{ $clinic->id }}" @if ((int) old('clinic_id', $warehouse->clinic_id) === $clinic->id) selected @endif>
                                     {{ $clinic->name }}
                                 </option>
                             @endforeach
@@ -82,7 +84,7 @@
                             class=" @error('type_material_id') form-input-error @else form-input @enderror">
                             <option value="">Lựa chọn</option>
                             @foreach ($type_materials as $type)
-                                <option value="{{ $type->id }}" @if ((int) old('type_material_id') === $type->id) selected @endif>
+                                <option value="{{ $type->id }}" @if ((int) old('type_material_id', $warehouse->type_material_id) === $type->id) selected @endif>
                                     {{ $type->name }}
                                 </option>
                             @endforeach
@@ -95,7 +97,7 @@
                         <label for="description"
                             class=" @error('description') form-label-error @else form-label @enderror">Mô
                             tả</label>
-                        <textarea class="ckeditor" name="description" id="description">{{ old('description') }}</textarea>
+                        <textarea class="ckeditor" name="description" id="description">{{ old('description', $warehouse->description) }}</textarea>
                         @error('description')
                             <span class="form-alert">{{ $message }}</span>
                         @enderror
@@ -107,8 +109,13 @@
                             class="flex items-center gap-2 text-sm font-medium   @error('avatar') text-red-500  @else text-blue-700 @enderror"><i
                                 class="bi bi-image"></i>Ảnh vật tư</label>
                         <div class="w-64 h-64 flex items-center justify-center border-dashed border-4 bg-gray-100 rounded ">
-                            <img id="avatar-preview" class="w-full h-full select-none hidden" src="" />
-                            <i id="icon-preview" class="bi bi-file-earmark-arrow-up-fill text-4xl text-gray-300"></i>
+                            @if (!empty($warehouse->avatar))
+                                <img class="w-full h-full select-none" id="avatar-preview"
+                                    src="{{ route('file.show', ['filepath' => $warehouse->avatar]) }}" />
+                            @else
+                                <img id="avatar-preview" class="w-full h-full select-none hidden" src="" />
+                                <i id="icon-preview" class="bi bi-person text-4xl text-gray-300"></i>
+                            @endif
                         </div>
                         <div class="form-group mt-3">
                             <input
@@ -120,6 +127,11 @@
                             @enderror
                         </div>
                     </div>
+                    <a class="inline-flex items-center justify-start p-2 my-2 gap-2 text-base font-medium text-blue-500 rounded-lg border border-blue-200 bg-gray-50 hover:text-blue-700 hover:bg-gray-100 "
+                        href="{{ route('file.show', ['filepath' => $warehouse->file]) }}">
+                        <i class="bi bi-file-arrow-down-fill text-xl"></i> (Nhấn để download):
+                        {{ $warehouse->name_file }}
+                    </a>
                     <div class="form-group">
                         <div class="form-group">
                             <label for="file"
@@ -136,12 +148,10 @@
                 </div>
             </div>
             <div class="flex justify-end items-center gap-2">
-                <a href="{{ route('animal.list') }}" class="btn-custom btn-default"><i class="bi bi-arrow-left"></i>Quay
+                <a href="{{ route('warehouse.list') }}" class="btn-custom btn-default"><i
+                        class="bi bi-arrow-left"></i>Quay
                     lại</a>
-                <button type="submit" class="btn-custom btn-success"><i class="bi bi-plus"></i>Thêm</button>
-                <button type="submit" name="add_more" value="1" class="btn-custom btn-primary">
-                    <i class="bi bi-plus"></i>Thêm và tiếp tục nhập tiếp
-                </button>
+                <button type="submit" class="btn-custom btn-success"><i class="bi bi-pencil-square"></i>Sửa</button>
             </div>
         </div>
     </form>
