@@ -32,10 +32,13 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        if (Auth::guard('admin')->attempt([
-            'email' => $request->input('email'),
-            'password' => $request->input('password')],
-            $rememberMe)) {
+        if (Auth::guard('admin')->attempt(
+            [
+                'email' => $request->input('email'),
+                'password' => $request->input('password')
+            ],
+            $rememberMe
+        )) {
             $request->session()->regenerate();
             return redirect()->route('admin.dashboard');
         } else {
@@ -43,5 +46,13 @@ class LoginController extends Controller
                 'login' => 'Email hoặc password của bạn không đúng',
             ])->withInput();
         }
+    }
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        // Xóa session hoặc thực hiện bất kỳ xử lý đăng xuất nào khác nếu cần thiết
+        $request->session()->invalidate();
+        // Redirect về trang đăng nhập hoặc bất kỳ trang nào bạn muốn
+        return redirect()->route('admin.login');
     }
 }

@@ -10,7 +10,6 @@ use App\Models\Customer;
 use App\Models\Schedules;
 use App\Models\Specialties;
 use App\Models\User;
-use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -54,9 +53,6 @@ class SchedulesController extends Controller
             session()->flash('error', 'Không tìm thấy người dùng!');
             return redirect()->route('schedules.find_list');
         }
-    }
-    public function view($schedule_id)
-    {
     }
 
     public function find_schedules(Request $request, $customer_id)
@@ -146,5 +142,22 @@ class SchedulesController extends Controller
             session()->flash('error', 'Có lỗi gì đó khi insert database');
             return redirect()->back()->withInput();
         }
+    }
+
+    public function view(Request $request, $schedule_id)
+    {
+        $schedule = Schedules::find($schedule_id);
+        if ($schedule) {
+            $title = 'Chi tiết lịch khám';
+            return view('Admin.Schedules.view', compact('title', 'schedule'));
+        } else {
+            session()->flash('error', 'Không tìm thấy vật tư này');
+            return redirect()->route('warehouse.list');
+        }
+    }
+
+
+    public function change_status_schedule(Request $request, $schedule_id)
+    {
     }
 }

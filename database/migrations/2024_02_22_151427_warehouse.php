@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('file')->nullable();
             $table->string('avatar')->nullable();
             $table->bigInteger('total')->default(0);
+            $table->bigInteger('price')->default(0);
             $table->unsignedBigInteger('type_material_id')->nullable();
             $table->foreign('type_material_id')->references('id')->on('type_material')->onDelete('cascade');
             $table->unsignedBigInteger('clinic_id')->nullable();

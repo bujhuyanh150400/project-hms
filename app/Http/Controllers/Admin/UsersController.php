@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 
 class UsersController extends Controller
 {
@@ -60,7 +59,6 @@ class UsersController extends Controller
             'clinic_id' => $request->integer('clinic_id'),
             'specialties_id' => $request->integer('specialties_id'),
             'user_status' => $request->integer('user_status'),
-            'created_by' => Auth::guard('admin')->user()->id,
         ];
         if ($request->hasFile('avatar')) {
             $extension = $request->file('avatar')->extension();
@@ -125,7 +123,6 @@ class UsersController extends Controller
         $user->specialties_id = $request->integer('specialties_id');
         $user->user_status = $request->integer('user_status');
         $user->description = $request->input('description');
-        $user->updated_by = Auth::guard('admin')->user()->id;
         $user->updated_at = now();
         if ($request->hasFile('avatar')) {
             if (Storage::exists(base64_decode($user->avatar))) {

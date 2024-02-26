@@ -28,6 +28,19 @@ class AdminPanelSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+        DB::table('clinic')->insert([
+            'id' => 24021008224642,
+            'name' => 'Cơ sở Phạm Tuấn Tài 2',
+            'province' => '01',
+            'district' => '005',
+            'ward' => '00167',
+            'address' => 'Số 52, Phạm Tuấn Tài',
+            'logo' => null,
+            'description' => '<h2><strong>CHÚNG TÔI LÀ AI?</strong></h2><p>Thành lập tháng 11/2011, cho đến nay 2Vet đã trở thành hệ thống thú y thuộc TOP 3 uy tín nhất tại Việt Nam, với 15 chi nhánh cùng hơn 100 cán bộ y bác sĩ trên khắp 3 miền Tổ quốc. Đến nay chúng tôi đã có trên 200000 khách hàng, 55 đối tác chiến lược và 60 nhà cung ứng tin cậy. Hệ sinh thái của 2Vet bao gồm 5 lĩnh vực: Bệnh viện thú cưng (2Vet Hospital), Phụ kiện và thức ăn thú cưng (2Vet Petshop), Làm đẹp và khách sạn thú cưng (2Vet Grooming), Bệnh viện online (2Vet Online), Đào tạo và chuyển giao công nghệ (2Vet Education). Đến với 2Vet, khách hàng sẽ được đáp ứng dịch vụ thú cưng toàn diện với chất lượng cao.</p><p>Ngay từ những ngày đầu thành lập, 2Vet đã định hình trở thành một trong những hệ thống thú cưng hàng đầu tại Việt Nam với hình ảnh: Uy tín – Chất lượng – Tiên phong. Điểm mạnh nhất của 2Vet là đội ngũ nhân sự tài năng, năng động, nhiệt huyết với nghề, dựa trên giá trị cốt lõi “con người đi trước”, nơi nhân sự được làm việc trong môi trường tôn trọng, chuyên nghiệp và đầy lòng nhân ái.</p><p>2Vet – Thú Cưng Là Thượng Đế</p><p>Office: Số 52, Phạm Tuấn Tài, Cầu Giấy</p>',
+            'active' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
         // Specialties
         DB::table('specialties')->insert([
             'id' => 24021016293164,
@@ -124,6 +137,7 @@ class AdminPanelSeeder extends Seeder
             'permission' => 16,
             'clinic_id' => 24021008224354,
             'specialties_id' => 24021016322362,
+            'examination_price' => 0,
             'description' => '<p>Bác sĩ Huy Anh học ngành bác sĩ thú y tại trường Đại học Đại Y &nbsp;Tp.Hà Nội khóa 2012-2018. Sau đó, anh trở thành bác sĩ thực hành thú y thú nhỏ tại Bệnh viện từ 2021 đến nay.</p>',
             'created_at' => now(),
             'updated_at' => now(),
@@ -136,13 +150,33 @@ class AdminPanelSeeder extends Seeder
             'password' => '$2y$12$I4FseFYK2HRptild0.CPNOabBBHHGu.vMD7ro3OPFpfzIusE1eTku', // su30mk2v
             'birth' => '2000-04-15 00:00:00',
             'address' => 'VN',
-            'gender' => 1,
+            'gender' => 2,
             'user_status' => 15,
             'phone' => '0345871628',
             'permission' => 16,
             'clinic_id' => 24021008224354,
             'specialties_id' => 24021016322362,
+            'examination_price' => 0,
             'description' => '<p>Bác sĩ Bảo Uyên, vợ bác sĩ Huy Anh, học ngành bác sĩ thú y tại trường Đại học Đại Y &nbsp;Tp.Hà Nội khóa 2012-2018. Sau đó, anh trở thành bác sĩ thực hành thú y thú nhỏ tại Bệnh viện từ 2021 đến nay.</p>',
+            'created_at' => now(),
+            'updated_at' => now(),
+            'remember_token' => Str::random(10),
+        ]);
+        DB::table('users')->insert([
+            'id' => intval(date('ymdHis') . rand(10, 99)),
+            'name' => 'Ngạc Bảo Uyên 2',
+            'email' => 'uyenpi1613@gmail.com',
+            'password' => '$2y$12$I4FseFYK2HRptild0.CPNOabBBHHGu.vMD7ro3OPFpfzIusE1eTku', // su30mk2v
+            'birth' => '2000-04-15 00:00:00',
+            'address' => 'VN',
+            'gender' => 1,
+            'user_status' => 15,
+            'examination_price' => 150000,
+            'phone' => '0345871628',
+            'permission' => 04,
+            'clinic_id' => 24021008224354,
+            'specialties_id' => 24021016322362,
+            'description' => '<p>Bác sĩ Bảo Uyên 2, vợ bác sĩ Huy Anh Manager, học ngành bác sĩ thú y tại trường Đại học Đại Y &nbsp;Tp.Hà Nội khóa 2012-2018. Sau đó, anh trở thành bác sĩ thực hành thú y thú nhỏ tại Bệnh viện từ 2021 đến nay.</p>',
             'created_at' => now(),
             'updated_at' => now(),
             'remember_token' => Str::random(10),

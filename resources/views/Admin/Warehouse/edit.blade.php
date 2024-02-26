@@ -127,11 +127,13 @@
                             @enderror
                         </div>
                     </div>
-                    <a class="inline-flex items-center justify-start p-2 my-2 gap-2 text-base font-medium text-blue-500 rounded-lg border border-blue-200 bg-gray-50 hover:text-blue-700 hover:bg-gray-100 "
-                        href="{{ route('file.show', ['filepath' => $warehouse->file]) }}">
-                        <i class="bi bi-file-arrow-down-fill text-xl"></i> (Nhấn để download):
-                        {{ $warehouse->name_file }}
-                    </a>
+                    @if (!empty($warehouse->file))
+                        <a class="inline-flex items-center justify-start p-2 my-2 gap-2 text-base font-medium text-blue-500 rounded-lg border border-blue-200 bg-gray-50 hover:text-blue-700 hover:bg-gray-100 "
+                            href="{{ route('file.show', ['filepath' => $warehouse->file]) }}">
+                            <i class="bi bi-file-arrow-down-fill text-xl"></i> (Nhấn để download):
+                            {{ $warehouse->name_file }}
+                        </a>
+                    @endif
                     <div class="form-group">
                         <div class="form-group">
                             <label for="file"

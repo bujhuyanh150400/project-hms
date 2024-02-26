@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class MaterialController extends Controller
 {
@@ -223,7 +224,91 @@ class MaterialController extends Controller
             return redirect()->route('warehouse.list');
         }
     }
+    public function warehouse_edit(Request $request, $id)
+    {
+        $warehouse = WareHouse::find($id);
+        if ($warehouse) {
+            $validator = Validator::make(
+                $request->all(),
+                [
+                    'name' => 'required',
+                    'total' => 'required|integer|min:0',
+                    'clinic_id' => ['required', Rule::exists('clinic', 'id')],
+                    'type_material_id' => ['required', Rule::exists('type_material', 'id')],
+                    'description' => 'required',
+                    'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4080',
+                ],
+                [
+                    'name.required' => 'Tên là trường bắt buộc.',
+                    'total.required' => 'Số lượng là trường bắt buộc.',
+                    'total.integer' => 'Số lượng  phải là số nguyên.',
+                    'total.min' => 'Số lượng  phải lớn hơn hoặc bằng 0.',
+                    'clinic_id.required' => 'Phòng khám là trường bắt buộc.',
+                    'clinic_id.exists' => 'Phòng khám không tồn tại.',
+                    'type_material_id.required' => 'Loại vật liệu là trường bắt buộc.',
+                    'type_material_id.in' => 'Loại vật liệu không tồn tại.',
+                    'description.required' => 'Mô tả là trường bắt buộc.',
+                    'avatar.image' => 'Phải là ảnh',
+                    'avatar.mimes' => 'Bạn phải chọn các file jpeg,png,jpg,gif,svg,webp',
+                    'avatar.max' => 'File tối đa 4080KB',
+                ]
+            );
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            $warehouse->name = $request->input('name');
+            $warehouse->total = $request->integer('total');
+            $warehouse->clinic_id = $request->integer('clinic_id');
+            $warehouse->type_material_id = $request->integer('type_material_id');
+            $warehouse->description = $request->input('description');
+            if ($request->hasFile('file')) {
+                if (Storage::exists(base64_decode($warehouse->file))) {
+                    Storage::delete(base64_decode($warehouse->file));
+                }
+                $extension = $request->file('file')->extension();
+                $fileName = 'file_' . $warehouse['id'] . $request->file('file')->getClientOriginalName();
+                $filePath = self::FILE_PATH;
+                $Path = $request->file('file')->storeAs($filePath, $fileName);
+                $warehouse->file = base64_encode($Path);
+            }
+            if ($request->hasFile('avatar')) {
+                if (Storage::exists(base64_decode($warehouse->avatar))) {
+                    Storage::delete(base64_decode($warehouse->avatar));
+                }
+                $extension = $request->file('avatar')->extension();
+                $fileName = 'avatar_' . $warehouse->id . '.' . $extension;
+                $filePath = self::FILE_PATH;
+                $avatarPath = $request->file('avatar')->storeAs($filePath, $fileName);
+                $warehouse->avatar = base64_encode($avatarPath);
+            }
+            $status = $warehouse->save();
+            if ($status) {
+                $data_log = [
+                    'id' => $this->getIdAsTimestamp(),
+                    'description' => 'Nhân sự ' . Auth::guard('admin')->user()->name . ' Đã thay đổi vật tư vào lúc ' . now(),
+                    'user_id' => Auth::guard('admin')->user()->id,
+                    'warehouse_id' => $warehouse->id
+                ];
+                WareHouseLog::create($data_log);
+                session()->flash('success', 'Lưu trữ dữ liệu thành công!');
+                return redirect()->route('warehouse.list');
+            }
+        } else {
+            session()->flash('error', 'Không tìm thấy vật tư này');
+            return redirect()->route('warehouse.list');
+        }
+    }
+
     public function warehouse_log(Request $request, $id)
     {
+        $warehouse = WareHouse::find($id);
+        if ($warehouse) {
+            $title = 'Log vật tư';
+            $warehouse_logs = WareHouseLog::paginate(self::PER_PAGE);
+            return view('Admin.Warehouse.log', compact('title', 'warehouse_logs', 'warehouse'));
+        } else {
+            session()->flash('error', 'Không tìm thấy vật tư này');
+            return redirect()->route('warehouse.list');
+        }
     }
 }

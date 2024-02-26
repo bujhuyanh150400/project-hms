@@ -1,10 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckPermission;
 
 Route::middleware('authentication:admin')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/login', [\App\Http\Controllers\Admin\LoginController::class, 'index'])->name('admin.login');
+    Route::post('/logout', [\App\Http\Controllers\Admin\LoginController::class, 'logout'])->name('admin.logout');
     Route::post('/login-submit', [\App\Http\Controllers\Admin\LoginController::class, 'login'])->name('admin.login-submit');
     Route::get('/file/{filepath}', [\App\Http\Controllers\Admin\FileController::class, 'showFile'])->name('file.show');
     // Điều hành
@@ -140,8 +142,11 @@ Route::middleware('authentication:admin')->group(function () {
             Route::get('list/{user_id}', 'list')
                 ->name('schedules.list')
                 ->whereNumber('user_id');
-            Route::get('view/{schedule_id}', 'view')
+            Route::match(['get', 'post'], 'view/{schedule_id}', 'view')
                 ->name('schedules.view')
+                ->whereNumber('schedule_id');
+            Route::get('change_status_schedule/{schedule_id}', 'change_status_schedule')
+                ->name('schedules.change_status_schedule')
                 ->whereNumber('schedule_id');
         });
     });

@@ -27,79 +27,94 @@
         </ol>
     </nav>
     {{-- End: Navigation --}}
-    <form class="form-loading-submit" action="{{ route('customer.add_schedules', ['customer_id' => $customer->id]) }}"
-        method="POST">
-        @csrf
-        @method('POST')
-        <input type="hidden" name="user_id" value="{{ $user->id }}" />
-        <input type="hidden" name="booking_id" value="{{ $booking->id }}" />
-        <input type="hidden" name="time_type" value="{{ $timeType }}" />
-        <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow">
-            <div class="grid grid-cols-3 gap-4 mb-4">
-                <div class="col-span-1">
-                    <h1 class="text-xl font-bold mb-3">Thông tin đặt lịch khám bệnh:</h1>
-                    <ul class="space-y-2 text-left">
-                        <li class="flex items-center space-x-2">
-                            <i class="bi bi-check text-xl text-green-500"></i>
-                            <p class="font-medium text-gray-500">Tên bác sĩ: <span
-                                    class="text-black">{{ $user->name }}</span></p>
-                        </li>
-                        <li class="flex items-center space-x-2">
-                            <i class="bi bi-check text-xl text-green-500"></i>
-                            <p class="font-medium text-gray-500">Chuyên khoa: <span
-                                    class="text-black">{{ $user->specialties->name }}</span></p>
-                        </li>
-                        <li class="flex items-center space-x-2">
-                            <i class="bi bi-check text-xl text-green-500"></i>
-                            <p class="font-medium text-gray-500">Lịch: <span
-                                    class="text-black">{{ \Carbon\Carbon::parse($booking->date)->format('d-m-Y') }}</span>
-                            </p>
-                        </li>
-                        <li class="flex items-center space-x-2">
-                            <i class="bi bi-check text-xl text-green-500"></i>
-                            <p class="font-medium text-gray-500">Giờ đặt: <span
-                                    class="text-black">{{ TimeType::getList()[$timeType]['start'] }}
-                                </span>
-                            </p>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-span-2 space-y-2">
-                    <div class="form-group">
-                        <label for="animal" class=" @error('animal') form-label-error @else form-label @enderror">Chọn thú
-                            cưng</label>
-                        <select class="form-input" name="animal" id="animal">
-                            <option value="">Chọn thú cưng</option>
-                            @foreach ($animals as $animal)
-                                <option value="{{ $animal->id }}" {{ old('animal') == $animal->id ? 'selected' : '' }}>
-                                    {{ $animal->name }} -
-                                    {{ TypeAnimal::getList()[$animal->type]['text'] }}
-                                    {{ $animal->gender === 1 ? 'Đực' : 'Cái' }} - {{ $animal->species }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('animal')
-                            <span class="form-alert">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="description"
-                            class=" @error('description') form-label-error @else form-label @enderror">Mô
-                            tả</label>
-                        <textarea class="form-input" rows="10" name="description" id="description">{{ old('description') }}</textarea>
-                        @error('description')
-                            <span class="form-alert">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
+    <div class="grid grid-cols-4 gap-4 mb-4">
+        <div class="col-span-1 flex flex-col gap-2">
+            <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow">
+                <h1 class="text-xl font-bold mb-3">Thông tin bác sĩ:</h1>
+                <ul class="space-y-2 text-left">
+                    <li class="flex items-center space-x-2">
+                        <i class="bi bi-check text-xl text-green-500"></i>
+                        <p class="font-medium text-gray-500">Tên bác sĩ: <span
+                                class="text-black">{{ $schedule->user->name }}</span></p>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i class="bi bi-check text-xl text-green-500"></i>
+                        <p class="font-medium text-gray-500">Chuyên khoa: <span
+                                class="text-black">{{ $schedule->user->specialties->name }}</span></p>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i class="bi bi-check text-xl text-green-500"></i>
+                        <p class="font-medium text-gray-500">Lịch:
+                            <span
+                                class="text-black">{{ \Carbon\Carbon::parse($schedule->booking->date)->format('d-m-Y') }}</span>
+                        </p>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i class="bi bi-check text-xl text-green-500"></i>
+                        <p class="font-medium text-gray-500">Giờ đặt: <span
+                                class="text-black">{{ TimeType::getList()[$schedule->timeType]['start'] }}
+                            </span>
+                        </p>
+                    </li>
+                </ul>
             </div>
-            <div class="flex justify-end items-center gap-2">
-                <a href="{{ route('customer.list') }}" class="btn-custom btn-default"><i class="bi bi-arrow-left"></i>Quay
-                    lại</a>
-                <button type="submit" class="btn-custom btn-success"><i class="bi bi-plus"></i>Thêm</button>
+            <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow">
+                <h1 class="text-xl font-bold mb-3">Thông tin về thú cưng:</h1>
+                <ul class="space-y-2 text-left">
+                    <li class="flex items-center space-x-2">
+                        <i class="bi bi-check text-xl text-green-500"></i>
+                        <p class="font-medium text-gray-500">Tên chủ vật nuôi: <span
+                                class="text-black">{{ $schedule->customer->name }} -
+                                {{ $schedule->customer->gender === 1 ? 'Nam' : 'Nữ' }}</span></p>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i class="bi bi-check text-xl text-green-500"></i>
+                        <p class="font-medium text-gray-500">Tên vật nuôi: <span
+                                class="text-black">{{ $schedule->animal->name }}</span></p>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i class="bi bi-check text-xl text-green-500"></i>
+                        <p class="font-medium text-gray-500">Loại thú cưng:
+                            <span class="text-black">{{ TypeAnimal::getList()[$schedule->animal->type]['text'] }}</span>
+                        </p>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i class="bi bi-check text-xl text-green-500"></i>
+                        <p class="font-medium text-gray-500">Giống thú cưng: <span
+                                class="text-black">{{ $schedule->animal->species }}</span>
+                        </p>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i class="bi bi-check text-xl text-green-500"></i>
+                        <p class="font-medium text-gray-500">Thú cưng bao tuổi: <span
+                                class="text-black">{{ $schedule->animal->age }} tuổi</span>
+                        </p>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <i class="bi bi-check text-xl text-green-500"></i>
+                        <p class="font-medium text-gray-500">Ghi chú khi khám: </p>
+                    </li>
+                    <li class="form-group">
+                        <textarea class="form-input" rows="5" disabled>{{ !empty($schedule->description) ? $schedule->description : 'Không có ghi chú' }} </textarea>
+                    </li>
+                </ul>
             </div>
         </div>
-    </form>
+        <div class="col-span-3 w-full p-4 bg-white border border-gray-200 rounded-lg shadow">
+            <form class="form-loading-submit" action="{{ route('schedules.view', ['schedule_id' => $schedule->id]) }}"
+                method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('POST')
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="flex flex-col gap-2">
+                        
+                    </div>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
 @endsection
 @section('scripts')
     <script type="module">

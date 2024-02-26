@@ -72,9 +72,6 @@
                 <x-slot:header>
                     <tr>
                         <th>
-                            ID
-                        </th>
-                        <th>
                             Tên vật tư
                         </th>
                         <th>
@@ -82,6 +79,9 @@
                         </th>
                         <th width="150px">
                             Ảnh
+                        </th>
+                        <th>
+                            File đính kèm
                         </th>
                         <th>
                             Mô tả
@@ -102,9 +102,6 @@
                     @foreach ($warehouses as $warehouse)
                         <tr>
                             <td class="text-start align-middle">
-                                {{ $warehouse->id }}
-                            </td>
-                            <td class="text-start align-middle">
                                 {{ $warehouse->name }}
                             </td>
                             <td class="text-start align-middle">
@@ -117,6 +114,17 @@
                                         alt="avatar logo" />
                                 @else
                                     <b class="">Vật tư ko có ảnh</b>
+                                @endif
+                            </td>
+                            <td class="text-start align-middle">
+                                @if (!empty($warehouse->file))
+                                    <a class="inline-flex items-center justify-start p-2 my-2 gap-2 text-base font-medium text-blue-500 rounded-lg border border-blue-200 bg-gray-50 hover:text-blue-700 hover:bg-gray-100 "
+                                        href="{{ route('file.show', ['filepath' => $warehouse->file]) }}">
+                                        <i class="bi bi-file-arrow-down-fill text-xl"></i>
+                                        Nhấn để download
+                                    </a>
+                                @else
+                                    <b class="">Vật tư ko có file đính kèm</b>
                                 @endif
                             </td>
                             <td class="text-start align-middle">

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->smallInteger('permission')->comment('Phân quyền trong Admin: 16 - Admin | 12 - Bác sĩ | 99 - CSKH');
             $table->smallInteger('user_status')->comment('Chức vụ nhân viên - trong userStatus');
             $table->text('description')->nullable()->comment('Mô tả về nhân viên');
+            $table->bigInteger('examination_price')->nullable()->comment('Giá khám của bác sĩ tương ứng với mỗi lần khám');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->unsignedBigInteger('clinic_id')->nullable()->comment('Cơ sở đang ở');

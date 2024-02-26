@@ -131,8 +131,6 @@
                     </a>
                 @endforeach
             </div>
-
-
             {!! $schedules->links() !!}
         @else
             <div class="flex items-center gap-2 p-4 mb-4 text-sm text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50"

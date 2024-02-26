@@ -19,6 +19,7 @@ class WareHouse extends Model
         'clinic_id',
         'type_material_id',
         'file',
+        'price',
         'avatar'
     ];
 

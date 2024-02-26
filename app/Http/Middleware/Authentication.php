@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Authentication
 {
-    public function handle(Request $request, Closure $next, $guard = 'customer'): Response
+    public function handle(Request $request, Closure $next, $guard = 'admin'): Response
     {
         if (Auth::guard($guard)->check()) {
             if ($request->route()->getName() === 'admin.login'){
