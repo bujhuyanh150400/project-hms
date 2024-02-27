@@ -23,7 +23,7 @@ class UserStatus
             ],
             self::DIRECTOR => [
                 'value' => self::DIRECTOR,
-                'text_vn' => 'Giám đóc'
+                'text_vn' => 'Bác sĩ chuyên khoa'
             ],
             self::EMPLOYEE => [
                 'value' => self::EMPLOYEE,

@@ -38,23 +38,25 @@
                     <select id="filter[type_material]" name="filter[type_material]" class="form-input">
                         <option value="">Chọn</option>
                         @foreach ($type_materials as $type)
-                            <option value="{{ $type->id }}" @if ((int) old('filter.active', $filter['active'] ?? '') === $type->id) selected @endif>
+                            <option value="{{ $type->id }}" @if ((int) old('filter.type_material', $filter['type_material'] ?? '') === $type->id) selected @endif>
                                 {{ $type->name }}
                             </option>
                         @endforeach
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-label" for="active">Thuộc cơ sở</label>
-                    <select id="filter[clinic]" name="filter[clinic]" class="form-input">
-                        <option value="">Chọn</option>
-                        @foreach ($clinics as $clinic)
-                            <option value="{{ $clinic->id }}" @if ((int) old('filter.clinic', $filter['clinic'] ?? '') === $clinic->id) selected @endif>
-                                {{ $clinic->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+                @if ($userLogin->permission === PermissionAdmin::ADMIN)
+                    <div class="form-group">
+                        <label class="form-label" for="active">Thuộc cơ sở</label>
+                        <select id="filter[clinic]" name="filter[clinic]" class="form-input">
+                            <option value="">Chọn</option>
+                            @foreach ($clinics as $clinic)
+                                <option value="{{ $clinic->id }}" @if ((int) old('filter.clinic', $filter['clinic'] ?? '') === $clinic->id) selected @endif>
+                                    {{ $clinic->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
             </div>
             <div class="flex items-center gap-3">
                 <button type="submit" class="btn-custom btn-primary"><i class="bi bi-search"></i>Tìm kiếm</button>
@@ -93,9 +95,14 @@
                         <th>
                             Thuộc cơ sở
                         </th>
-                        <th>
-                            Action
-                        </th>
+                        @if (
+                            $userLogin->permission === PermissionAdmin::ADMIN ||
+                                $userLogin->permission === PermissionAdmin::MANAGER ||
+                                $userLogin->permission === PermissionAdmin::TAKE_CARE)
+                            <th>
+                                Action
+                            </th>
+                        @endif
                     </tr>
                 </x-slot:header>
                 <x-slot:body>
@@ -138,18 +145,31 @@
                             <td class="text-start align-middle">
                                 {{ $warehouse->clinic->name }}
                             </td>
-                            <td>
-                                <div class="flex items-center gap-2">
-                                    <a href="{{ route('warehouse.log', ['id' => $warehouse->id]) }}"
-                                        class="btn-custom btn-icon btn-success">
-                                        <i class="bi bi-card-list"></i> Check log
-                                    </a>
-                                    <a href="{{ route('warehouse.view_edit', ['id' => $warehouse->id]) }}"
-                                        class="btn-custom btn-icon btn-primary">
-                                        <i class="bi bi-pen-fill"></i>
-                                    </a>
-                                </div>
-                            </td>
+                            @if (
+                                $userLogin->permission === PermissionAdmin::ADMIN ||
+                                    $userLogin->permission === PermissionAdmin::MANAGER ||
+                                    $userLogin->permission === PermissionAdmin::TAKE_CARE)
+                                <td>
+                                    <div class="flex items-center gap-2">
+                                        @if ($userLogin->permission === PermissionAdmin::ADMIN || $userLogin->permission === PermissionAdmin::MANAGER)
+                                            <a href="{{ route('warehouse.log', ['id' => $warehouse->id]) }}"
+                                                class="btn-custom btn-icon btn-success">
+                                                <i class="bi bi-card-list"></i> Check log
+                                            </a>
+                                            <a href="{{ route('warehouse.view_edit', ['id' => $warehouse->id]) }}"
+                                                class="btn-custom btn-icon btn-primary">
+                                                <i class="bi bi-pen-fill"></i>
+                                            </a>
+                                        @else
+                                            <a href="{{ route('warehouse.view_edit_total', ['id' => $warehouse->id]) }}"
+                                                class="btn-custom btn-icon btn-success">
+                                                <i class="bi bi-plus"></i> Sửa số lượng
+                                            </a>
+                                        @endif
+
+                                    </div>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </x-slot:body>

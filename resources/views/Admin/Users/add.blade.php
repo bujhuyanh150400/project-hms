@@ -99,7 +99,7 @@
                     <div class="form-group">
                         <label for="phone" class=" @error('phone') form-label-error @else form-label @enderror"><i
                                 class="bi bi-phone"></i>Điện thoại</label>
-                        <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
+                        <input type="text" name="phone" id="phone" value="{{ old('phone') }}"
                             class=" @error('phone') form-input-error @else form-input @enderror"
                             placeholder="Hãy nhập vào đây">
                         @error('phone')
@@ -212,6 +212,18 @@
                             tả</label>
                         <textarea class="ckeditor" name="description" id="description">{{ old('description') }}</textarea>
                         @error('description')
+                            <span class="form-alert">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group mt-4">
+                        <label for="examination_price"
+                            class=" @error('examination_price') form-label-error @else form-label @enderror">Tiền
+                            giá khám mỗi lần khám (VND)</label>
+                        <input type="number" min="0" name="examination_price" id="examination_price"
+                            value="{{ old('examination_price', 0) }}"
+                            class="@error('examination_price') form-input-error @else form-input @enderror"
+                            placeholder="Giá tiền">
+                        @error('examination_price')
                             <span class="form-alert">{{ $message }}</span>
                         @enderror
                     </div>

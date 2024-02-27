@@ -57,22 +57,25 @@
                             <span class="form-alert">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="clinic_id" class=" @error('clinic_id') form-label-error @else form-label @enderror">Vật
-                            tư cho cơ sở nào</label>
-                        <select name="clinic_id" id="clinic_id"
-                            class=" @error('clinic_id') form-input-error @else form-input @enderror">
-                            <option value="">chọn cơ sở</option>
-                            @foreach ($clinics as $clinic)
-                                <option value="{{ $clinic->id }}" @if ((int) old('clinic_id') === $clinic->id) selected @endif>
-                                    {{ $clinic->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('clinic_id')
-                            <span class="form-alert">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    @if ($userLogin->permission === PermissionAdmin::ADMIN)
+                        <div class="form-group">
+                            <label for="clinic_id"
+                                class=" @error('clinic_id') form-label-error @else form-label @enderror">Vật
+                                tư cho cơ sở nào</label>
+                            <select name="clinic_id" id="clinic_id"
+                                class=" @error('clinic_id') form-input-error @else form-input @enderror">
+                                <option value="">chọn cơ sở</option>
+                                @foreach ($clinics as $clinic)
+                                    <option value="{{ $clinic->id }}" @if ((int) old('clinic_id') === $clinic->id) selected @endif>
+                                        {{ $clinic->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('clinic_id')
+                                <span class="form-alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    @endif
                     <div class="form-group">
                         <label for="type_material_id"
                             class=" @error('type_material_id') form-label-error @else form-label @enderror">
@@ -135,9 +138,31 @@
                     </div>
                 </div>
             </div>
+            <div class="form-group my-4">
+                <div id="description_log_tooltip" role="tooltip"
+                    class="absolute z-50 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
+                    Mỗi lần chỉnh sửa hay thêm mới sẽ vật tư sẽ được ghi lại và bên quản lý sẽ xem , bạn hãy ghi chú đầy đủ
+                    về sửa hay nhập vật tư
+                    <div class="tooltip-arrow" data-popper-arrow></div>
+                </div>
+                <label for="description_log"
+                    class=" @error('description_log') form-label-error @else form-label @enderror">
+                    Ghi chú về phần thêm mới
+                    <span
+                        class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded border cursor-pointer border-red-700"
+                        data-tooltip-target="description_log_tooltip">Lưu ý:</span>
+                </label>
+                <textarea class="@error('description_log') form-input-error @else form-input @enderror"" rows="8"
+                    name="description_log" id="description_log">{{ old('description_log') }}</textarea>
+                @error('description_log')
+                    <span class="form-alert">{{ $message }}</span>
+                @enderror
+            </div>
             <div class="flex justify-end items-center gap-2">
-                <a href="{{ route('animal.list') }}" class="btn-custom btn-default"><i class="bi bi-arrow-left"></i>Quay
-                    lại</a>
+                <a href="{{ route('warehouse.list') }}" class="btn-custom btn-default">
+                    <i class="bi bi-arrow-left"></i>
+                    Quay lại
+                </a>
                 <button type="submit" class="btn-custom btn-success"><i class="bi bi-plus"></i>Thêm</button>
                 <button type="submit" name="add_more" value="1" class="btn-custom btn-primary">
                     <i class="bi bi-plus"></i>Thêm và tiếp tục nhập tiếp

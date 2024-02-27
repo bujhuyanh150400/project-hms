@@ -57,6 +57,7 @@ class UsersController extends Controller
             'gender' => $request->input('gender'),
             'description' => $request->input('description'),
             'clinic_id' => $request->integer('clinic_id'),
+            'examination_price' => $request->integer('examination_price'),
             'specialties_id' => $request->integer('specialties_id'),
             'user_status' => $request->integer('user_status'),
         ];
@@ -122,6 +123,7 @@ class UsersController extends Controller
         $user->clinic_id = $request->integer('clinic_id');
         $user->specialties_id = $request->integer('specialties_id');
         $user->user_status = $request->integer('user_status');
+        $user->examination_price = $request->integer('examination_price');
         $user->description = $request->input('description');
         $user->updated_at = now();
         if ($request->hasFile('avatar')) {

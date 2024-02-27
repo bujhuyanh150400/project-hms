@@ -48,8 +48,10 @@
             </div>
             <div class="flex items-center gap-3">
                 <button type="submit" class="btn-custom btn-primary"><i class="bi bi-search"></i>Tìm kiếm</button>
-                <a href="{{ route('specialties.view_add') }}" class="btn-custom btn-success"><i
-                        class="bi bi-plus"></i>Thêm</a>
+                @if ($userLogin->permission === PermissionAdmin::ADMIN || $userLogin->permission === PermissionAdmin::MANAGER)
+                    <a href="{{ route('specialties.view_add') }}" class="btn-custom btn-success"><i
+                            class="bi bi-plus"></i>Thêm</a>
+                @endif
             </div>
         </div>
     </form>
@@ -75,9 +77,11 @@
                         <th>
                             Mô tả
                         </th>
-                        <th>
-                            Action
-                        </th>
+                        @if ($userLogin->permission === PermissionAdmin::ADMIN || $userLogin->permission === PermissionAdmin::MANAGER)
+                            <th>
+                                Action
+                            </th>
+                        @endif
                     </tr>
                 </x-slot:header>
                 <x-slot:body>
@@ -104,22 +108,24 @@
                                     {!! $specialty->description !!}
                                 </div>
                             </td>
-                            <td>
-                                <div class="flex items-center gap-2">
-                                    <a href="{{ route('specialties.view_edit', ['id' => $specialty->id]) }}"
-                                        class="btn-custom btn-icon btn-primary">
-                                        <i class="bi bi-pen-fill "></i>
-                                    </a>
-                                    <form action="{{ route('specialties.deleted', ['id' => $specialty->id]) }}"
-                                        method="POST" class="form-loading-submit">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-custom btn-icon btn-danger">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
+                            @if ($userLogin->permission === PermissionAdmin::ADMIN || $userLogin->permission === PermissionAdmin::MANAGER)
+                                <td>
+                                    <div class="flex items-center gap-2">
+                                        <a href="{{ route('specialties.view_edit', ['id' => $specialty->id]) }}"
+                                            class="btn-custom btn-icon btn-primary">
+                                            <i class="bi bi-pen-fill "></i>
+                                        </a>
+                                        <form action="{{ route('specialties.deleted', ['id' => $specialty->id]) }}"
+                                            method="POST" class="form-loading-submit">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-custom btn-icon btn-danger">
+                                                <i class="bi bi-trash-fill"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                 </x-slot:body>

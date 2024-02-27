@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helper\PermissionAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Clinic;
 use App\Models\TypeMaterial;
@@ -126,10 +127,17 @@ class MaterialController extends Controller
     public function warehouse_list(Request $request)
     {
         $title = 'Danh sách các vật tư';
-        $warehouses = WareHouse::paginate(self::PER_PAGE);
+        $filter = collect($request->input('filter', []));
+        if ($this->getUserLogin()->permission !== PermissionAdmin::ADMIN) {
+            $filter->put('clinic', $this->getUserLogin()->clinic_id);
+        }
+        $warehouses = WareHouse::KeywordFilter($filter->get('keyword'))
+            ->ClinicFilter($filter->get('clinic'))
+            ->typeFilter($filter->get('type_material'))
+            ->paginate(self::PER_PAGE);
         $type_materials = TypeMaterial::where('is_deleted', 0)->get();
         $clinics = Clinic::where('active', 1)->get();
-        return view('Admin.Warehouse.list', compact('title', 'warehouses', 'clinics', 'type_materials'));
+        return view('Admin.Warehouse.list', compact('title', 'warehouses', 'clinics', 'type_materials', 'filter'));
     }
     public function warehouse_view_add()
     {
@@ -140,6 +148,9 @@ class MaterialController extends Controller
     }
     public function warehouse_add(Request $request)
     {
+        if ($this->getUserLogin()->permission !== PermissionAdmin::ADMIN) {
+            $request->merge(['clinic_id' => $this->getUserLogin()->clinic_id]);
+        }
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'total' => 'required|integer|min:0',
@@ -147,6 +158,7 @@ class MaterialController extends Controller
             'type_material_id' => ['required', Rule::exists('type_material', 'id')],
             'description' => 'required',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4080',
+            'description_log' => 'required',
         ], [
             'name.required' => 'Tên là trường bắt buộc.',
             'total.required' => 'Số lượng là trường bắt buộc.',
@@ -158,6 +170,7 @@ class MaterialController extends Controller
             'type_material_id.in' => 'Loại vật liệu không tồn tại.',
             'description.required' => 'Mô tả là trường bắt buộc.',
             'avatar.image' => 'Phải là ảnh',
+            'description_log.required' => 'Trường này là bắt buộc nhập',
             'avatar.mimes' => 'Bạn phải chọn các file jpeg,png,jpg,gif,svg,webp',
             'avatar.max' => 'File tối đa 4080KB',
         ]);
@@ -190,7 +203,7 @@ class MaterialController extends Controller
         if ($warehouse) {
             $data_log = [
                 'id' => $this->getIdAsTimestamp(),
-                'description' => 'Nhân sự ' . Auth::guard('admin')->user()->name . ' Đã tạo mới vật tư vào lúc ' . now(),
+                'description' => $request->input('description_log'),
                 'user_id' => Auth::guard('admin')->user()->id,
                 'warehouse_id' => $data['id']
             ];
@@ -228,6 +241,9 @@ class MaterialController extends Controller
     {
         $warehouse = WareHouse::find($id);
         if ($warehouse) {
+            if ($this->getUserLogin()->permission !== PermissionAdmin::ADMIN) {
+                $request->merge(['clinic_id' => $this->getUserLogin()->clinic_id]);
+            }
             $validator = Validator::make(
                 $request->all(),
                 [
@@ -237,6 +253,7 @@ class MaterialController extends Controller
                     'type_material_id' => ['required', Rule::exists('type_material', 'id')],
                     'description' => 'required',
                     'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4080',
+                    'description_log' => 'required',
                 ],
                 [
                     'name.required' => 'Tên là trường bắt buộc.',
@@ -251,6 +268,8 @@ class MaterialController extends Controller
                     'avatar.image' => 'Phải là ảnh',
                     'avatar.mimes' => 'Bạn phải chọn các file jpeg,png,jpg,gif,svg,webp',
                     'avatar.max' => 'File tối đa 4080KB',
+                    'description_log.required' => 'Trường này là bắt buộc nhập',
+
                 ]
             );
             if ($validator->fails()) {
@@ -285,7 +304,7 @@ class MaterialController extends Controller
             if ($status) {
                 $data_log = [
                     'id' => $this->getIdAsTimestamp(),
-                    'description' => 'Nhân sự ' . Auth::guard('admin')->user()->name . ' Đã thay đổi vật tư vào lúc ' . now(),
+                    'description' => $request->input('description_log'),
                     'user_id' => Auth::guard('admin')->user()->id,
                     'warehouse_id' => $warehouse->id
                 ];

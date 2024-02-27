@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class WareHouse extends Model
 {
@@ -22,7 +23,26 @@ class WareHouse extends Model
         'price',
         'avatar'
     ];
-
+    public function scopeKeywordFilter(Builder $query, $keyword = null): void
+    {
+        if (!empty($keyword)) {
+            $keyword = strtolower($keyword);
+            $query->whereRaw('LOWER(name) LIKE ?', '%' . $keyword . '%')
+                ->orWhere('id', '=', intval($keyword));
+        }
+    }
+    public function scopeClinicFilter(Builder $query, $clinic_id = null): void
+    {
+        if (!empty($clinic_id)) {
+            $query->where('clinic_id', $clinic_id);
+        }
+    }
+    public function scopeTypeFilter(Builder $query, $type = null): void
+    {
+        if (!empty($type)) {
+            $query->where('type_material_id', $type);
+        }
+    }
     function type_material()
     {
         return $this->belongsTo(TypeMaterial::class);

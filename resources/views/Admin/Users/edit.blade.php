@@ -81,7 +81,7 @@
                     <div class="form-group">
                         <label for="phone" class=" @error('phone') form-label-error @else form-label @enderror"><i
                                 class="bi bi-phone"></i>Điện thoại</label>
-                        <input type="tel" name="phone" id="phone" value="{{ old('phone', $user->phone) }}"
+                        <input type="text" name="phone" id="phone" value="{{ old('phone', $user->phone) }}"
                             class=" @error('phone') form-input-error @else form-input @enderror"
                             placeholder="Hãy nhập vào đây">
                         @error('phone')
@@ -201,11 +201,25 @@
                             <span class="form-alert">{{ $message }}</span>
                         @enderror
                     </div>
+                    <div class="form-group mt-4">
+                        <label for="examination_price"
+                            class=" @error('examination_price') form-label-error @else form-label @enderror">Tiền
+                            giá khám mỗi lần khám (VND)</label>
+                        <input type="number" min="0" name="examination_price" id="examination_price"
+                            value="{{ old('examination_price', $user->examination_price) }}"
+                            class="@error('examination_price') form-input-error @else form-input @enderror"
+                            placeholder="Giá tiền">
+                        @error('examination_price')
+                            <span class="form-alert">{{ $message }}</span>
+                        @enderror
+                    </div>
                 </div>
             </div>
 
             <div class="flex justify-end items-center gap-2">
-                <a href="{{ route('users.list') }}" class="btn-custom btn-default"><i class="bi bi-arrow-left"></i>Quay
+
+                <a @if ($userLogin->permission === PermissionAdmin::ADMIN || $userLogin->permission === PermissionAdmin::MANAGER) href="{{ route('users.list') }}" @else href="{{ route('admin.dashboard') }}" @endif
+                    class="btn-custom btn-default"><i class="bi bi-arrow-left"></i>Quay
                     lại</a>
                 <button type="submit" class="btn-custom btn-success"><i class="bi bi-pencil-square"></i>Sửa</button>
             </div>

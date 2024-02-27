@@ -211,4 +211,15 @@ class ClinicController extends Controller
             return redirect()->route('clinic.list');
         }
     }
+    public function view($id)
+    {
+        $clinic = Clinic::find($id);
+        if ($clinic) {
+            $title = "Thông tin phòng khám";
+            return view('Admin.Clinic.view', compact('clinic', 'title'));
+        } else {
+            session()->flash('error', 'Phòng khám không tồn tại.');
+            return redirect()->route('clinic.list');
+        }
+    }
 }

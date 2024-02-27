@@ -63,6 +63,7 @@ class User extends Authenticatable
         'avatar',
         'clinic_id',
         'description',
+        'examination_price',
         'user_status',
         'specialties_id',
     ];

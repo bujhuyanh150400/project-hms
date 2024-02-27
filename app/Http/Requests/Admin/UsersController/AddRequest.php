@@ -43,6 +43,7 @@ class AddRequest extends FormRequest
             'specialties_id' => ['required', Rule::in($speciatiyIds)],
             'description' => 'required|min:5',
             'user_status' => ['required', Rule::in(array_keys(UserStatus::getList()))],
+            'examination_price' => 'required|integer|min:0',
         ];
     }
 
@@ -94,6 +95,10 @@ class AddRequest extends FormRequest
 
             'user_status.required' => 'Bạn cần chọn cấp bậc',
             'user_status.in' => 'Cấp bậc không tồn tại',
+            'examination_price.required' => 'Hãy nhập giá tiền khám',
+            'examination_price.integer' => 'Giá tiền khám phải là số nguyên',
+            'examination_price.min' => 'Giá tiền khám bé nhất = 0',
+
         ];
     }
 }

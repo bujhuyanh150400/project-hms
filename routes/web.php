@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Middleware\CheckPermission;
 
 Route::middleware('authentication:admin')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
@@ -11,29 +10,38 @@ Route::middleware('authentication:admin')->group(function () {
     Route::get('/file/{filepath}', [\App\Http\Controllers\Admin\FileController::class, 'showFile'])->name('file.show');
     // Điều hành
     Route::prefix('users')->group(function () {
-        Route::get('list', [\App\Http\Controllers\Admin\UsersController::class, 'list'])->name('users.list');
-        Route::get('view_add', [\App\Http\Controllers\Admin\UsersController::class, 'view_add'])->name('users.view_add');
-        Route::post('add', [\App\Http\Controllers\Admin\UsersController::class, 'add'])->name('users.add');
-        Route::get('view/{id}', [\App\Http\Controllers\Admin\UsersController::class, 'view'])->name('users.view')->whereNumber('id');
-        Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\UsersController::class, 'view_edit'])->name('users.view_edit')->whereNumber('id');
-        Route::put('edit/{id}', [\App\Http\Controllers\Admin\UsersController::class, 'edit'])->name('users.edit')->whereNumber('id');
-        Route::delete('deleted/{id}', [\App\Http\Controllers\Admin\UsersController::class, 'deleted'])->name('users.deleted')->whereNumber('id');
+        Route::middleware('permission:adminOnly')->group(function () {
+            Route::get('list', [\App\Http\Controllers\Admin\UsersController::class, 'list'])->name('users.list');
+            Route::get('view_add', [\App\Http\Controllers\Admin\UsersController::class, 'view_add'])->name('users.view_add');
+            Route::post('add', [\App\Http\Controllers\Admin\UsersController::class, 'add'])->name('users.add');
+            Route::delete('deleted/{id}', [\App\Http\Controllers\Admin\UsersController::class, 'deleted'])->name('users.deleted')->whereNumber('id');
+        });
+        Route::middleware('permission:userEditSelf')->group(function () {
+            Route::get('view/{id}', [\App\Http\Controllers\Admin\UsersController::class, 'view'])->name('users.view')->whereNumber('id');
+            Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\UsersController::class, 'view_edit'])->name('users.view_edit')->whereNumber('id');
+            Route::put('edit/{id}', [\App\Http\Controllers\Admin\UsersController::class, 'edit'])->name('users.edit')->whereNumber('id');
+        });
     });
     Route::prefix('clinic')->group(function () {
-        Route::get('list', [\App\Http\Controllers\Admin\ClinicController::class, 'list'])->name('clinic.list');
-        Route::get('view_add', [\App\Http\Controllers\Admin\ClinicController::class, 'view_add'])->name('clinic.view_add');
-        Route::post('add', [\App\Http\Controllers\Admin\ClinicController::class, 'add'])->name('clinic.add');
-        Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\ClinicController::class, 'view_edit'])->name('clinic.view_edit')->whereNumber('id');
-        Route::put('edit/{id}', [\App\Http\Controllers\Admin\ClinicController::class, 'edit'])->name('clinic.edit')->whereNumber('id');
-        Route::delete('deleted/{id}', [\App\Http\Controllers\Admin\ClinicController::class, 'deleted'])->name('clinic.deleted')->whereNumber('id');
+        Route::middleware('permission:adminOnly')->group(function () {
+            Route::get('list', [\App\Http\Controllers\Admin\ClinicController::class, 'list'])->name('clinic.list');
+            Route::get('view_add', [\App\Http\Controllers\Admin\ClinicController::class, 'view_add'])->name('clinic.view_add');
+            Route::post('add', [\App\Http\Controllers\Admin\ClinicController::class, 'add'])->name('clinic.add');
+            Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\ClinicController::class, 'view_edit'])->name('clinic.view_edit')->whereNumber('id');
+            Route::put('edit/{id}', [\App\Http\Controllers\Admin\ClinicController::class, 'edit'])->name('clinic.edit')->whereNumber('id');
+            Route::delete('deleted/{id}', [\App\Http\Controllers\Admin\ClinicController::class, 'deleted'])->name('clinic.deleted')->whereNumber('id');
+        });
+        Route::get('view/{id}', [\App\Http\Controllers\Admin\ClinicController::class, 'view'])->name('clinic.view')->whereNumber('id');
     });
     Route::prefix('specialties')->group(function () {
         Route::get('list', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'list'])->name('specialties.list');
-        Route::get('view_add', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'view_add'])->name('specialties.view_add');
-        Route::post('add', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'add'])->name('specialties.add');
-        Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'view_edit'])->name('specialties.view_edit')->whereNumber('id');
-        Route::put('edit/{id}', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'edit'])->name('specialties.edit')->whereNumber('id');
-        Route::delete('deleted/{id}', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'deleted'])->name('specialties.deleted')->whereNumber('id');
+        Route::middleware('permission:adminOnly')->group(function () {
+            Route::get('view_add', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'view_add'])->name('specialties.view_add');
+            Route::post('add', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'add'])->name('specialties.add');
+            Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'view_edit'])->name('specialties.view_edit')->whereNumber('id');
+            Route::put('edit/{id}', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'edit'])->name('specialties.edit')->whereNumber('id');
+            Route::delete('deleted/{id}', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'deleted'])->name('specialties.deleted')->whereNumber('id');
+        });
     });
     Route::prefix('type_material')->group(function () {
         Route::get('list', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_list'])
@@ -57,11 +65,20 @@ Route::middleware('authentication:admin')->group(function () {
         Route::post('add', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_add'])
             ->name('warehouse.add');
         Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_view_edit'])
-            ->name('warehouse.view_edit');
+            ->name('warehouse.view_edit')
+            ->whereNumber('id');
         Route::put('edit/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_edit'])
-            ->name('warehouse.edit');
+            ->name('warehouse.edit')
+            ->whereNumber('id');
         Route::get('log/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_log'])
-            ->name('warehouse.log');
+            ->name('warehouse.log')
+            ->whereNumber('id');
+        Route::get('view_edit_total/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_view_edit_total'])
+            ->name('warehouse.view_edit_total')
+            ->whereNumber('id');
+        Route::put('edit_total/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_edit_total'])
+            ->name('warehouse.edit_total')
+            ->whereNumber('id');;
     });
     // Về khách hàng
     Route::prefix('customer')->group(function () {

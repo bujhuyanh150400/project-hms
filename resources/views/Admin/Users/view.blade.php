@@ -12,12 +12,14 @@
                     Trang chủ
                 </a>
             </li>
-            <li>
-                <a href="{{ route('users.list') }}" class="flex items-center">
-                    <i class="bi bi-chevron-right"></i>
-                    <span class="ms-1 text-sm font-medium text-gray-500 hover:text-blue-600">Danh sách nhân sự</span>
-                </a>
-            </li>
+            @if ($userLogin->permission === PermissionAdmin::ADMIN || $userLogin->permission === PermissionAdmin::MANAGER)
+                <li>
+                    <a href="{{ route('users.list') }}" class="flex items-center">
+                        <i class="bi bi-chevron-right"></i>
+                        <span class="ms-1 text-sm font-medium text-gray-500 hover:text-blue-600">Danh sách nhân sự</span>
+                    </a>
+                </li>
+            @endif
             <li aria-current="page">
                 <div class="flex items-center">
                     <i class="bi bi-chevron-right"></i>
@@ -59,8 +61,10 @@
                 </div>
             </div>
             <div class="flex items-center gap-2">
-                <a href="{{ route('users.list') }}" class="btn-custom btn-default">
-                    <i class="bi bi-arrow-left"></i> Quay lại</a>
+                @if ($userLogin->permission === PermissionAdmin::ADMIN || $userLogin->permission === PermissionAdmin::MANAGER)
+                    <a href="{{ route('users.list') }}" class="btn-custom btn-default">
+                        <i class="bi bi-arrow-left"></i> Quay lại</a>
+                @endif
                 <a href="{{ route('users.view_edit', ['id' => $user->id]) }}" class="btn-custom btn-primary"><i
                         class="bi bi-pencil-square"></i> Chỉnh sửa</a>
             </div>
@@ -94,11 +98,16 @@
                     <dt class="mb-1 text-gray-500">Cơ sở trực thuộc:</dt>
                     <dd class="font-semibold">{{ $user->clinic->name }}</dd>
                 </div>
+                <div class="flex flex-col py-2">
+                    <dt class="mb-1 text-gray-500">Chuyên ngành:</dt>
+                    <dd class="font-semibold">{{ $user->specialties->name }}</dd>
+                </div>
+                <div class="flex flex-col py-2">
+                    <dt class="mb-1 text-gray-500">Giá khám mặc định mỗi lần khám:</dt>
+                    <dd class="font-semibold">{{ number_format($user->examination_price) }} VNĐ</dd>
+                </div>
             </dl>
-            <div class="flex flex-col py-2">
-                <dt class="mb-1 text-gray-500">Chuyên ngành:</dt>
-                <dd class="font-semibold">{{ $user->specialties->name }}</dd>
-            </div>
+
         </div>
         <div class="w-full h-fit bg-white border border-gray-200 rounded-lg shadow-md mb-4 p-4">
             <h1 class="text-xl font-medium mb-4">Giới thiệu bản thân nhân sự:</h1>
