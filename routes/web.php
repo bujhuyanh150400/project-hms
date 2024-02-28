@@ -43,7 +43,7 @@ Route::middleware('authentication:admin')->group(function () {
             Route::delete('deleted/{id}', [\App\Http\Controllers\Admin\SpecialtiesController::class, 'deleted'])->name('specialties.deleted')->whereNumber('id');
         });
     });
-    Route::prefix('type_material')->group(function () {
+    Route::middleware('permission:adminOnly')->prefix('type_material')->group(function () {
         Route::get('list', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_list'])
             ->name('type_material.list');
         Route::get('view_add', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_view_add'])
@@ -57,7 +57,7 @@ Route::middleware('authentication:admin')->group(function () {
         Route::put('deleted/{id}', [\App\Http\Controllers\Admin\MaterialController::class, 'type_material_deleted'])
             ->name('type_material.deleted');
     });
-    Route::prefix('warehouse')->group(function () {
+    Route::middleware('permission:checkUserAccess')->prefix('warehouse')->group(function () {
         Route::get('list', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_list'])
             ->name('warehouse.list');
         Route::get('view_add', [\App\Http\Controllers\Admin\MaterialController::class, 'warehouse_view_add'])
@@ -133,7 +133,7 @@ Route::middleware('authentication:admin')->group(function () {
             ->whereNumber('id');
     });
     // Về lịch khám
-    Route::prefix('bookings')->group(function () {
+    Route::middleware('permission:checkUserAccess')->prefix('bookings')->group(function () {
         Route::get('find_list', [\App\Http\Controllers\Admin\BookingController::class, 'find_list'])
             ->name('bookings.find_list');
         Route::get('list/{user_id}', [\App\Http\Controllers\Admin\BookingController::class, 'list'])

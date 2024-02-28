@@ -323,11 +323,18 @@ class MaterialController extends Controller
         $warehouse = WareHouse::find($id);
         if ($warehouse) {
             $title = 'Log vật tư';
-            $warehouse_logs = WareHouseLog::paginate(self::PER_PAGE);
+            $warehouse_logs = WareHouseLog::warehouseFilter($id)->paginate(self::PER_PAGE);
             return view('Admin.Warehouse.log', compact('title', 'warehouse_logs', 'warehouse'));
         } else {
             session()->flash('error', 'Không tìm thấy vật tư này');
             return redirect()->route('warehouse.list');
         }
+    }
+
+    function warehouse_view_edit_total($id)
+    {
+    }
+    function warehouse_edit_total(Request $request, $id)
+    {
     }
 }

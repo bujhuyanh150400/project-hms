@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helper\PermissionAdmin;
 use App\Helper\SchedulesStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Animal;
@@ -18,14 +19,14 @@ class SchedulesController extends Controller
 {
     //
     const PER_PAGE = 10;
-    public function __construct()
-    {
-    }
 
     public function find_list(Request $request)
     {
         $title = 'Tìm kiếm lịch khám bệnh';
         $filter = collect($request->input('filter', []));
+        if ($this->getUserLogin()->permission === PermissionAdmin::MANAGER) {
+            $filter->put('clinic_id', $this->getUserLogin()->clinic_id);
+        }
         $limit = $request->input('limit', self::PER_PAGE);
         $users = User::KeywordFilter($filter->get('keyword'))
             ->RoleFilter($filter->get('role'))
@@ -54,7 +55,6 @@ class SchedulesController extends Controller
             return redirect()->route('schedules.find_list');
         }
     }
-
     public function find_schedules(Request $request, $customer_id)
     {
         $customer = Customer::find($customer_id);

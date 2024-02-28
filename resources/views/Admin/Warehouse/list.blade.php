@@ -60,8 +60,10 @@
             </div>
             <div class="flex items-center gap-3">
                 <button type="submit" class="btn-custom btn-primary"><i class="bi bi-search"></i>Tìm kiếm</button>
-                <a href="{{ route('warehouse.view_add') }}" class="btn-custom btn-success"><i
-                        class="bi bi-plus"></i>Thêm</a>
+                @if ($userLogin->permission !== PermissionAdmin::DOCTOR)
+                    <a href="{{ route('warehouse.view_add') }}" class="btn-custom btn-success"><i
+                            class="bi bi-plus"></i>Thêm</a>
+                @endif
             </div>
         </div>
     </form>

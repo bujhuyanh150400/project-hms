@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helper\PermissionAdmin;
 use App\Helper\TimeType;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
@@ -21,8 +22,12 @@ class BookingController extends Controller
     {
         $title = 'Tìm kiếm lịch khám bệnh';
         $filter = collect($request->input('filter', []));
+        if ($this->getUserLogin()->permission === PermissionAdmin::MANAGER) {
+            $filter->put('clinic_id', $this->getUserLogin()->clinic_id);
+        }
         $limit = $request->input('limit', self::PER_PAGE);
         $users = User::KeywordFilter($filter->get('keyword'))
+            ->ClinicFilter($filter->get('clinic_id'))
             ->RoleFilter($filter->get('role'))
             ->paginate($limit);
         return view('Admin.Bookings.find_list', compact('users', 'filter', 'users', 'title'));
@@ -30,7 +35,11 @@ class BookingController extends Controller
 
     public function list(Request $request, $user_id)
     {
-        $user = User::find($user_id);
+        if ($this->getUserLogin()->permission === PermissionAdmin::DOCTOR) {
+            $user = User::find($this->getUserLogin()->id);
+        } else {
+            $user = User::find($user_id);
+        }
         if ($user) {
             $title = 'Lịch khám của ' . $user->name;
             $filter = $request->input('filter', []);

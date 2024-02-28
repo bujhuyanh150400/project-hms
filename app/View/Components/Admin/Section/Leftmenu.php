@@ -18,7 +18,6 @@ class Leftmenu extends Component
         $user = Auth::guard('admin')->user();
         switch ($user->permission) {
             case PermissionAdmin::ADMIN:
-            case PermissionAdmin::MANAGER:
                 $this->arrayLeftMenu = [
                     [
                         'title' => 'Trang chủ',
@@ -44,6 +43,90 @@ class Leftmenu extends Component
                                 'title' => 'Cơ sở khám bệnh',
                                 'route_name' => 'clinic',
                                 'action' => route('clinic.list'),
+                            ],
+                            [
+                                'title' => 'Chuyên khoa',
+                                'route_name' => 'specialties',
+                                'action' => route('specialties.list'),
+                            ],
+                        ]
+                    ],
+                    [
+                        'title' => 'Quản lý thuốc',
+                        'icon' => '<i class="bi bi-box-seam"></i>',
+                        'sub_menu' => [
+                            [
+                                'title' => 'Loại vật tư',
+                                'route_name' => 'type_material',
+                                'action' => route('type_material.list'),
+                            ],
+                            [
+                                'title' => 'Vật tư',
+                                'route_name' => 'warehouse',
+                                'action' => route('warehouse.list'),
+                            ],
+                        ]
+                    ],
+                    [
+                        'title' => 'Khách hàng',
+                        'space_menu' => true,
+                    ],
+                    [
+                        'title' => 'Quản lý khách hàng',
+                        'icon' => '<i class="bi bi-people"></i>',
+                        'action' => route('customer.list'),
+                        'route_name' => 'customer'
+                    ],
+                    [
+                        'title' => 'Quản lý thú cưng',
+                        'icon' => '<i class="bi bi-bookmark-heart-fill"></i>',
+                        'action' => route('animal.list'),
+                        'route_name' => 'animal'
+                    ],
+                    [
+                        'title' => 'Quản lí khám bệnh',
+                        'space_menu' => true,
+                    ],
+                    [
+                        'title' => 'Quản lý lịch làm',
+                        'icon' => '<i class="bi bi-alarm"></i>',
+                        'action' => route('bookings.find_list'),
+                        'route_name' => 'bookings'
+                    ],
+                    [
+                        'title' => 'Quản lý lịch khám',
+                        'icon' => '<i class="bi bi-card-list"></i>',
+                        'action' => route('schedules.find_list'),
+                        'route_name' => 'schedules'
+                    ],
+                ];
+                break;
+            case PermissionAdmin::MANAGER:
+                $this->arrayLeftMenu = [
+                    [
+                        'title' => 'Trang chủ',
+                        'icon' => '<i class="bi bi-clipboard-data"></i>',
+                        'action' => route('admin.dashboard'),
+                        'route_name' => 'admin'
+                    ],
+                    [
+                        'title' => 'Điều hành',
+                        'space_menu' => true,
+                    ],
+                    [
+                        'title' => 'Nhân lực',
+                        'icon' => '<i class="bi bi-hospital-fill"></i>',
+                        'sub_menu' => [
+                            [
+                                'title' => 'Nhân sự',
+                                'route_name' => 'users',
+                                'action' => route('users.list'),
+
+                            ],
+                            [
+                                'title' => 'Thông tin cơ sở',
+                                'route_name' => 'clinic',
+                                'action' => route('clinic.view', ['id' => $user->clinic_id]),
                             ],
                             [
                                 'title' => 'Chuyên khoa',
@@ -163,15 +246,15 @@ class Leftmenu extends Component
                         'space_menu' => true,
                     ],
                     [
-                        'title' => 'Quản lý lịch làm',
+                        'title' => 'Giờ làm cá nhân',
                         'icon' => '<i class="bi bi-alarm"></i>',
-                        'action' => route('bookings.find_list'),
+                        'action' => route('bookings.list', ['user_id' => $user->id]),
                         'route_name' => 'bookings'
                     ],
                     [
-                        'title' => 'Quản lý lịch khám',
+                        'title' => 'Lịch khám cá nhân',
                         'icon' => '<i class="bi bi-card-list"></i>',
-                        'action' => route('schedules.find_list'),
+                        'action' => route('schedules.list', ['user_id' => $user->id]),
                         'route_name' => 'schedules'
                     ],
                 ];
@@ -235,18 +318,6 @@ class Leftmenu extends Component
                     [
                         'title' => 'Quản lí khám bệnh',
                         'space_menu' => true,
-                    ],
-                    [
-                        'title' => 'Quản lý lịch làm',
-                        'icon' => '<i class="bi bi-alarm"></i>',
-                        'action' => route('bookings.find_list'),
-                        'route_name' => 'bookings'
-                    ],
-                    [
-                        'title' => 'Quản lý lịch khám',
-                        'icon' => '<i class="bi bi-card-list"></i>',
-                        'action' => route('schedules.find_list'),
-                        'route_name' => 'schedules'
                     ],
                 ];
                 break;

@@ -13,33 +13,22 @@
                     Trang chủ
                 </a>
             </li>
+            <li>
+                <a href="{{ route('warehouse.list') }}" class="flex items-center">
+                    <i class="bi bi-chevron-right"></i>
+                    <span class="ms-1 text-sm font-medium text-gray-500 hover:text-blue-600">Danh sách loại vật tư</span>
+                </a>
+            </li>
             <li aria-current="page">
                 <div class="flex items-center">
                     <i class="bi bi-chevron-right"></i>
-                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Danh sách vật tư</span>
+                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Log vật tư:
+                        {{ $warehouse->name }}</span>
                 </div>
             </li>
         </ol>
     </nav>
     {{-- End: Navigation --}}
-
-    {{-- Search --}}
-    <form action="{{ route('warehouse.log', ['id' => $warehouse->id]) }}" method="GET" class="form-loading-submit">
-        <div class="relative bg-white shadow-md rounded-lg mt-4 border p-4 ">
-            <div class="grid grid-cols-4 gap-3 mb-3">
-                <div class="form-group">
-                    <label class="form-label" for="filter[keyword]">Tìm kiếm</label>
-                    <input type="text" class="form-input" name="filter[keyword]" id="filter[keyword]"
-                        value="{{ old('filter.keyword', $filter['keyword'] ?? '') }}"
-                        placeholder="Tìm kiếm theo tên vật tư, id ">
-                </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <button type="submit" class="btn-custom btn-primary"><i class="bi bi-search"></i>Tìm kiếm</button>
-            </div>
-        </div>
-    </form>
-    {{-- End:Search --}}
 
     {{-- Data list --}}
     <div class="mt-9">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helper\PermissionAdmin;
 use App\Helper\Provinces;
 use App\Http\Controllers\Controller;
 use App\Models\Clinic;
@@ -213,7 +214,11 @@ class ClinicController extends Controller
     }
     public function view($id)
     {
-        $clinic = Clinic::find($id);
+        if ($this->getUserLogin()->permission !== PermissionAdmin::ADMIN) {
+            $clinic = Clinic::find($this->getUserLogin()->clinic_id);
+        } else {
+            $clinic = Clinic::find($id);
+        }
         if ($clinic) {
             $title = "Thông tin phòng khám";
             return view('Admin.Clinic.view', compact('clinic', 'title'));

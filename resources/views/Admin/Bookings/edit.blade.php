@@ -14,12 +14,14 @@
                     Trang chủ
                 </a>
             </li>
-            <li>
-                <a href="{{ route('bookings.find_list') }}" class="flex items-center">
-                    <i class="bi bi-chevron-right"></i>
-                    <span class="ms-1 text-sm font-medium text-gray-500 hover:text-blue-600">Tìm kiếm giờ khám</span>
-                </a>
-            </li>
+            @if ($userLogin->permission === PermissionAdmin::ADMIN || $userLogin->permission === PermissionAdmin::MANAGER)
+                <li>
+                    <a href="{{ route('bookings.find_list') }}" class="flex items-center">
+                        <i class="bi bi-chevron-right"></i>
+                        <span class="ms-1 text-sm font-medium text-gray-500 hover:text-blue-600">Tìm kiếm giờ khám</span>
+                    </a>
+                </li>
+            @endif
             <li>
                 <a href="{{ route('bookings.list', ['user_id' => $booking->user->id]) }}" class="flex items-center">
                     <i class="bi bi-chevron-right"></i>

@@ -27,6 +27,12 @@ class User extends Authenticatable
             $query->where('permission', $role);
         }
     }
+    public function scopeClinicFilter(Builder $query, $clinic_id = null): void
+    {
+        if (!empty($clinic_id)) {
+            $query->where('clinic_id', $clinic_id);
+        }
+    }
     public function scopeCreatedAtFilter(Builder $query, $start_date = null, $end_date = null): void
     {
         if (!empty($start_date) || !empty($end_date)) {
