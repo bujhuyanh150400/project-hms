@@ -165,6 +165,10 @@ Route::middleware('authentication:admin')->group(function () {
             Route::get('change_status_schedule/{schedule_id}', 'change_status_schedule')
                 ->name('schedules.change_status_schedule')
                 ->whereNumber('schedule_id');
+            Route::get('create_schedules', 'change_status_schedule')
+                ->name('schedules.create_schedules');
+            Route::get('create_schedules', 'change_status_schedule')
+                ->name('schedules.create_schedules');
         });
     });
 });

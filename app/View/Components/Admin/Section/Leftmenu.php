@@ -319,6 +319,12 @@ class Leftmenu extends Component
                         'title' => 'Quản lí khám bệnh',
                         'space_menu' => true,
                     ],
+                    [
+                        'title' => 'Đặt lịch khám',
+                        'icon' => '<i class="bi bi-alarm"></i>',
+                        'action' => route('schedules.create_schedules'),
+                        'route_name' => 'animal'
+                    ],
                 ];
                 break;
         }

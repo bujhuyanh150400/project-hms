@@ -156,7 +156,9 @@ class SchedulesController extends Controller
         }
     }
 
-
+    public function create_schedules()
+    {
+    }
     public function change_status_schedule(Request $request, $schedule_id)
     {
     }
