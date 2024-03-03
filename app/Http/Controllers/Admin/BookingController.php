@@ -60,7 +60,21 @@ class BookingController extends Controller
             return redirect()->route('bookings.find_list');
         }
     }
-
+    public function all_bookings(Request $request){
+        $title = 'Lịch làm các bác sĩ của cơ sở';
+        $filter = $request->input('filter', []);
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+        if (!isset($filter['start_date_create'])) {
+            $filter['start_date_create'] = $startOfWeek;
+        };
+        if (!isset($filter['end_date_create'])) {
+            $filter['end_date_create'] = $endOfWeek;
+        };
+        $clinic_id = $this->getUserLogin()->clinic_id;
+        $users = User::ClinicFilter($clinic_id)->BookingDateFilterBetween($filter['start_date_create'], $filter['end_date_create'])->paginate(5);
+        return view('Admin.Bookings.all_bookings', compact('title',  'users', 'filter'));
+    }
     public function view_add(Request $request, $user_id)
     {
         $user = User::find($user_id);

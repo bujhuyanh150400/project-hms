@@ -22,12 +22,12 @@ class CheckPermission
                     $this->access = false;
                 }
                 if ($user->permission === PermissionAdmin::MANAGER && in_array($route_name, [
-                    'clinic.list',
-                    'clinic.view_add',
-                    'clinic.add',
-                    'clinic.view_edit',
-                    'clinic.edit',
-                ])) {
+                        'clinic.list',
+                        'clinic.view_add',
+                        'clinic.add',
+                        'clinic.view_edit',
+                        'clinic.edit',
+                    ])) {
                     $this->access = false;
                 }
                 break;
@@ -46,6 +46,8 @@ class CheckPermission
                     'warehouse.view_edit_total',
                     'warehouse.edit_total',
                     'bookings.find_list',
+                    'bookings.all_bookings',
+                    'schedules.find_list',
                 ];
                 $take_care = [
                     'warehouse.view_edit',
@@ -57,6 +59,9 @@ class CheckPermission
                     'bookings.add',
                     'bookings.view_edit',
                     'bookings.edit',
+                    'schedules.find_list',
+                    'schedules.list',
+                    'schedules.view',
                 ];
                 if ($user->permission === PermissionAdmin::DOCTOR && in_array($route_name, $doctor)) {
                     $this->access = false;

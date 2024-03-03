@@ -45,6 +45,14 @@ class User extends Authenticatable
             $query->where('date', $date);
         });
     }
+    public function scopeBookingDateFilterBetween(Builder $query, $start_date = null, $end_date = null): void
+    {
+        if (!empty($start_date) || !empty($end_date)) {
+            $query->whereHas('booking', function ($query) use ($start_date, $end_date) {
+                $query->whereBetween('date', [$start_date, $end_date]);
+            });
+        }
+    }
     public function scopeSpecialtyFilter(Builder $query, $id = null): void
     {
         if (!empty($id)) {

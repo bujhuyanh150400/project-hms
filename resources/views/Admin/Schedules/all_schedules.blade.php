@@ -13,27 +13,17 @@
                     Trang chủ
                 </a>
             </li>
-            @if ($userLogin->permission === PermissionAdmin::ADMIN || $userLogin->permission === PermissionAdmin::MANAGER)
-                <li>
-                    <a href="{{ route('schedules.find_list') }}" class="flex items-center">
-                        <i class="bi bi-chevron-right"></i>
-                        <span
-                            class="ms-1 text-sm font-medium text-gray-500 hover:text-blue-600">Tìm kiếm lịch khám</span>
-                    </a>
-                </li>
-            @endif
             <li aria-current="page">
                 <div class="flex items-center">
                     <i class="bi bi-chevron-right"></i>
-                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2">lịch khám của:
-                        {{ $user->name }}</span>
+                    <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2">lịch khám cơ sở</span>
                 </div>
             </li>
         </ol>
     </nav>
     {{-- End: Navigation --}}
     {{-- Search --}}
-    <form action="{{ route('schedules.list', ['user_id' => $user->id]) }}" method="GET" class="form-loading-submit">
+    <form action="{{ route('schedules.all_schedules') }}" method="GET" class="form-loading-submit">
         <div class="relative bg-white shadow-md rounded-lg mt-4 border p-4 ">
             <div class="grid grid-cols-3 gap-3 mb-3">
                 <div class="form-group">
@@ -85,29 +75,60 @@
     {{-- Data list --}}
     <div class="mt-9">
         @if (!empty($schedules) and count($schedules) > 0)
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                @foreach ($schedules as $schedule)
+            <div class="grid grid-cols-3 gap-4">
+                @foreach ($schedules as $key_schedules =>$schedule)
                     @php
                         $checkTime = true;
                         if ($schedule->booking->date < now()->today()) {
                             $checkTime = false;
                         }
                     @endphp
-                    <div id="{{ $schedule->id }}" role="tooltip"
-                         class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                        {{ $checkTime ? 'Lịch khám hợp lệ' : 'Lịch khám này ở trong quá khứ !' }}
-                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    <div data-popover id="{{ $schedule->id }}" role="tooltip"
+                         class="absolute z-50  invisible inline-block w-fit text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0">
+                        <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg">
+                            <h3 class="font-semibold text-gray-900 dark:text-white">Thông tin lịch khám</h3>
+                        </div>
+                        <div class="px-3 py-2 ">
+                            <ul class="space-y-2 text-left">
+                                <li class="flex items-center space-x-2">
+                                    <i class="bi bi-check text-xl text-green-500"></i>
+                                    <p class="font-medium text-gray-500">Chuyên khoa: <span
+                                            class="text-black">{{ $schedule->user->specialties->name }}</span></p>
+                                </li>
+                                <li class="flex items-center space-x-2">
+                                    <i class="bi bi-check text-xl text-green-500"></i>
+                                    <p class="font-medium text-gray-500">Tên chủ vật nuôi: <span
+                                            class="text-black">{{ $schedule->customer->name }} -
+                                {{ $schedule->customer->gender === 1 ? 'Nam' : 'Nữ' }}</span></p>
+                                </li>
+                                <li class="flex items-center space-x-2">
+                                    <i class="bi bi-check text-xl text-green-500"></i>
+                                    <p class="font-medium text-gray-500">Thú cưng bao tuổi: <span
+                                            class="text-black">{{ $schedule->animal->age }} tuổi</span>
+                                    </p>
+                                </li>
+                                <li class="flex items-center space-x-2">
+                                    <i class="bi bi-check text-xl text-green-500"></i>
+                                    <p class="font-medium text-gray-500">Ghi chú khi khám: </p>
+                                </li>
+                                <li class="form-group">
+                                    <textarea class="form-input" rows="5" disabled>{{ !empty($schedule->description) ? $schedule->description : 'Không có ghi chú' }} </textarea>
+                                </li>
+                            </ul>
+                        </div>
+                        <div data-popper-arrow></div>
                     </div>
                     <div
-                        data-tooltip-target="{{ $schedule->id }}"
-                        class="block p-3
-                    bg-white border border-gray-200 rounded-lg shadow
-                    {{ $checkTime ? 'hover:border-blue-400' : 'border-red-400 bg-red-100 text-red-600' }}
-                     hover:shadow-lg duration-150 transition-all">
+                        @if($loop->iteration % 3 === 1)
+                            data-popover-placement="right"
+                        @else
+                            data-popover-placement="left"
+                        @endif
+                        data-popover-target="{{ $schedule->id }}"
+                        class="block p-3 cursor-pointer bg-white border border-gray-200 rounded-lg shadow hover:border-blue-400 hover:shadow-lg duration-150 transition-all">
                         <div class="flex items-center gap-2">
                             <p
-                                class="inline-flex items-center justify-center mb-2 text-sm font-medium px-2 py-1
-                                bg-white border-2 rounded-lg cursor-pointer {{ $checkTime ? 'border-blue-400 text-blue-600' : 'border-red-400 bg-red-100 text-red-600' }}   ">
+                                class="inline-flex items-center justify-center mb-2 text-sm font-medium px-2 py-1 bg-white border-2 rounded-lg cursor-pointer border-blue-400 text-blue-600  ">
                                 Lịch khám :{{ TimeType::getList()[$schedule->timeType]['start'] }} |
                                 {{ \Carbon\Carbon::parse($schedule->booking->date)->format('d-m-Y') }}
                             </p>
@@ -115,7 +136,6 @@
                                 {{ \Carbon\Carbon::parse($schedule->created_at)->format('d-m-Y H:i:s') }}
                             </p>
                         </div>
-
                         <p class="font-bold mb-1">Thông tin đặt lịch khám bệnh:</p>
                         <ul class="space-y-2 text-left">
                             <li class="flex items-center space-x-2">
@@ -146,7 +166,6 @@
                             </li>
                             <li class="flex items-center space-x-2">
                                 <i class="bi bi-check text-xl text-green-500"></i>
-
                                 <p class="font-medium text-gray-500">Trạng thái khám: @if (!$checkTime){{SchedulesStatus::getList()[$schedule->status]['text'] }} @endif</p>
                             </li>
                             @if ($checkTime)
@@ -160,12 +179,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </li>
-                            @endif
-                            @if ($checkTime)
-                                <li>
-                                    <a href="{{ route('schedules.view', ['schedule_id' => $schedule->id]) }}"
-                                       class="btn-custom btn-success">Xem lịch khám</a>
                                 </li>
                             @endif
                         </ul>
@@ -186,7 +199,6 @@
     </div>
     {{-- End: Data list --}}
 @endsection
-
 @section('scripts')
     <script type="module">
         const csrfToken = $('meta[name="csrf-token"]').attr('content');

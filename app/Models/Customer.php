@@ -38,10 +38,7 @@ class Customer extends Model
     {
         return $this->hasMany(Animal::class);
     }
-    public function histories()
-    {
-        return $this->hasMany(Histories::class);
-    }
+
 
     public function scopeKeywordFilter(Builder $query, $keyword = null): void
     {

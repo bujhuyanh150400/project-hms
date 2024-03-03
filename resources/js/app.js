@@ -91,6 +91,9 @@ const app = {
             dateFormat: "Y-m-d",
         });
         window.flatpickr = flatpickr;
+
+        $('.selectize').selectize({
+        })
     },
 
 }

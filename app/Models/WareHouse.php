@@ -37,6 +37,7 @@ class WareHouse extends Model
             $query->where('clinic_id', $clinic_id);
         }
     }
+
     public function scopeTypeFilter(Builder $query, $type = null): void
     {
         if (!empty($type)) {
@@ -54,5 +55,9 @@ class WareHouse extends Model
     function warehouse_log()
     {
         return $this->hasMany(WarehouseLog::class);
+    }
+    public function histories()
+    {
+        return $this->belongsToMany(History::class, 'warehouse_history', 'warehouse_id', 'history_id');
     }
 }

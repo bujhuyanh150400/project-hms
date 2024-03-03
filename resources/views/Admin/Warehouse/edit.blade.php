@@ -96,6 +96,18 @@
                             <span class="form-alert">{{ $message }}</span>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label for="type_material_id"
+                               class=" @error('price') form-label-error @else form-label @enderror">
+                            Giá thành vật tư (trên 1 cái)
+                        </label>
+                        <input type="number" min="0" name="price" id="price" value="{{ old('price',$warehouse->price) }}"
+                               class=" @error('price') form-input-error @else form-input @enderror"
+                               placeholder="Hãy nhập vào đây">
+                        @error('price')
+                        <span class="form-alert">{{ $message }}</span>
+                        @enderror
+                    </div>
                     <div class="form-group mt-4">
                         <label for="description"
                             class=" @error('description') form-label-error @else form-label @enderror">Mô

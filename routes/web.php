@@ -151,24 +151,26 @@ Route::middleware('authentication:admin')->group(function () {
         Route::put('edit/{id}', [\App\Http\Controllers\Admin\BookingController::class, 'edit'])
             ->name('bookings.edit')
             ->whereNumber('id');
+        Route::get('all_bookings', [\App\Http\Controllers\Admin\BookingController::class, 'all_bookings'])
+            ->name('bookings.all_bookings');
     });
-    Route::prefix('schedules')->group(function () {
+    Route::middleware('permission:checkUserAccess')->prefix('schedules')->group(function () {
         Route::controller(\App\Http\Controllers\Admin\SchedulesController::class)->group(function () {
             Route::get('find_list', 'find_list')
                 ->name('schedules.find_list');
             Route::get('list/{user_id}', 'list')
                 ->name('schedules.list')
                 ->whereNumber('user_id');
-            Route::match(['get', 'post'], 'view/{schedule_id}', 'view')
+            Route::get( 'view/{schedule_id}', 'view')
                 ->name('schedules.view')
                 ->whereNumber('schedule_id');
-            Route::get('change_status_schedule/{schedule_id}', 'change_status_schedule')
-                ->name('schedules.change_status_schedule')
+            Route::post( 'submit_history/{schedule_id}', 'submit_history')
+                ->name('schedules.submit_history')
                 ->whereNumber('schedule_id');
-            Route::get('create_schedules', 'change_status_schedule')
-                ->name('schedules.create_schedules');
-            Route::get('create_schedules', 'change_status_schedule')
-                ->name('schedules.create_schedules');
+            Route::post('change_status', 'change_status')
+                ->name('schedules.change_status');
+            Route::get('all_schedules', 'all_schedules')
+                ->name('schedules.all_schedules');
         });
     });
 });

@@ -9,6 +9,7 @@ class SchedulesStatus
     const ON_GOING = 16;
     const SUCCESS = 17;
     const FAILED = 18;
+    const HAS_PAYMENT = 19;
 
     static function getList()
     {
@@ -23,11 +24,15 @@ class SchedulesStatus
             ],
             self::FAILED => [
                 'value' => self::FAILED,
-                'text' => 'Khám thất bại'
+                'text' => 'Không đến khám'
             ],
             self::SUCCESS => [
                 'value' => self::SUCCESS,
                 'text' => 'Đã khám xong'
+            ],
+            self::HAS_PAYMENT => [
+                'value' => self::HAS_PAYMENT,
+                'text' => 'Đã thanh toán'
             ],
         ];
     }

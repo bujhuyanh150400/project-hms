@@ -17,13 +17,13 @@ return new class extends Migration
             $table->string('file')->nullable()->comment('Ảnh hoặc file liên quan đến việc khám bệnh');
             $table->text('description_animal')->nullable()->comment('mô tả về tình trạng của bệnh của thú cưng');
             $table->text('prescription')->nullable()->comment('Đơn thuốc');
-            $table->smallInteger('status')->nullable()->comment('Tình trạng bệnh của thú cưng');
+            $table->bigInteger('price')->nullable()->comment('Giá tiền lần khám này');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->nullable();
             $table->unsignedBigInteger('schedule_id')->nullable()->comment('ID của lịch sử khám bệnh');
             $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
-            $table->unsignedBigInteger('customer_id')->nullable()->comment('ID của khách hàng');
-            $table->foreign('customer_id')->references('id')->on('customer')->onDelete('cascade');
+            $table->unsignedBigInteger('customer_id')->nullable()->comment('ID của thú cưng');
+            $table->foreign('animal_id')->references('id')->on('animals')->onDelete('cascade');
         });
     }
     /**

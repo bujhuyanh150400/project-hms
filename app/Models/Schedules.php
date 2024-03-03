@@ -29,6 +29,14 @@ class Schedules extends Model
             $query->where('user_id', $user_id);
         }
     }
+    public function scopeWhereClinic(Builder $query, $clinic_id = null): void
+    {
+        if (!empty($clinic_id)) {
+            $query->whereHas('user', function ($query) use ($clinic_id){
+                $query->where('clinic_id',$clinic_id);
+            });
+        }
+    }
     public function scopeWhereCustomer(Builder $query, $customer = null): void
     {
         if (!empty($customer)) {

@@ -20,7 +20,7 @@ class Leftmenu extends Component
             case PermissionAdmin::ADMIN:
                 $this->arrayLeftMenu = [
                     [
-                        'title' => 'Trang chủ',
+                        'title' => 'Thống kê',
                         'icon' => '<i class="bi bi-clipboard-data"></i>',
                         'action' => route('admin.dashboard'),
                         'route_name' => 'admin'
@@ -104,7 +104,7 @@ class Leftmenu extends Component
             case PermissionAdmin::MANAGER:
                 $this->arrayLeftMenu = [
                     [
-                        'title' => 'Trang chủ',
+                        'title' => 'Thống kê',
                         'icon' => '<i class="bi bi-clipboard-data"></i>',
                         'action' => route('admin.dashboard'),
                         'route_name' => 'admin'
@@ -188,7 +188,7 @@ class Leftmenu extends Component
             case PermissionAdmin::DOCTOR:
                 $this->arrayLeftMenu = [
                     [
-                        'title' => 'Trang chủ',
+                        'title' => 'Thống kê',
                         'icon' => '<i class="bi bi-clipboard-data"></i>',
                         'action' => route('admin.dashboard'),
                         'route_name' => 'admin'
@@ -262,7 +262,7 @@ class Leftmenu extends Component
             case PermissionAdmin::TAKE_CARE:
                 $this->arrayLeftMenu = [
                     [
-                        'title' => 'Trang chủ',
+                        'title' => 'Thống kê',
                         'icon' => '<i class="bi bi-clipboard-data"></i>',
                         'action' => route('admin.dashboard'),
                         'route_name' => 'admin'
@@ -320,10 +320,16 @@ class Leftmenu extends Component
                         'space_menu' => true,
                     ],
                     [
-                        'title' => 'Đặt lịch khám',
+                        'title' => 'Giờ làm các bác sĩ',
                         'icon' => '<i class="bi bi-alarm"></i>',
-                        'action' => route('schedules.create_schedules'),
-                        'route_name' => 'animal'
+                        'action' => route('bookings.all_bookings'),
+                        'route_name' => 'bookings'
+                    ],
+                    [
+                        'title' => 'Quản lý lịch khám cơ sở',
+                        'icon' => '<i class="bi bi-card-list"></i>',
+                        'action' => route('schedules.all_schedules'),
+                        'route_name' => 'schedules'
                     ],
                 ];
                 break;

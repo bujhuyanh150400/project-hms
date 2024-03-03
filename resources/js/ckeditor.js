@@ -9,3 +9,13 @@ ClassicEditor
     .catch(error => {
         console.error(error);
     });
+ClassicEditor
+    .create(document.querySelector('.ckeditor_second'), {
+        height: '300px'
+    })
+    .then(editor => {
+        console.log(editor);
+    })
+    .catch(error => {
+        console.error(error);
+    });

@@ -22,8 +22,8 @@ return new class extends Migration
             $table->smallInteger('gender')->default(1)->comment('Giới tính: 1 - Nam | 2 - nữ');
             $table->string('phone')->nullable()->comment('SĐT Nhân viên');
             $table->text('address')->nullable()->comment('Địa chỉ nơi ở nhân viên');
-            $table->smallInteger('permission')->comment('Phân quyền trong Admin: 16 - Admin | 12 - Bác sĩ | 99 - CSKH');
-            $table->smallInteger('user_status')->comment('Chức vụ nhân viên - trong userStatus');
+            $table->smallInteger('permission')->nullable()->comment('Phân quyền trong Admin: 16 - Admin | 12 - Bác sĩ | 99 - CSKH');
+            $table->smallInteger('user_status')->nullable()->comment('Chức vụ nhân viên - trong userStatus');
             $table->text('description')->nullable()->comment('Mô tả về nhân viên');
             $table->bigInteger('examination_price')->nullable()->comment('Giá khám của bác sĩ tương ứng với mỗi lần khám');
             $table->timestamp('created_at')->useCurrent();

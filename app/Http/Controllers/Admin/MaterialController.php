@@ -157,6 +157,7 @@ class MaterialController extends Controller
             'clinic_id' => ['required', Rule::exists('clinic', 'id')],
             'type_material_id' => ['required', Rule::exists('type_material', 'id')],
             'description' => 'required',
+            'price' => ['required','integer','min:0'],
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4080',
             'description_log' => 'required',
         ], [
@@ -170,6 +171,9 @@ class MaterialController extends Controller
             'type_material_id.in' => 'Loại vật liệu không tồn tại.',
             'description.required' => 'Mô tả là trường bắt buộc.',
             'avatar.image' => 'Phải là ảnh',
+            'price.required' => 'Nhập giá vật tư',
+            'price.integer' => 'Phải là số nguyên',
+            'price.min' => 'Lớn hơn 0',
             'description_log.required' => 'Trường này là bắt buộc nhập',
             'avatar.mimes' => 'Bạn phải chọn các file jpeg,png,jpg,gif,svg,webp',
             'avatar.max' => 'File tối đa 4080KB',
@@ -182,6 +186,7 @@ class MaterialController extends Controller
             'name' => $request->input('name'),
             'total' => $request->integer('total'),
             'clinic_id' => $request->integer('clinic_id'),
+            'price'=> $request->integer('price'),
             'type_material_id' => $request->integer('type_material_id'),
             'description' => $request->input('description'),
         ];
@@ -252,6 +257,7 @@ class MaterialController extends Controller
                     'clinic_id' => ['required', Rule::exists('clinic', 'id')],
                     'type_material_id' => ['required', Rule::exists('type_material', 'id')],
                     'description' => 'required',
+                    'price' => ['required','integer','min:0'],
                     'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:4080',
                     'description_log' => 'required',
                 ],
@@ -266,6 +272,9 @@ class MaterialController extends Controller
                     'type_material_id.in' => 'Loại vật liệu không tồn tại.',
                     'description.required' => 'Mô tả là trường bắt buộc.',
                     'avatar.image' => 'Phải là ảnh',
+                    'price.required' => 'Nhập giá vật tư',
+                    'price.integer' => 'Phải là số nguyên',
+                    'price.min' => 'Lớn hơn 0',
                     'avatar.mimes' => 'Bạn phải chọn các file jpeg,png,jpg,gif,svg,webp',
                     'avatar.max' => 'File tối đa 4080KB',
                     'description_log.required' => 'Trường này là bắt buộc nhập',
@@ -278,6 +287,7 @@ class MaterialController extends Controller
             $warehouse->name = $request->input('name');
             $warehouse->total = $request->integer('total');
             $warehouse->clinic_id = $request->integer('clinic_id');
+            $warehouse->price = $request->integer('price');
             $warehouse->type_material_id = $request->integer('type_material_id');
             $warehouse->description = $request->input('description');
             if ($request->hasFile('file')) {
