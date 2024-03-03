@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamp('updated_at')->nullable();
             $table->unsignedBigInteger('schedule_id')->nullable()->comment('ID của lịch sử khám bệnh');
             $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
-            $table->unsignedBigInteger('customer_id')->nullable()->comment('ID của thú cưng');
+            $table->unsignedBigInteger('animal_id')->nullable()->comment('ID của thú cưng');
             $table->foreign('animal_id')->references('id')->on('animals')->onDelete('cascade');
         });
     }
