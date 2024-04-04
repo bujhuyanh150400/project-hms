@@ -95,7 +95,7 @@ Route::middleware('authentication:admin')->group(function () {
             ->name('customer.edit')
             ->whereNumber('id');
         Route::middleware('check.regist.animal')->group(function () {
-            Route::get('view/{id}', [\App\Http\Controllers\Admin\CustomerController::class, 'view'])
+            Route::get('view/{customer_id}', [\App\Http\Controllers\Admin\CustomerController::class, 'view'])
                 ->name('customer.view')
                 ->whereNumber('id');
             Route::match(['get', 'post'], 'find_schedules/{customer_id}', [\App\Http\Controllers\Admin\SchedulesController::class, 'find_schedules'])

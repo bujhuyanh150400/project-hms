@@ -32,7 +32,9 @@ class CheckPermission
                 }
                 break;
             case 'userEditSelf':
-                if ($request->route('id') != $user->id) {
+                if ($user->permission === PermissionAdmin::ADMIN ) {
+                    $this->access = true;
+                }else if ($request->route('id') != $user->id) {
                     $this->access = false;
                 }
                 break;

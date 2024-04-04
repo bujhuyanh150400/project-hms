@@ -145,7 +145,7 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
         if ($customer) {
             $title = 'Chi tiết khách hàng';
-            // return view('Admin.Customer.add_animal', compact('title'));
+             return view('Admin.Customer.add_animal', compact('title'));
         } else {
             session()->flash('error', 'Khách hàng không có trong hệ thống');
             return redirect()->route('customer.list');

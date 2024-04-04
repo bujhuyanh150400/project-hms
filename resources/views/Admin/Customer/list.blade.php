@@ -123,7 +123,7 @@
                                 {{ $customer->animal->count() }}
                             </td>
                             <td class="text-center align-middle">
-                                {{ $customer->histories->count() }}
+                                {{ $customer->histories == null ? __('chưa khám lần nào') : $customer->histories->count() }}
                             </td>
                             <td class="text-center align-middle">
                                 @if (isset($customer->member))
@@ -144,7 +144,7 @@
                                         class="btn-custom btn-icon btn-warning" title="Đặt lịch">
                                         <i class="bi bi-journal-plus"></i>
                                     </a>
-                                    <a href="{{ route('customer.view', ['id' => $customer->id]) }}"
+                                    <a href="{{ route('customer.view', ['customer_id' => $customer->id]) }}"
                                         class="btn-custom btn-icon btn-success" title="Xem chi tiết">
                                         <i class="bi bi-info-circle"></i>
                                     </a>
