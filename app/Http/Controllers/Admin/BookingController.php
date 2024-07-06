@@ -96,12 +96,10 @@ class BookingController extends Controller
                     'required',
                     'date',
                     function ($attr, $val, $fail) {
-                        $startOfWeek = now()->today();
-                        $endOfWeek = now()->endOfWeek();
+                        $today = now()->today();
                         $dateTime = \Carbon\Carbon::parse($val);
-                        // Kiểm tra nếu $dateTime không nằm trong khoảng từ ngày bắt đầu đến ngày kết thúc của tuần hiện tại
-                        if (!$dateTime->between($startOfWeek, $endOfWeek)) {
-                            $fail('Chỉ có thể chọn ngày trong tuần');
+                        if ($dateTime < $today) {
+                            $fail('Bạn không được chọn ngày trong quá khứ');
                         }
                     },
                     Rule::unique('bookings', 'date')->where(function ($query) use ($user_id) {
@@ -168,12 +166,10 @@ class BookingController extends Controller
                     'required',
                     'date',
                     function ($attr, $val, $fail) {
-                        $startOfWeek = now()->today();
-                        $endOfWeek = now()->endOfWeek();
+                        $today = now()->today();
                         $dateTime = \Carbon\Carbon::parse($val);
-                        // Kiểm tra nếu $dateTime không nằm trong khoảng từ ngày bắt đầu đến ngày kết thúc của tuần hiện tại
-                        if (!$dateTime->between($startOfWeek, $endOfWeek)) {
-                            $fail('Chỉ có thể chọn ngày trong tuần');
+                        if ($dateTime < $today) {
+                            $fail('Bạn không được chọn ngày trong quá khứ');
                         }
                     },
                     Rule::unique('bookings', 'date')->where(function ($query) use ($booking) {

@@ -94,12 +94,6 @@
                             Số thú cưng
                         </th>
                         <th class="text-center align-middle">
-                            Số lần khám
-                        </th>
-                        <th class="text-center align-middle">
-                            Là thành viên
-                        </th>
-                        <th class="text-center align-middle">
                             Action
                         </th>
                     </tr>
@@ -122,31 +116,11 @@
                             <td class="text-center align-middle">
                                 {{ $customer->animal->count() }}
                             </td>
-                            <td class="text-center align-middle">
-                                {{ $customer->histories == null ? __('chưa khám lần nào') : $customer->histories->count() }}
-                            </td>
-                            <td class="text-center align-middle">
-                                @if (isset($customer->member))
-                                    <span
-                                        class="bg-green-100 text-green-400 text-xs font-medium me-2 px-2.5 py-0.5 rounded  border border-green-400">
-                                        Member
-                                    </span>
-                                @else
-                                    <span
-                                        class="bg-red-100 text-red-400 text-xs font-medium me-2 px-2.5 py-0.5 rounded  border border-red-400">
-                                        No
-                                    </span>
-                                @endif
-                            </td>
                             <td>
                                 <div class="flex items-center gap-2">
                                     <a href="{{ route('customer.find_schedules', ['customer_id' => $customer->id]) }}"
                                         class="btn-custom btn-icon btn-warning" title="Đặt lịch">
                                         <i class="bi bi-journal-plus"></i>
-                                    </a>
-                                    <a href="{{ route('customer.view', ['customer_id' => $customer->id]) }}"
-                                        class="btn-custom btn-icon btn-success" title="Xem chi tiết">
-                                        <i class="bi bi-info-circle"></i>
                                     </a>
                                     <a href="{{ route('customer.view_edit', ['id' => $customer->id]) }}"
                                         class="btn-custom btn-icon btn-primary" title="Chỉnh sửa">

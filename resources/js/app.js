@@ -85,7 +85,6 @@ const app = {
             altInput: true,
             inline: true, // Hiển thị lịch trực tiếp trên trang
             minDate: "today",
-            maxDate: endOfWeek,
             enableTime: false, // Tắt chức năng chọn thời gian
             altFormat: "d-m-Y",
             dateFormat: "Y-m-d",

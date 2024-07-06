@@ -90,39 +90,6 @@
                             <span class="form-alert">{{ $message }}</span>
                         @enderror
                     </div>
-                    <label for="member_register" class="relative inline-flex items-center my-4 cursor-pointer w-fit">
-                        <input type="checkbox" id="member_register" name="member_register" value="true"
-                            class="sr-only peer" @if (old('member_register') == true) checked @endif>
-                        <div
-                            class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
-                        </div>
-                        <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Đăng kí member ?</span>
-                    </label>
-                    <div id="form_member_register"
-                        @if (old('member_register') == true) style="display: block" @else style="display: none" @endif>
-                        <div class="form-group mb-2">
-                            <label for="password"
-                                class=" @error('password') form-label-error @else form-label @enderror"><i
-                                    class="bi bi-lock"></i>Mật khẩu</label>
-                            <input type="password" name="password" id="password"
-                                class=" @error('password') form-input-error @else form-input @enderror"
-                                placeholder="HASH PASSWORD" autocomplete="">
-                            @error('password')
-                                <span class="form-alert">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="password"
-                                class=" @error('conf_pass') form-label-error @else form-label @enderror"><i
-                                    class="bi bi-lock"></i>Nhập lại mật khẩu</label>
-                            <input type="password" name="conf_pass" id="conf_pass"
-                                class=" @error('conf_pass') form-input-error @else form-input @enderror"
-                                placeholder="HASH PASSWORD" autocomplete>
-                            @error('conf_pass')
-                                <span class="form-alert">{{ $message }}</span>
-                            @enderror
-                        </div>
-                    </div>
                 </div>
                 <div class="">
                     <x-admin.provinces province="province" district="district" ward="ward" address="address" />
@@ -145,18 +112,4 @@
             </div>
         </div>
     </form>
-@endsection
-@section('scripts')
-    <script type="module">
-        $(document).ready(function() {
-            $('#member_register').on('change', function() {
-                const isCheck = $(this).prop('checked');
-                if (isCheck === true) {
-                    $('#form_member_register').slideDown(200);
-                } else {
-                    $('#form_member_register').slideUp(200);
-                }
-            })
-        });
-    </script>
 @endsection

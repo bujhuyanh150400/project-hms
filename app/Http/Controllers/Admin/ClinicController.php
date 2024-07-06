@@ -87,7 +87,6 @@ class ClinicController extends Controller
             'address' => $request->input('address'),
             'description' => $request->input('description'),
             'active' => $request->input('active'),
-            'created_by' => Auth::guard('admin')->user()->id,
         ];
         if ($request->hasFile('logo')) {
             $extension = $request->file('logo')->extension();
@@ -176,7 +175,6 @@ class ClinicController extends Controller
         $clinic->address = $request->input('address');
         $clinic->description = $request->input('description');
         $clinic->active = $request->input('active');
-        $clinic->updated_by = Auth::guard('admin')->user()->id;
         $clinic->updated_at = now();
         if ($request->hasFile('logo')) {
             if (Storage::exists(base64_decode($clinic->logo))) {

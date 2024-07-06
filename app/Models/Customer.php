@@ -30,16 +30,10 @@ class Customer extends Model
         'gender',
         'description',
     ];
-    public function member()
-    {
-        return $this->hasOne(Member::class);
-    }
     public function animal()
     {
         return $this->hasMany(Animal::class);
     }
-
-
     public function scopeKeywordFilter(Builder $query, $keyword = null): void
     {
         if (!empty($keyword)) {

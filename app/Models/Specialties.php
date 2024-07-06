@@ -18,8 +18,6 @@ class Specialties extends Model
         'active',
         'logo',
         'updated_at',
-        'created_by',
-        'updated_by',
     ];
 
     public function scopeKeywordFilter(Builder $query, $keyword = null): void

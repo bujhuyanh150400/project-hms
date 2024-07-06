@@ -122,9 +122,6 @@ Route::middleware('authentication:admin')->group(function () {
         Route::post('add/{cust_id}', [\App\Http\Controllers\Admin\AnimalController::class, 'add'])
             ->name('animal.add')
             ->whereNumber('cust_id');
-        Route::get('view/{id}', [\App\Http\Controllers\Admin\AnimalController::class, 'view'])
-            ->name('animal.view')
-            ->whereNumber('id');
         Route::get('view_edit/{id}', [\App\Http\Controllers\Admin\AnimalController::class, 'view_edit'])
             ->name('animal.view_edit')
             ->whereNumber('id');

@@ -42,8 +42,7 @@
         <div class="w-full p-4 bg-white border border-gray-200 rounded-lg shadow">
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
                 <div class="form-group col-span-2 flex items-center ">
-                    <label for="date" class=" @error('date') form-label-error @else form-label @enderror"> Chọn ngày
-                        khám bệnh</label>
+                    <label for="date" class=" @error('date') form-label-error @else form-label @enderror"> Chọn ngày khám bệnh</label>
                     <input type="text" name="date" id="date" value="{{ old('date') }}"
                         class="min_today_datepicker_inline hidden" placeholder="Nhập ngày khám bệnh">
                     @error('date')
@@ -52,8 +51,7 @@
                 </div>
                 <div class="col-span-3 col-start-3">
                     <div class="form-group">
-                        <label class=" @error('timeType') form-label-error @else form-label @enderror"> Chọn khung giờ khám
-                            bệnh</label>
+                        <label class=" @error('timeType') form-label-error @else form-label @enderror"> Chọn khung giờ khám bệnh</label>
                         <div class="grid grid-cols-4 gap-2">
                             @foreach (TimeType::getList() as $key_time => $time)
                                 <div>
@@ -61,11 +59,11 @@
                                         @if (is_array(old('timeType')) && in_array($time['value'], old('timeType'))) checked @endif value="{{ $time['value'] }}"
                                         class="hidden peer">
                                     <label for="timeType-{{ $key_time }}"
-                                        class="inline-flex items-center 
-                                        justify-center w-full p-3 
-                                        text-blue-400 bg-white border-2 
-                                        border-blue-200 rounded-lg cursor-pointer  
-                                        peer-checked:border-blue-600 peer-checked:shadow-md duration-150 transition-all 
+                                        class="inline-flex items-center
+                                        justify-center w-full p-3
+                                        text-blue-400 bg-white border-2
+                                        border-blue-200 rounded-lg cursor-pointer
+                                        peer-checked:border-blue-600 peer-checked:shadow-md duration-150 transition-all
                                         hover:text-blue-600  peer-checked:text-blue-600 hover:bg-blue-50 ">
                                         <div class="block">
                                             <div class="w-full text-center align-middle text-lg font-semibold">

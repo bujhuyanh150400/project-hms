@@ -140,7 +140,6 @@ class UsersController extends Controller
             $user->avatar = base64_encode($avatarPath);
         }
         $updateResult = $user->save();
-        dd($updateResult);
         if ($updateResult) {
             session()->flash('success', 'Lưu trữ dữ liệu thành công!');
             return redirect()->route('users.list');

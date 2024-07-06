@@ -58,7 +58,7 @@
                             class="w-full h-[400px] flex items-center justify-center border-dashed border-4 bg-gray-100 rounded ">
                             @if (!empty($specialty->logo))
                                 <img class="w-full h-full select-none" id="avatar-preview"
-                                    src="{{ route('file.show', ['filepath' => $user->avatar]) }}" />
+                                    src="{{ route('file.show', ['filepath' => $specialty->logo]) }}" />
                             @else
                                 <img id="avatar-preview" class="w-full h-full select-none hidden" src="" />
                                 <i id="icon-preview" class="bi bi-person text-4xl text-gray-300"></i>

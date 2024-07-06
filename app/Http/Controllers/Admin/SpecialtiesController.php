@@ -53,7 +53,6 @@ class SpecialtiesController extends Controller
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'active' => $request->input('active'),
-            'created_by' => Auth::guard('admin')->user()->id,
         ];
         if ($request->hasFile('logo')) {
             $extension = $request->file('logo')->extension();
@@ -111,7 +110,6 @@ class SpecialtiesController extends Controller
         $specialty->name = $request->input('name');
         $specialty->description = $request->input('description');
         $specialty->active = $request->input('active');
-        $specialty->updated_by = Auth::guard('admin')->user()->id;
         $specialty->updated_at = now();
         if ($request->hasFile('logo')) {
             if (Storage::exists(base64_decode($specialty->logo))) {

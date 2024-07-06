@@ -110,18 +110,14 @@
                             </td>
                             <td class="text-start align-middle ">
                                 <div class="flex flex-col gap-1">
-                                    <span class="font-bold">
-                                        {{ $animal->customer->name }}
+                                    <span class="font-bold text-blue-400 hover:!text-blue-700">
+                                        <a target="_blank" href="{{route('customer.list',['filter' => ['keyword' => $animal->customer->id]])}}">{{ $animal->customer->name }}</a>
                                     </span>
                                     <span class="text-sm font-italic">ID: {{ $animal->customer->id }}</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="flex items-center gap-2">
-                                    <a href="{{ route('animal.view', ['id' => $animal->id]) }}"
-                                        class="btn-custom btn-icon btn-success">
-                                        <i class="bi bi-info-circle"></i>
-                                    </a>
                                     <a href="{{ route('animal.view_edit', ['id' => $animal->id]) }}"
                                         class="btn-custom btn-icon btn-primary">
                                         <i class="bi bi-pen-fill"></i>
