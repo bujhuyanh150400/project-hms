@@ -165,7 +165,7 @@
                             @if ($checkTime)
                                 <li>
                                     <a href="{{ route('schedules.view', ['schedule_id' => $schedule->id]) }}"
-                                       class="btn-custom btn-success">Xem lịch khám</a>
+                                       class="btn-custom btn-success">Vào chi tiết</a>
                                 </li>
                             @endif
                         </ul>

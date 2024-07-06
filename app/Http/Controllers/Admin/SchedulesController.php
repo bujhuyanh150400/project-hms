@@ -188,6 +188,7 @@ class SchedulesController extends Controller
                     }
                 }],
             ], [
+                'warehouse.required' => 'Thuốc sử dụng là bắt buộc',
                 'price.required' => 'Giá không được bỏ trống',
                 'price.integer' => 'Giá phải là số nguyên',
             ]);

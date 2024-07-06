@@ -36,4 +36,32 @@ class SchedulesStatus
             ],
         ];
     }
+
+    static function getListTakeCare()
+    {
+        return [
+            self::ON_SCHEDULES => [
+                'value' => self::ON_SCHEDULES,
+                'text' => 'Chờ đến khám'
+            ],
+            self::ON_GOING => [
+                'value' => self::ON_GOING,
+                'text' => 'Đã đến khám'
+            ],
+            self::FAILED => [
+                'value' => self::FAILED,
+                'text' => 'Không đến khám'
+            ],
+            self::SUCCESS => [
+                'value' => self::SUCCESS,
+                'text' => 'Đã khám xong'
+            ],
+            self::HAS_PAYMENT => [
+                'value' => self::HAS_PAYMENT,
+                'text' => 'Đã thanh toán'
+            ],
+        ];
+    }
+
+
 }

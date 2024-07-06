@@ -163,9 +163,9 @@
                                                 <i class="bi bi-pen-fill"></i>
                                             </a>
                                         @else
-                                            <a href="{{ route('warehouse.view_edit_total', ['id' => $warehouse->id]) }}"
-                                                class="btn-custom btn-icon btn-success">
-                                                <i class="bi bi-plus"></i> Sửa số lượng
+                                            <a href="{{ route('warehouse.view_edit', ['id' => $warehouse->id]) }}"
+                                               class="btn-custom btn-icon btn-primary">
+                                                <i class="bi bi-pen-fill"></i>
                                             </a>
                                         @endif
 

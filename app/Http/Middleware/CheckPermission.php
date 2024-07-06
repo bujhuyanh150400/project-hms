@@ -52,8 +52,6 @@ class CheckPermission
                     'schedules.find_list',
                 ];
                 $take_care = [
-                    'warehouse.view_edit',
-                    'warehouse.edit',
                     'warehouse.log',
                     'bookings.find_list',
                     'bookings.list',

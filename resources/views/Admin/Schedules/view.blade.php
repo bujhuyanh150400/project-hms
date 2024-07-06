@@ -133,6 +133,9 @@
                     <ul id="warehouse_container" class="text-sm space-y-2 font-medium text-gray-900 bg-white">
 
                     </ul>
+                    @error('warehouse')
+                    <span class="form-alert">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="grid grid-cols-2 gap-4 mb-4">
                     <div class="form-group">
