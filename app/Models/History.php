@@ -26,6 +26,10 @@ class History extends Model
     {
         return $this->belongsTo(Animal::class);
     }
+    public function schedules(){
+        return $this->belongsTo(Schedules::class,'schedule_id');
+    }
+
     public function warehouses()
     {
         return $this->belongsToMany(Warehouse::class, 'warehouse_history', 'history_id', 'warehouse_id');

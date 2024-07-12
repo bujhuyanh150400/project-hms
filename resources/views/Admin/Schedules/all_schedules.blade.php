@@ -172,12 +172,23 @@
                                 <li>
                                     <div class="form-group">
                                         <input type="hidden" class="hidden-status" value="{{$schedule->status}}"/>
-                                        <select class="form-input change-status" data-id="{{ $schedule->id }}">
+                                        @if(auth()->user()->permission != PermissionAdmin::TAKE_CARE)
+                                            <select class="form-input change-status" data-id="{{ $schedule->id }}">
+                                                @foreach(SchedulesStatus::getList() as $status)
+                                                    <option value="{{$status['value']}}"
+                                                            @if($schedule->status == $status['value']) selected @endif> {{$status['text']}}</option>
+                                                @endforeach
+                                            </select>
+                                        @else
                                             @foreach(SchedulesStatus::getList() as $status)
-                                                <option value="{{$status['value']}}"
-                                                        @if($schedule->status == $status['value']) selected @endif> {{$status['text']}}</option>
+                                                @if($schedule->status == $status['value'])
+                                                    <div class="flex items-center space-x-2">
+                                                        <i class="bi bi-check text-xl text-green-500"></i>
+                                                        <p class="font-medium text-gray-500">Trạng thái: {{$status['text']}}</p>
+                                                    </div>
+                                                @endif
                                             @endforeach
-                                        </select>
+                                        @endif
                                     </div>
                                 </li>
                             @endif
