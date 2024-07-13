@@ -147,26 +147,32 @@
                             <li class="flex items-center space-x-2">
                                 <i class="bi bi-check text-xl text-green-500"></i>
 
-                                <p class="font-medium text-gray-500">Trạng thái khám: @if (!$checkTime){{SchedulesStatus::getList()[$schedule->status]['text'] }} @endif</p>
+                                <p class="font-medium text-gray-500">Trạng thái khám:
+                                    {{SchedulesStatus::getList()[$schedule->status]['text'] }}
+                                </p>
                             </li>
                             @if ($checkTime)
                                 <li>
                                     <div class="form-group">
-                                        <input type="hidden" class="hidden-status" value="{{$schedule->status}}"/>
-                                        <select class="form-input change-status" data-id="{{ $schedule->id }}">
-                                            @foreach(SchedulesStatus::getList() as $status)
-                                                <option value="{{$status['value']}}"
-                                                        @if($schedule->status == $status['value']) selected @endif> {{$status['text']}}</option>
-                                            @endforeach
-                                        </select>
+                                        @if(auth()->user()->permission == PermissionAdmin::ADMIN)
+                                            <input type="hidden" class="hidden-status" value="{{$schedule->status}}"/>
+                                            <select class="form-input change-status" data-id="{{ $schedule->id }}">
+                                                @foreach(SchedulesStatus::getList() as $status)
+                                                    <option value="{{$status['value']}}"
+                                                            @if($schedule->status == $status['value']) selected @endif> {{$status['text']}}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif
                                     </div>
                                 </li>
                             @endif
                             @if ($checkTime)
-                                <li>
-                                    <a href="{{ route('schedules.view', ['schedule_id' => $schedule->id]) }}"
-                                       class="btn-custom btn-success">Vào chi tiết</a>
-                                </li>
+                                @if((auth()->user()->permission == PermissionAdmin::DOCTOR && $schedule->status == SchedulesStatus::ON_GOING) || auth()->user()->permission == PermissionAdmin::ADMIN)
+                                    <li>
+                                        <a href="{{ route('schedules.view', ['schedule_id' => $schedule->id]) }}"
+                                           class="btn-custom btn-success">Vào chi tiết</a>
+                                    </li>
+                                @endif
                             @endif
                         </ul>
                     </div>

@@ -112,7 +112,8 @@
                                     <p class="font-medium text-gray-500">Ghi chú khi khám: </p>
                                 </li>
                                 <li class="form-group">
-                                    <textarea class="form-input" rows="5" disabled>{{ !empty($schedule->description) ? $schedule->description : 'Không có ghi chú' }} </textarea>
+                                    <textarea class="form-input" rows="5"
+                                              disabled>{{ !empty($schedule->description) ? $schedule->description : 'Không có ghi chú' }} </textarea>
                                 </li>
                             </ul>
                         </div>
@@ -125,10 +126,12 @@
                             data-popover-placement="left"
                         @endif
                         data-popover-target="{{ $schedule->id }}"
-                        class="block p-3 cursor-pointer bg-white border border-gray-200 rounded-lg shadow hover:border-blue-400 hover:shadow-lg duration-150 transition-all">
+                        class="block p-3 cursor-pointer bg-white border border-gray-200 rounded-lg shadow  hover:shadow-lg duration-150 transition-all
+                         {{ $checkTime ? 'hover:border-blue-400' : 'border-red-400 bg-red-100 text-red-600' }}
+                        ">
                         <div class="flex items-center gap-2">
                             <p
-                                class="inline-flex items-center justify-center mb-2 text-sm font-medium px-2 py-1 bg-white border-2 rounded-lg cursor-pointer border-blue-400 text-blue-600  ">
+                                class="inline-flex items-center justify-center mb-2 text-sm font-medium px-2 py-1 bg-white border-2 rounded-lg cursor-pointer border-blue-400 text-blue-600  {{ $checkTime ? 'border-blue-400 text-blue-600' : 'border-red-400 bg-red-100 text-red-600' }} ">
                                 Lịch khám :{{ TimeType::getList()[$schedule->timeType]['start'] }} |
                                 {{ \Carbon\Carbon::parse($schedule->booking->date)->format('d-m-Y') }}
                             </p>
@@ -166,28 +169,33 @@
                             </li>
                             <li class="flex items-center space-x-2">
                                 <i class="bi bi-check text-xl text-green-500"></i>
-                                <p class="font-medium text-gray-500">Trạng thái khám: @if (!$checkTime){{SchedulesStatus::getList()[$schedule->status]['text'] }} @endif</p>
+                                <p class="font-medium text-gray-500">Trạng thái khám: @if (!$checkTime)
+                                        {{SchedulesStatus::getList()[$schedule->status]['text'] }}
+                                    @endif</p>
                             </li>
                             @if ($checkTime)
                                 <li>
                                     <div class="form-group">
-                                        <input type="hidden" class="hidden-status" value="{{$schedule->status}}"/>
-                                        @if(auth()->user()->permission != PermissionAdmin::TAKE_CARE)
+                                        @foreach(SchedulesStatus::getList() as $status)
+                                            @if($schedule->status == $status['value'])
+                                                <div class="flex items-center space-x-2">
+                                                    <i class="bi bi-check text-xl text-green-500"></i>
+                                                    <p class="font-medium text-gray-500">Trạng
+                                                        thái: {{$status['text']}}</p>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                        @if($schedule->status == SchedulesStatus::ON_SCHEDULES)
                                             <select class="form-input change-status" data-id="{{ $schedule->id }}">
-                                                @foreach(SchedulesStatus::getList() as $status)
-                                                    <option value="{{$status['value']}}"
-                                                            @if($schedule->status == $status['value']) selected @endif> {{$status['text']}}</option>
+                                                <option value="">Chọn</option>
+                                                @foreach(SchedulesStatus::getListTakeCare() as $status)
+                                                    <option
+                                                        value="{{$status['value']}}"> {{$status['text']}}</option>
                                                 @endforeach
                                             </select>
-                                        @else
-                                            @foreach(SchedulesStatus::getList() as $status)
-                                                @if($schedule->status == $status['value'])
-                                                    <div class="flex items-center space-x-2">
-                                                        <i class="bi bi-check text-xl text-green-500"></i>
-                                                        <p class="font-medium text-gray-500">Trạng thái: {{$status['text']}}</p>
-                                                    </div>
-                                                @endif
-                                            @endforeach
+                                        @elseif ($schedule->status == SchedulesStatus::SUCCESS)
+                                            <button data-id="{{ $schedule->id }}" type="button" id="payment-cust"
+                                               class="btn-custom btn-success">Thanh toán khách hàng</button>
                                         @endif
                                     </div>
                                 </li>
@@ -216,8 +224,7 @@
         $(document).ready(function () {
             $('.change-status').on('change', function () {
                 const id = $(this).data('id');
-                const old_status = $(this).closest('.form-group').find('.hidden-status').val()
-                if (confirm('Bạn muốn thay đổi trạng thái khám bệnh ?')) {
+                if ($(this).val() !== '' && confirm('Bạn muốn thay đổi trạng thái khám bệnh ?')) {
                     $.ajax({
                         url: '{{route('schedules.change_status')}}',
                         type: 'POST',
@@ -233,6 +240,7 @@
                                 type: 'success',
                                 message: response.messages
                             });
+                            setTimeout(() => window.location.reload(), 2000);
                         },
                         error: function (xhr, status, error) {
                             if (xhr.status === 422) {
@@ -253,9 +261,48 @@
                         }
                     });
                 } else {
-                    $(this).val(old_status);
+                    $(this).val('')
                 }
+            });
+            $('#payment-cust').on('click',function (){
+                const id = $(this).data('id');
+                $.ajax({
+                    url: '{{route('schedules.change_status')}}',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    data: {
+                        id,
+                        status: {{SchedulesStatus::HAS_PAYMENT}}
+                    },
+                    success: function (response) {
+                        notyf.open({
+                            type: 'success',
+                            message: response.messages
+                        });
+                        setTimeout(() => window.location.reload(), 2000);
+                    },
+                    error: function (xhr, status, error) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            $.each(errors, function (key, value) {
+                                notyf.open({
+                                    type: 'error',
+                                    message: value[0]
+                                });
+                            });
+                        } else {
+                            notyf.open({
+                                type: 'error',
+                                message: xhr.responseJSON.message
+                            });
+                        }
+                    }
+                });
+
             })
+
         });
     </script>
 @endsection

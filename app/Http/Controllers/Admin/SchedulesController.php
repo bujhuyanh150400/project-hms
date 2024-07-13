@@ -230,7 +230,7 @@ class SchedulesController extends Controller
                 }
                 $schedule->status = SchedulesStatus::SUCCESS;
                 $schedule->save();
-                session()->flash('success', 'Không tìm thấy lịch khám này');
+                session()->flash('success', 'Thành công');
                 return redirect()->route('schedules.list', ['user_id' => $schedule->user_id]);
             }
         } else {

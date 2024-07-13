@@ -47,11 +47,7 @@ class SchedulesStatus
             self::FAILED => [
                 'value' => self::FAILED,
                 'text' => 'Không đến khám'
-            ],
-            self::HAS_PAYMENT => [
-                'value' => self::HAS_PAYMENT,
-                'text' => 'Đã thanh toán'
-            ],
+            ]
         ];
     }
 
