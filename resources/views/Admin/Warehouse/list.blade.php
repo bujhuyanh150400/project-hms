@@ -122,7 +122,7 @@
                                         src="{{ route('file.show', ['filepath' => $warehouse->avatar]) }}"
                                         alt="avatar logo" />
                                 @else
-                                    <b class="">Vật tư ko có ảnh</b>
+                                    <b class="">Vật tư không có ảnh</b>
                                 @endif
                             </td>
                             <td class="text-start align-middle">
@@ -133,7 +133,7 @@
                                         Nhấn để download
                                     </a>
                                 @else
-                                    <b class="">Vật tư ko có file đính kèm</b>
+                                    <b class="">Vật tư không có file đính kèm</b>
                                 @endif
                             </td>
                             <td class="text-start align-middle">

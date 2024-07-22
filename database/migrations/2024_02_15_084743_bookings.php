@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->comment('table dùng để lưu thông tin đăng kí lịch khám của bác sĩ');
             $table->id();
-            $table->string('time
-            Type')->comment('Khung giờ đặt lịch');
+            $table->string('timeType')->comment('Khung giờ đặt lịch');
             $table->string('timeTypeSelected')->nullable()->comment('Khung giờ khám bệnh đã được chọn');
             $table->timestamp('date')->comment('Ngày khám');
             $table->timestamp('created_at')->useCurrent();
